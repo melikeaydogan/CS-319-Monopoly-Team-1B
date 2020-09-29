@@ -8,8 +8,8 @@
 
 ### Additional Features
 
-- **Different game modes:** With this feature, players will be able to play the different editions of the game, as if they were different game modes. Players will be able to select a board out of many board options, such as Istanbul, World Edition and one that consists  of buildings and places in Bilkent University.
-- **Multiplayer:** Players will be able to play with other players over the Internet.
+- **Different maps:** With this feature, players will be able to play the different maps of the game, without the need for buying different editions of the game. Players will be able to select a board out of many board options, such as Istanbul Edition, World Edition and an original one that consists of buildings and places in Bilkent University.
+- **Multiplayer:** Players will be able to play with their friends or other players over the Internet.
 - **Speed die:** Since a Monopoly session takes a lot time to finish, we are planning to include the speed die as an alternative game mode.
 - **Save Game State** Saving the game state to continue it later will also be implemented to help players manage their time. 
 
