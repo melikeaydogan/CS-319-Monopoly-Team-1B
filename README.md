@@ -14,7 +14,7 @@ Monopoly is a board game where 2-6 players try to be the wealthiest person in th
 
 - **Multiplayer:** Players will be able to play with their friends or other players over the Internet.
 - **Save Game State:** Saving the game state to continue it later will also be implemented to help players manage their time.
-- **Alliance:** To make the game more exciting, players will be able to send alliance requests to form alliances.
+- **Teams:** To make the game more exciting, players will be able to play the game with the teams they have decided beforehand.
 - **Trading:** Players can gain money or property by selling their properties or changing with other properties. To ease this process, we are planning to add an interface where players can trade with each other. Trade rules in the board game are also subject to change.
 - **Different maps:** With this feature, players will be able to play the different maps of the game, without the need for buying different editions of the game. Players will be able to select a board out of many board options, such as Istanbul Edition, World Edition and an original one that consists of buildings and places in Bilkent University.
 - **Speed die:** Since a Monopoly session takes a lot time to finish, we are planning to include the speed die as an alternative game mode. [Learn more](https://monopoly.fandom.com/wiki/Speed_Die) about the speed die.
