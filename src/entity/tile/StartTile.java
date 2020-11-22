@@ -1,7 +1,6 @@
 package entity.tile;
 
 import entity.Player;
-
 import java.awt.*;
 
 public class StartTile extends Tile{

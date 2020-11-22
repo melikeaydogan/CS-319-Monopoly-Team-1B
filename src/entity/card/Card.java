@@ -1,7 +1,6 @@
 package entity.card;
 
 import control.MonopolyAction;
-import control.GameMode;
 
 public class Card {
     int id;
