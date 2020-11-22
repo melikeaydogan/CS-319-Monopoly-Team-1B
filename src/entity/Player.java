@@ -52,7 +52,15 @@ public class Player {
         inJail = player.isInJail();
     }
 
-    public boolean takeMoney(Player player, int amount) {
+    public boolean takeMoney(int amount) {
+        if (amount <= balance) {
+            balance = balance - amount;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean transferMoney(Player player, int amount) { // ToDo add this method to the diagram
         if ( amount <= balance ) {
             balance = balance - amount;
             player.giveMoney(amount);
@@ -195,4 +203,5 @@ public class Player {
     public void setInJail(boolean inJail) { // replaces the goToJail() in the diagram
         this.inJail = inJail;
     }
+
 }

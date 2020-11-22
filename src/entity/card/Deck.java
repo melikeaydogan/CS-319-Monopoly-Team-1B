@@ -1,52 +1,52 @@
-package card;
+package entity.card;
 
 import control.GameMode;
+import entity.card.Card;
 
-import java.util.Random;
+import java.util.*;
 
 public class Deck {
-    Card[] cards;
+    Queue<Card> cards;
     boolean isChanceDeck;
-    int gameSeed;
-    private Random random;
 
-    public Deck(GameMode gameMode, boolean isChanceDeck){
-        //to do
+    public Deck(Card[] cards, boolean isChanceDeck){
+        // first, we are going to shuffle cards
+        List<Card> cardList = Arrays.asList(cards);
+        Collections.shuffle(cardList);
+        cardList.toArray(cards);
+
+        // now, cards will be put into a Queue
+        this.cards = new LinkedList<Card>(Arrays.asList(cards));
+
+        // finally, assign the isChanceDeck attribute
+        this.isChanceDeck = isChanceDeck;
     }
+
     public Deck(Deck savedDeck){
-        this.cards = savedDeck.cards;
+        this.cards = new LinkedList<Card>(savedDeck.getCards());
         this.isChanceDeck = savedDeck.isChanceDeck;
-        this.gameSeed = savedDeck.gameSeed;
-        this.random = savedDeck.random;
     }
-    /*Card draw(){
-        //??
 
-    }*/
-    void shuffle(){
-        int size = cards.length;
-        Card[] tmp = new Card[cards.length];
-        int[] order = new int[cards.length];
-        for(int i = 0; i<cards.length; i++) {
-            order[i] = -1;
-        }
-        for(int i = 0; i<cards.length; i++) {
-            int r = random.nextInt(cards.length);
-            while( order[r] != -1 ){
-                r++;
-                if( r == cards.length ){
-                    r = 0;
-                }
-            }
-            order[r] = i;
-            tmp[r] = cards[i];
-        }
-        cards = tmp;
+    public Card draw() {
+        Card drawedCard = cards.remove(); // draw the card and save it
+        cards.add(drawedCard); // add the saved card to the end
+        return drawedCard; // return the card
     }
-    boolean getIsChanceDeck(){
+
+    public Queue<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(Queue<Card> cards) {
+        this.cards = cards;
+    }
+
+    public boolean isChanceDeck() {
         return isChanceDeck;
     }
-    /*void setIsChanceDeck( boolean isChanceDeck){
-        this.isChanceDeck = isChanceDeck;
-    }*/
+
+    public void setChanceDeck(boolean chanceDeck) {
+        isChanceDeck = chanceDeck;
+    }
+
 }
