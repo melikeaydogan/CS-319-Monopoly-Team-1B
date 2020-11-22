@@ -1,6 +1,6 @@
 package entity.dice;
 
-enum SpeedDieResult {
+public enum SpeedDieResult {
     NONE(0), // means speed die mode is disabled
     ONE(1),
     TWO(2),
