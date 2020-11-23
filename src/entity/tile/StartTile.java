@@ -25,6 +25,4 @@ public class StartTile extends Tile{
         player.giveMoney(salary);
     }
 
-    // ToDo remove duplicate methods from the class diagram --> getImage()
-    // ToDo add Image params to the  first constructor
 }

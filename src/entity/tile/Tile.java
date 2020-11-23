@@ -25,6 +25,4 @@ public class Tile {
         return tileId;
     }
 
-    // ToDo add tileId to the parent Tile class,
-    //  so that we have tileId necessary for freeMove(int tile) functionality
 }
