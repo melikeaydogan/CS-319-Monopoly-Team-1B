@@ -4,31 +4,31 @@ import java.util.Random;
 
 public class Dice {
 
-    private final long GAME_SEED;
-    private final Random RANDOM;
+    private final long gameSeed;
+    private final Random random;
 
     public Dice(long gameSeed) {
-        GAME_SEED = gameSeed; // GAME_SEED will be System.currentTimeMillis();
-        RANDOM = new Random(gameSeed);
+        this.gameSeed = gameSeed; // gameSeed will be System.currentTimeMillis();
+        random = new Random(gameSeed);
     }
 
     public Dice(Dice savedDice) {
-        GAME_SEED = savedDice.getGameSeed();
-        RANDOM = new Random(GAME_SEED);
+        gameSeed = savedDice.getGameSeed();
+        random = new Random(gameSeed);
     }
 
     public long getGameSeed() {
-        return GAME_SEED;
+        return gameSeed;
     }
 
     public DiceResult roll(boolean isSpeedDie) {
-        int firstDieResult = RANDOM.nextInt(6) + 1;
-        int secondDieResult = RANDOM.nextInt(6) + 1;
+        int firstDieResult = random.nextInt(6) + 1;
+        int secondDieResult = random.nextInt(6) + 1;
         if (isSpeedDie) {
             // Select a random index from the values array
             // use length - 1, then add 1 to the randomly chosen index
             // because we don't want NONE to be an outcome
-            int index = RANDOM.nextInt(SpeedDieResult.values().length - 1) + 1;
+            int index = random.nextInt(SpeedDieResult.values().length - 1) + 1;
             SpeedDieResult speedDieResult = SpeedDieResult.values()[index];
             return new DiceResult(firstDieResult, secondDieResult, speedDieResult);
         }
