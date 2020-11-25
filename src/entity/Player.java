@@ -1,7 +1,9 @@
 package entity;
 
+import java.util.ArrayList;
+
 public class Player {
-    enum Token {
+    public enum Token {
         SCOTTISH_TERRIER,
         SHOE,
         BATTLESHIP,
@@ -21,7 +23,7 @@ public class Player {
     private int doubleCounter;
     private int jailFreeCardAmount;
     private int teamNumber; // ToDo maybe add a separate Team class?
-    private int[] properties; // ToDo add properties to the class diagram
+    private ArrayList<Property> properties; // ToDo add properties to the class diagram
     private boolean inJail; // ToDo add this to the class diagram
 
     public Player(int playerId, String name, Token token, int teamNumber) {
@@ -35,7 +37,7 @@ public class Player {
         jailFreeCardAmount = 0;
         inJail = false;
         this.teamNumber = teamNumber;
-        properties = new int[28]; // There are 28 properties in the map
+        properties = new ArrayList<Property>(28);
     }
 
     public Player(Player player) {
@@ -48,46 +50,30 @@ public class Player {
         doubleCounter = player.getDoubleCounter();
         jailFreeCardAmount = player.getJailFreeCardAmount();
         teamNumber = player.getTeamNumber();
-        properties = player.getProperties().clone(); // Full clone!
+        properties = new ArrayList<Property>(player.getProperties()); // Full clone!
         inJail = player.isInJail();
     }
 
-    public boolean takeMoney(int amount) {
-        if (amount <= balance) {
-            balance = balance - amount;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean transferMoney(Player player, int amount) { // ToDo add this method to the diagram
-        if ( amount <= balance ) {
-            balance = balance - amount;
-            player.giveMoney(amount);
-            return true;
-        }
-        return false;
-    }
-
     public void giveMoney(int amount) {
+        balance = balance - amount;
+    }
+
+    public void transferMoney(Player player, int amount) { // ToDo add this method to the diagram
+        player.takeMoney(amount);
+        giveMoney(amount);
+    }
+
+    public void takeMoney(int amount) {
         balance = balance + amount;
     }
 
-    public boolean move(int tiles) {
-        if ( !inJail ) {
-            position = position + tiles;
-            position = position % 40; // there are 40 squares
-            return true;
-        }
-        return false;
+    public void move(int tiles) {
+        position = position + tiles;
+        position = position % 40; // there are 40 squares
     }
 
-    public boolean freeMove(int tile) {
-        if ( !inJail ) {
-            position = tile;
-            return true;
-        }
-        return false;
+    public void freeMove(int tile) {
+        position = tile;
     }
 
     public boolean useJailFreeCard() { // includes the hasJailFreeCard() function in the diagram
@@ -116,12 +102,12 @@ public class Player {
         return false; // ToDo complete the method
     }
 
-    public int[] getProperties() {
+    public ArrayList<Property> getProperties() {
         return properties;
     }
 
-    public void setProperties(int[] properties) {
-        this.properties = properties.clone(); // Full clone!
+    public void setProperties(ArrayList<Property> properties) {
+        this.properties = new ArrayList<Property>(properties); // Full clone!
     }
 
     public int getPlayerId() {

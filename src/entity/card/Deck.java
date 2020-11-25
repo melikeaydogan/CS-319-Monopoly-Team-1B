@@ -1,15 +1,14 @@
 package entity.card;
 
-import control.GameMode;
+//import control.GameMode;
 import entity.card.Card;
 
 import java.util.*;
 
 public class Deck {
     Queue<Card> cards;
-    boolean isChanceDeck;
 
-    public Deck(Card[] cards, boolean isChanceDeck){
+    public Deck(Card[] cards){
         // first, we are going to shuffle cards
         List<Card> cardList = Arrays.asList(cards);
         Collections.shuffle(cardList);
@@ -18,13 +17,10 @@ public class Deck {
         // now, cards will be put into a Queue
         this.cards = new LinkedList<Card>(Arrays.asList(cards));
 
-        // finally, assign the isChanceDeck attribute
-        this.isChanceDeck = isChanceDeck;
     }
 
     public Deck(Deck savedDeck){
         this.cards = new LinkedList<Card>(savedDeck.getCards());
-        this.isChanceDeck = savedDeck.isChanceDeck;
     }
 
     public Card draw() {
@@ -41,12 +37,15 @@ public class Deck {
         this.cards = cards;
     }
 
-    public boolean isChanceDeck() {
-        return isChanceDeck;
-    }
+    public static void main(String[] args) {
+        ArrayList<ChanceCard> chanceCards = new ArrayList<>();
+        chanceCards.add(new ChanceCard(1, "You won 200$ from the lottery"));
+        chanceCards.add(new ChanceCard(2, "You went to jail because of theft!"));
 
-    public void setChanceDeck(boolean chanceDeck) {
-        isChanceDeck = chanceDeck;
+        Deck deck = new Deck(chanceCards.toArray(new ChanceCard[0]));
+
+        for ( Card c : deck.getCards() )
+            System.out.println(c); // Test GSON Library!!!
     }
 
 }
