@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="526.0" prefWidth="723.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GameScreenController">
+   <children>
+      <BorderPane layoutX="141.0" layoutY="35.0" prefHeight="429.0" prefWidth="582.0">
+         <top>
+            <GridPane gridLinesVisible="true" prefHeight="47.0" prefWidth="470.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="119.0" minWidth="10.0" prefWidth="114.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="97.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </top>
+         <left>
+            <GridPane gridLinesVisible="true" prefHeight="353.0" prefWidth="49.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="59.81437683105469" minHeight="10.0" prefHeight="53.799407958984375" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="59.81437683105469" minHeight="10.0" prefHeight="36.200592041015625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="59.81437683105469" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="64.215576171875" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="75.82035827636719" minHeight="0.0" prefHeight="40.011993408203125" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="121.80239868164062" minHeight="10.0" prefHeight="44.988006591796875" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="183.03294372558594" minHeight="10.0" prefHeight="57.17364501953125" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="190.03594970703125" minHeight="10.0" prefHeight="42.203582763671875" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="183.03294372558594" minHeight="10.0" prefHeight="41.796417236328125" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </left>
+         <bottom>
+            <GridPane gridLinesVisible="true" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
+         </bottom>
+         <center>
+            <ImageView fitHeight="294.0" fitWidth="405.0" pickOnBounds="true" BorderPane.alignment="CENTER">
+               <image>
+                  <Image url="@models/board_center.png" />
+               </image>
+            </ImageView>
+         </center>
+         <right>
+            <GridPane gridLinesVisible="true" prefHeight="353.0" prefWidth="49.0" BorderPane.alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="59.81437683105469" minHeight="10.0" prefHeight="53.799407958984375" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="59.81437683105469" minHeight="10.0" prefHeight="36.200592041015625" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="59.81437683105469" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="64.215576171875" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="75.82035827636719" minHeight="0.0" prefHeight="40.011993408203125" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="121.80239868164062" minHeight="10.0" prefHeight="44.988006591796875" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="183.03294372558594" minHeight="10.0" prefHeight="57.17364501953125" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="190.03594970703125" minHeight="10.0" prefHeight="42.203582763671875" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="183.03294372558594" minHeight="10.0" prefHeight="41.796417236328125" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+         </right>
+      </BorderPane>
+      <Button layoutX="619.0" layoutY="468.0" mnemonicParsing="false" text="Roll Dice" />
+      <Pane layoutX="217.0" layoutY="460.0" prefHeight="49.0" prefWidth="147.0">
+         <children>
+            <Text layoutX="13.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="120.2978515625" />
+         </children>
+      </Pane>
+      <Pane layoutX="13.0" layoutY="451.0" prefHeight="59.0" prefWidth="177.0">
+         <children>
+            <Label fx:id="temp" layoutX="41.0" layoutY="22.0" prefHeight="16.0" prefWidth="136.0" text="Label" />
+         </children>
+      </Pane>
+      <Pane layoutX="3.0" prefHeight="38.0" prefWidth="696.0">
+         <children>
+            <Button layoutX="662.0" layoutY="6.0" mnemonicParsing="false" />
+            <Button layoutX="627.0" layoutY="6.0" mnemonicParsing="false" />
+            <Button layoutX="596.0" layoutY="6.0" mnemonicParsing="false" />
+            <Button layoutX="559.0" layoutY="5.0" mnemonicParsing="false" />
+         </children>
+      </Pane>
+      <AnchorPane layoutX="-5.0" layoutY="50.0" prefHeight="397.0" prefWidth="147.0">
+         <children>
+            <Button layoutX="15.0" layoutY="159.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="Game Log" />
+            <Button layoutX="15.0" layoutY="221.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="Property List" />
+            <Button layoutX="16.0" layoutY="97.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="Trade Request" />
+            <Button layoutX="17.0" layoutY="30.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="113.0" text="Chat" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.HowToPlayController">
+   <children>
+      <Button fx:id="backButton" layoutX="253.0" layoutY="310.0" mnemonicParsing="false" onAction="#backButtonPressed" text="Back" />
+      <TextArea fx:id="textArea" editable="false" layoutX="80.0" layoutY="44.0" prefHeight="253.0" prefWidth="440.0" promptText="dsaad" text="lorem ipsum&#10;" />
+      <Label layoutX="262.0" layoutY="22.0" text="How To Play" />
+   </children>
+</AnchorPane>
