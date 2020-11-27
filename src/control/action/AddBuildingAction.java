@@ -2,6 +2,7 @@ package control.action;
 
 import control.MonopolyGame;
 import entity.Player;
+import entity.property.Property;
 
 public class AddBuildingAction implements Action {
     private Property property;

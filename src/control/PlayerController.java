@@ -2,6 +2,7 @@ package control;
 
 import control.action.*;
 import entity.Player;
+import entity.property.Property;
 //import javafx.beans.property.Property;
 
 import java.util.ArrayList;

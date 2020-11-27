@@ -1,5 +1,7 @@
 package entity;
 
+import entity.property.Property;
+
 import java.util.ArrayList;
 
 public class Player {

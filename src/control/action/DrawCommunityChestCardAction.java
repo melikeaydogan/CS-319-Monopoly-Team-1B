@@ -1,25 +1,26 @@
 package control.action;
 
 import control.MonopolyGame;
+import entity.Board;
 import entity.Player;
+import entity.card.Card;
 import entity.card.CommunityChestCard;
 
 public class DrawCommunityChestCardAction implements Action{
     private Player player; // ToDo should we put players into the MonopolyGame instead of Board??
-    private Board board;
 
-    public DrawCommunityChestCardAction(Player player, Board board) {
+    public DrawCommunityChestCardAction(Player player) {
         this.player = player;
-        this.board = board;
     }
 
     @Override
     public void act() {
-        CommunityChestCard communityChestCard = Board.drawCommunityChestCard();
+        //Card communityChestCard = board.drawCommunityChestCard();
         // ???
-        Action action = communityChestCard.getAction();
-        action.act();
+        //communityChestCard.processCard();
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " draws a community chance card");
     }
 }
+
+// is this action necessary??

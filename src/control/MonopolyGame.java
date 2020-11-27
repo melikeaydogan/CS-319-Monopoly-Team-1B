@@ -2,11 +2,14 @@ package control;
 
 import com.sun.org.apache.bcel.internal.generic.GOTO;
 import control.action.*;
+import entity.Board;
 import entity.Player;
+import entity.card.Card;
 import entity.card.ChanceCard;
 import entity.card.CommunityChestCard;
 import entity.dice.Dice;
 import entity.dice.DiceResult;
+import entity.property.Property;
 import entity.tile.*;
 // import javafx.beans.property.Property;
 
@@ -79,7 +82,7 @@ public class MonopolyGame {
                 Tile tile = board.getTiles().get(player.getPosition());
 
                 if (tile instanceof PropertyTile) {
-                    processPropertyTile(player.getPosition());
+                    processPropertyTile((PropertyTile) board.getTiles().get(player.getPosition()));
                 }
                 else if (tile instanceof JailTile) {
                     // nothing, skip the turn
@@ -134,30 +137,32 @@ public class MonopolyGame {
         turn++;
     }
 
-    public void processPropertyTile(int position) {
-        Property property = Board.getTiles().get(position);
-        ArrayList<Property> properties = getActivePlayer().getProperties();
-        if (!properties.contains(property)) {
+    public void processPropertyTile(PropertyTile tile) {
+        Property property = board.getProperties().get(tile.getPropertyId());
+
+        //if (!properties.contains(property)) {
             // ui.showBuyPropertyDialog(property); this is business of control object
-        }
+        //}
     }
 
-    public boolean buyProperty(int position) {
-        new BuyPropertyAction(Board.getProperties.get(Board.getTiles.get(position).getPropertyId()), getActivePlayer());
+    public void buyProperty(PropertyTile tile) {
+        new BuyPropertyAction(board.getProperties().get(tile.getPropertyId()), getActivePlayer()).act();
     }
 
-    public ChanceCard processChanceCardTile() {
-        ChanceCard card = board.getChanceCardDeck().draw(); // board.drawChanceCard() ???
+    public Card processChanceCardTile() {
+        Card card = board.drawChanceCard();
         //ui.showCard(card); this is business of control object
         card.processCard(this);
 
-        return card;
+        return card; // return to ui?
     }
 
-    public void processCommunityChestCardTile() {
-        CommunityChestCard card = board.getCommunityChestDeck().draw();
+    public Card processCommunityChestCardTile() {
+        Card card = board.drawCommunityChestCard();
         // ui.showCard(card); this is business of control object
         card.processCard(this);
+
+        return card; // return to ui?
     }
 
     public boolean isGameOver() {
@@ -197,7 +202,7 @@ public class MonopolyGame {
     }
 
     public void setActionLog(ActionLog actionLog) {
-        this.actionLog = actionLog;
+        MonopolyGame.actionLog = actionLog;
     }
 
     public PlayerController getPlayerController() {
