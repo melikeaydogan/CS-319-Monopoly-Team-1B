@@ -1,0 +1,51 @@
+[
+	{
+		"communityChestCard": {
+			"id":1,
+			"string":"Go back to L building"
+		}
+	},
+	{
+		"communityChestCard": {
+			"id":2,
+			"string":"You won a ... contest. Collect 1000 TL."
+		}
+	},
+	{
+		"communityChestCard": {
+			"id":3,
+			"string":"Pay 1000 TL for the punishment or draw a chance card."
+		}
+	},
+	{
+		"communityChestCard": {
+			"id":4,
+			"string":"It is time for the first installment of the Tution Fee. Pay 10.000TL.  "
+		}
+	},
+	{
+		"communityChestCard": {
+			"id":5,
+			"string":"Go forward to GO."
+		}
+	},
+	{
+		"communityChestCard": {
+			"id":6,
+			"string":"Today is your birthday. Collect 1.000TL from every player as prize."
+		}
+	},
+	{
+		"communityChestCard": {
+			"id":7,
+			"string":"Go directly to the Jail. Do not pass the GO and do not collect 20.000TL."
+		}
+	},
+	{
+		"communityChestCard": {
+			"id":8,
+			"string":"Get Out Of Jail Free. This card can be sold or stored until it is necessary."
+		}
+	}
+
+]
