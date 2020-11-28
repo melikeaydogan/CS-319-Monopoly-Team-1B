@@ -1,22 +1,47 @@
 package entity.card;
 
-//import control.GameMode;
 import entity.card.Card;
 
 import java.util.*;
 
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 public class Deck {
     Queue<Card> cards;
 
-    public Deck(Card[] cards){
-        // first, we are going to shuffle cards
-        List<Card> cardList = Arrays.asList(cards);
-        Collections.shuffle(cardList);
-        cardList.toArray(cards);
+    public Deck(String filename){
+        List<Card> cardlist = null;
+        try {
+            // create Gson instance
+            Gson gson = new Gson();
+
+            // create a reader
+            Reader reader = Files.newBufferedReader(Paths.get(filename));
+
+            // convert JSON array to list of users
+            cardlist = new Gson().fromJson(reader, new TypeToken<List<Card>>() {}.getType());
+
+            // print users
+            cardlist.forEach(System.out::println);
+
+            for(int i = 0; i<cardlist.size(); i++){
+                System.out.println(cardlist.get(i).id+" "+cardlist.get(i).instructions+" "+cardlist.get(i).cardType);
+            }
+            // close reader
+            reader.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        Collections.shuffle(cardlist);//check whether it is null
 
         // now, cards will be put into a Queue
-        this.cards = new LinkedList<Card>(Arrays.asList(cards));
-
+        this.cards = new LinkedList<Card>(cardlist);
     }
 
     public Deck(Deck savedDeck){
@@ -37,15 +62,11 @@ public class Deck {
         this.cards = cards;
     }
 
-    public static void main(String[] args) {
-        ArrayList<ChanceCard> chanceCards = new ArrayList<>();
-        chanceCards.add(new ChanceCard(1, "You won 200$ from the lottery"));
-        chanceCards.add(new ChanceCard(2, "You went to jail because of theft!"));
-
-        Deck deck = new Deck(chanceCards.toArray(new ChanceCard[0]));
+    /*public static void main(String[] args) {
+        Deck deck = new Deck("chanceCard.json");
 
         for ( Card c : deck.getCards() )
             System.out.println(c); // Test GSON Library!!!
-    }
+    }*///test
 
 }
