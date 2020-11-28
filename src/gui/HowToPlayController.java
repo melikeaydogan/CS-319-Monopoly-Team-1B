@@ -9,8 +9,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 public class HowToPlayController {
-    @FXML
-    public TextArea textArea;
+    @FXML public TextArea textArea;
 
     @FXML
     protected void backButtonPressed(ActionEvent event) {

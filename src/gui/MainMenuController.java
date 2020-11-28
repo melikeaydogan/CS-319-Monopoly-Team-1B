@@ -13,7 +13,8 @@ public class MainMenuController {
     @FXML public ImageView imageView;
     @FXML public TextArea usernameField;
 
-    @FXML protected void joinGame(ActionEvent event) {
+    @FXML
+    protected void joinGame(ActionEvent event) {
         try {
             String username = usernameField.getText();
 
@@ -23,8 +24,7 @@ public class MainMenuController {
             Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
 
             GameScreenController gameScreenController = loader.getController();
-            gameScreenController.setUsername(username);
-            gameScreenController.setNumberOfPlayers(3);
+            gameScreenController.setupGame(username);
 
             Stage stage = (Stage) imageView.getScene().getWindow();
 
@@ -34,7 +34,17 @@ public class MainMenuController {
         }
     }
 
-    @FXML protected void howToPlayPressed(ActionEvent event) {
+    @FXML
+    protected void handleOptionsButton(ActionEvent e) {
+        try {
+            Stage stage = (Stage) imageView.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("options.fxml"));
+            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
+        } catch (Exception ignored) {}
+    }
+
+    @FXML
+    protected void howToPlayPressed(ActionEvent event) {
         try {
             Stage stage = (Stage) imageView.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("how_to_play.fxml"));
@@ -43,6 +53,4 @@ public class MainMenuController {
             System.out.println(e);
         }
     }
-
-
 }

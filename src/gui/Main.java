@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
@@ -17,12 +18,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
-
-
     public static void main(String[] args) {
         launch(args);
     }
-
-
 }

@@ -19,7 +19,7 @@
       <Button layoutX="181.0" layoutY="144.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="26.0" prefWidth="134.0" text=" Join Game" />
       <Button layoutX="180.0" layoutY="181.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="26.0" prefWidth="134.0" text="Load Game" />
       <Button fx:id="howToPlay" layoutX="180.0" layoutY="220.0" mnemonicParsing="false" onAction="#howToPlayPressed" prefHeight="26.0" prefWidth="134.0" text="How to play " />
-      <Button layoutX="180.0" layoutY="259.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="134.0" text="Options" />
+      <Button layoutX="180.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleOptionsButton" prefHeight="26.0" prefWidth="134.0" text="Options" />
       <ImageView fx:id="imageView" fitHeight="38.0" fitWidth="164.0" layoutX="6.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@models/monopoly.jpeg" />
