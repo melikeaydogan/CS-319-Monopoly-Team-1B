@@ -13,13 +13,13 @@ public class JailTile extends Tile {
      *  depending on if they are in jail or just visiting
      */
     public JailTile() {
-        super(null, -1);
+        super(-1);
         playersInsideId = new ArrayList<>();
     }
 
     // Get the saved jailTile
     public JailTile(JailTile savedTile) {
-        super(savedTile.getImage(), savedTile.getTileId());
+        super( savedTile.getTileId());
         playersInsideId = savedTile.getPlayersInsideId();
     }
 

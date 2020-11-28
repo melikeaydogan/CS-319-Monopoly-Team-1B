@@ -7,13 +7,13 @@ public class StartTile extends Tile{
     private final int salary;
 
     // start tile always has the tileId 0.
-    public StartTile(Image image, int salary) {
-        super(image, 0);
+    public StartTile( int salary) {
+        super(0);
         this.salary = salary;
     }
 
     public StartTile(StartTile startTile) {
-        super(startTile.getImage(), 0);
+        super(0);
         salary = startTile.getSalary();
     }
 

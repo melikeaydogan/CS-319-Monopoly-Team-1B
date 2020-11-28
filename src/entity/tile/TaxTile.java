@@ -10,12 +10,12 @@ public class TaxTile extends Tile {
     private final int amount;
 
     TaxTile(Image image, int tileId, int amount) {
-        super(image, tileId);
+        super(tileId);
         this.amount = amount;
     }
 
     TaxTile(TaxTile savedTile) {
-        super(savedTile.getImage(), savedTile.getTileId());
+        super( savedTile.getTileId());
         this.amount = savedTile.amount;
     }
 

@@ -7,12 +7,12 @@ public class PropertyTile extends Tile {
     private final int propertyId;
 
     public PropertyTile(Image image, int tileId, int propertyId) {
-        super(image, tileId);
+        super(tileId);
         this.propertyId = propertyId;
     }
 
     public PropertyTile(PropertyTile propertyTile) {
-        super(propertyTile.getImage(), propertyTile.getTileId());
+        super(propertyTile.getTileId());
         this.propertyId = propertyTile.getPropertyId();
     }
 
