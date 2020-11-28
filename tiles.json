@@ -1,200 +1,200 @@
 [
   {
-    "id" : 0,
+    "tileId" : 0,
     "amount" : 20000,
     "type": "START"
   },
   {
-    "id" : 1,
+    "tileId" : 1,
     "propertyID" : 7,
     "type": "PROPERTY"
   },
   {
-    "id" : 2,
+    "tileId" : 2,
     "cardtype" : "COMMUNITY_CHEST_CARD",
     "type": "CARD"
   },
   {
-    "id" : 3,
+    "tileId" : 3,
     "propertyID" : 8,
     "type": "PROPERTY"
   },
   {
-    "id" : 4,
+    "tileId" : 4,
     "amount" : 20000,
     "type": "TAX"
   },
   {
-    "id" : 5,
+    "tileId" : 5,
     "propertyID" : 1,
     "type": "PROPERTY"
   },
   {
-    "id" : 6,
+    "tileId" : 6,
     "propertyID" : 9,
     "type": "PROPERTY"
   },
   {
-    "id" : 7,
+    "tileId" : 7,
     "cardType" : "CHANCE_CARD",
     "type": "CARD"
   },
   {
-    "id" : 8,
+    "tileId" : 8,
     "propertyID" : 10,
     "type": "PROPERTY"
   },
   {
-    "id" : 9,
+    "tileId" : 9,
     "propertyID" : 11,
     "type": "PROPERTY"
   },
   {
-    "id" : 10,
+    "tileId" : 10,
     "activity" : "VISITOR",
     "type": "JAIL"
   },
   {
-    "id" : 11,
+    "tileId" : 11,
     "propertyID" : 12,
     "type": "PROPERTY"
   },
   {
-    "id" : 12,
+    "tileId" : 12,
     "propertyID" : 5,
     "type": "PROPERTY"
   },
   {
-    "id" : 13,
+    "tileId" : 13,
     "propertyID" : 13,
     "type": "PROPERTY"
   },
   {
-    "id" : 14,
+    "tileId" : 14,
     "propertyID" : 14,
     "type": "PROPERTY"
   },
   {
-    "id" : 15,
+    "tileId" : 15,
     "propertyID" : 2,
     "type": "PROPERTY"
   },
   {
-    "id" : 16,
+    "tileId" : 16,
     "propertyID" : 15,
     "type": "PROPERTY"
   },
   {
-    "id" : 17,
+    "tileId" : 17,
     "cardtype" : "COMMUNITY_CHEST_CARD",
     "type": "CARD"
   },
   {
-    "id" : 18,
+    "tileId" : 18,
     "propertyID" : 16,
     "type": "PROPERTY"
   },
   {
-    "id" : 19,
+    "tileId" : 19,
     "propertyID" : 17,
     "type": "PROPERTY"
   },
   {
-    "id" : 20,
+    "tileId" : 20,
     "type": "JAIL"
   },
   {
-    "id" : 21,
+    "tileId" : 21,
     "propertyID" : 19,
     "type": "PROPERTY"
   },
   {
-    "id" : 22,
+    "tileId" : 22,
     "cardtype" : "CHANCE_CARD",
     "type": "CARD"
   },
   {
-    "id" : 23,
+    "tileId" : 23,
     "propertyID" : 19,
     "type": "PROPERTY"
   },
   {
-    "id" : 24,
+    "tileId" : 24,
     "propertyID" : 20,
     "type": "PROPERTY"
   },
   {
-    "id" : 25,
+    "tileId" : 25,
     "propertyID" : 3,
     "type": "PROPERTY"
   },
   {
-    "id" : 26,
+    "tileId" : 26,
     "propertyID" : 21,
     "type": "PROPERTY"
   },
   {
-    "id" : 27,
+    "tileId" : 27,
     "propertyID" : 22,
     "type": "PROPERTY"
   },
   {
-    "id" : 28,
+    "tileId" : 28,
     "propertyID" : 6,
     "type": "PROPERTY"
   },
   {
-    "id" : 29,
+    "tileId" : 29,
     "propertyID" : 23,
     "type": "PROPERTY"
   },
   {
-    "id" : 30,
+    "tileId" : 30,
     "activity" : "GO_TO_JAIL",
     "type": "JAIL"
   },
   {
-    "id" : 31,
+    "tileId" : 31,
     "propertyID" : 24,
     "type": "PROPERTY"
   },
   {
-    "id" : 32,
+    "tileId" : 32,
     "propertyID" : 25,
     "type": "PROPERTY"
   },
   {
-    "id" : 33,
+    "tileId" : 33,
     "cardtype" : "COMMUNITY_CHEST_CARD",
     "type": "CARD"
   },
   {
-    "id" : 34,
+    "tileId" : 34,
     "propertyID" : 26,
     "type": "PROPERTY"
   },
   {
-    "id" : 35,
+    "tileId" : 35,
     "propertyID" : 4,
     "type": "PROPERTY"
   },
   {
-    "id" : 36,
+    "tileId" : 36,
     "cardtype" : "CHANCE_CARD",
     "type": "CARD"
   },
   {
-    "id" : 37,
+    "tileId" : 37,
     "propertyID" : 27,
     "type": "PROPERTY"
   },
   {
-    "id" : 38,
+    "tileId" : 38,
     "amount": 10000,
     "type": "TAX"
   },
   {
-    "id" : 39,
+    "tileId" : 39,
     "propertyID" : 28,
     "type": "PROPERTY"
   }
