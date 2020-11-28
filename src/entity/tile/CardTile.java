@@ -21,7 +21,7 @@ public class CardTile extends Tile {
         this.cardType = savedTile.cardType;
     }
 
-    public CardType CardType() {
+    public CardType getCardType() {
         return cardType;
     }
 

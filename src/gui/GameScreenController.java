@@ -40,7 +40,7 @@ public class GameScreenController {
     @FXML GridPane grid2;
     @FXML GridPane grid3;
 
-    @FXML GridPane logPane;
+    @FXML Label log0, log1, log2, log3, log4, log5, log6, log7;
 
     @FXML Label player1Label, player2Label;
 
@@ -147,30 +147,8 @@ public class GameScreenController {
                 else
                         grids[x].add(taxPane, 0, y);
 
-            } else if (tile instanceof ActivityTile) {
-                if (((ActivityTile) tile).getActivity() == Activity.GO_TO_JAIL) {
-                    ImageView imageView = new ImageView();
-                    File file = new File("models/goto_jail_tile.png");
-                    Image image = new Image(file.toURI().toString());
-                    imageView.setImage(image);
-
-                    if (x % 2 == 0)
-                        grids[x].add(imageView, y, 0);
-                    else
-                        grids[x].add(imageView, 0, y);
-
-                } else if (((ActivityTile) tile).getActivity() == Activity.FREE_PARK_VISIT) {
-                    ImageView imageView = new ImageView();
-                    File file = new File("models/freeparking_tile.png");
-                    Image image = new Image(file.toURI().toString());
-                    imageView.setImage(image);
-
-                    if (x % 2 == 0)
-                        grids[x].add(imageView, y, 0);
-                    else
-                        grids[x].add(imageView, 0, y);
-
-                } else if (((ActivityTile) tile).getActivity() == Activity.COMMUNITY_CHEST) {
+            } else if (tile instanceof CardTile) {
+                if (((CardTile) tile).getCardType() == CardTile.CardType.COMMUNITY_CHEST_CARD) {
                     ImageView imageView = new ImageView();
                     File file = new File("models/community_chest_tile.png");
                     Image image = new Image(file.toURI().toString());
@@ -181,7 +159,7 @@ public class GameScreenController {
                     else
                         grids[x].add(imageView, 0, y);
 
-                } else if (((ActivityTile) tile).getActivity() == Activity.CHANCE) {
+                } else if (((CardTile) tile).getCardType() == CardTile.CardType.CHANCE_CARD) {
                     ImageView imageView = new ImageView();
                     File file = new File("models/chance_tile.png");
                     Image image = new Image(file.toURI().toString());
@@ -192,6 +170,28 @@ public class GameScreenController {
                     else
                         grids[x].add(imageView, 0, y);
                 }
+            } else if (tile instanceof GoToJailTile) {
+                ImageView imageView = new ImageView();
+                File file = new File("models/goto_jail_tile.png");
+                Image image = new Image(file.toURI().toString());
+                imageView.setImage(image);
+
+                if (x % 2 == 0)
+                    grids[x].add(imageView, y, 0);
+                else
+                    grids[x].add(imageView, 0, y);
+
+            } else if (tile instanceof FreeParkingTile) {
+                ImageView imageView = new ImageView();
+                File file = new File("models/freeparking_tile.png");
+                Image image = new Image(file.toURI().toString());
+                imageView.setImage(image);
+
+                if (x % 2 == 0)
+                    grids[x].add(imageView, y, 0);
+                else
+                    grids[x].add(imageView, 0, y);
+
             }
         }
         updateBoardState();
@@ -205,16 +205,20 @@ public class GameScreenController {
         player2Label.setText("  " + p2.getName() + " - " + p2.getTokenName() + " - " + p2.getBalance());
 
         // Update Game Log
-        ActionLog log = MonopolyGame.getActionLog();
+        ActionLog actionLog = MonopolyGame.getActionLog();
+        Label[] logLabels = {log0, log1, log2, log3, log4, log5, log6, log7};
+        for (int i = 0; i < LOG_CAPACITY; i++) {
+            int logSize = actionLog.getNumActions();
 
-        for (int i = 0; log.getNumActions() < i && i < LOG_CAPACITY; i++) {
-            logPane.add(new Label(log.getLog().get(log.getNumActions() - i - 1)),i + 1, 0);
+            if (i >= logSize)
+                logLabels[i].setText("");
+            else
+                logLabels[i].setText(actionLog.getLog().get(i + logSize - LOG_CAPACITY));
+
         }
 
-
         // TODO Draw Tokens
-        ImageView token1;
-
-
+        ImageView token1 = new ImageView(new Image((new File("models/tokens/" + p2.getTokenName() + ".png")).toURI().toString()));
+        ImageView token2 = new ImageView(new Image((new File("models/tokens/" + p2.getTokenName() + ".png")).toURI().toString()));
     }
 }

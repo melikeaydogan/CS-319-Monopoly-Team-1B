@@ -132,7 +132,7 @@ public class Player {
         else if (token == Token.CAR)
             return "Car";
         else if (token == Token.SCOTTISH_TERRIER)
-            return "Scottish Terrier";
+            return "Scottish_Terrier";
         else if (token == Token.IRON)
             return "Iron";
         else if (token == Token.SHOE)
@@ -140,7 +140,7 @@ public class Player {
         else if (token == Token.THIMBLE)
             return "Thimble";
         else if (token == Token.TOP_HAT)
-            return "Top Hat";
+            return "Top_Hat";
         else if (token == Token.WHEELBARROW)
             return "Wheelbarrow";
         return "";
