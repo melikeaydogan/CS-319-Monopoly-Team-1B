@@ -25,7 +25,6 @@ public class MonopolyGame {
     Board board;
     int turn;
     static ActionLog actionLog;
-    ArrayList<Player> players = new ArrayList<>(6);
     PlayerController playerController;
     // GameMode gameMode;
     boolean gameStarted = false;
@@ -35,7 +34,7 @@ public class MonopolyGame {
     Dice dice;
     DiceResult diceResult;
 
-    public MonopolyGame() throws IOException {
+    public MonopolyGame(ArrayList<Player> players) throws IOException {
         board = new Board();
         turn = 0;
         actionLog = new ActionLog();
@@ -52,7 +51,7 @@ public class MonopolyGame {
     }
 
     public void startGame() {
-        // select the first
+        playerController.setActivePlayer(playerController.getPlayers().get(0)); // randomize this
         gameStarted = true;
     }
 
@@ -62,6 +61,9 @@ public class MonopolyGame {
         if ( diceResult.isDouble() ) {
             doubleCount++;
         }
+
+        actionLog.addMessage((getActivePlayer().getName() + " rolls dice and gets " + diceResult.getFirstDieResult()
+                + ", " + diceResult.getSecondDieResult()));
 
         moveCount = diceResult.getFirstDieResult() + diceResult.getSecondDieResult();
         return diceResult; // return because ui will show this result
@@ -222,6 +224,26 @@ public class MonopolyGame {
     }
 
     public static void main(String[] args) throws IOException {
-        MonopolyGame monopolyGame = new MonopolyGame();
+        Player player1 = new Player(1, "Mehmet" , Player.Token.BATTLESHIP, 1);
+        Player player2 = new Player(2, "Mehmet" , Player.Token.BATTLESHIP, 1);
+        Player player3 = new Player(3, "Mehmet" , Player.Token.BATTLESHIP, 1);
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        players.add(player3);
+
+        MonopolyGame monopolyGame = new MonopolyGame(players);
+        monopolyGame.startGame();
+
+        for ( int i = 0; i < 4; i++ ) {
+            monopolyGame.rollDice();
+            monopolyGame.processTurn();
+            monopolyGame.nextTurn();
+            System.out.println(actionLog.toString());
+        }
+
     }
 }
+
+// ToDo initialize tiles!!

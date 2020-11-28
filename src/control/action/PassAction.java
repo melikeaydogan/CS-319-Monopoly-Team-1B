@@ -12,15 +12,9 @@ public class PassAction implements Action {
 
     @Override
     public void act() {
-        player.addMoney(2000);
+        new AddMoneyAction(player, 2000).act();
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " passes from the starting point" );
     }
 
-    /*
-    if player
-        new RollDiceAction(playerController.getActivePlayer()).act();
-        new MoveAction(playerController.getActivePlayer()
-
-     */
 }

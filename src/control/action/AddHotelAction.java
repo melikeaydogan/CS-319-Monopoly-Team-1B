@@ -16,7 +16,7 @@ public class AddHotelAction implements Action{
     @Override
     public void act() { // color check?
         if ( player.getBalance() > building.getHotelPrice() ) {
-            player.removeMoney(building.getHotelPrice());
+            new RemoveMoneyAction(player,building.getHotelPrice()).act();
             building.addHotel(); // ???
         }
 

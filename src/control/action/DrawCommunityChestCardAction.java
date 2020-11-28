@@ -6,7 +6,7 @@ import entity.Player;
 import entity.card.Card;
 
 public class DrawCommunityChestCardAction implements Action{
-    private Player player; // ToDo should we put players into the MonopolyGame instead of Board??
+    private Player player;
 
     public DrawCommunityChestCardAction(Player player) {
         this.player = player;

@@ -26,12 +26,13 @@ public class PlayerController {
 
     public Player getActivePlayer() {
         if ( players.size() > 0)
-            return activePlayer;
+            return players.get(activePlayerIndex);
         return null;
     }
 
     public void setActivePlayer(Player activePlayer) {
         this.activePlayer = activePlayer;
+        activePlayerIndex = activePlayer.getPlayerId();
     }
 
     public ArrayList<Player> getPlayers() {
@@ -101,28 +102,23 @@ public class PlayerController {
     }
 
 
-
-
-
-
-
-/*    public static void main(String[] args) { !! ToDo Execute this test after Property implementation
+    public static void main(String[] args) { //!! ToDo Execute this test after Property implementation
         ArrayList<Player> players = new ArrayList<>(6);
-        Player player = new Player(1, "Mehmet", Player.Token.BATTLESHIP, 1);
-        Player player2 = new Player(2, "Ahmet", Player.Token.BATTLESHIP, 2);
-        Player player3 = new Player(3, "Veli", Player.Token.SCOTTISH_TERRIER, 2);
+        Player player = new Player(0, "Mehmet", Player.Token.BATTLESHIP, 1);
+        Player player2 = new Player(1, "Ahmet", Player.Token.BATTLESHIP, 2);
+        Player player3 = new Player(2, "Veli", Player.Token.SCOTTISH_TERRIER, 2);
         players.add(player);
         players.add(player2);
         players.add(player3);
 
         PlayerController playerController = new PlayerController(players);
-        playerController.setActivePlayer(player2);
+        playerController.setActivePlayer(player3);
 
         for ( int i = 0; i < 12; i++ ) {
             System.out.println("Active player: " + playerController.getActivePlayer());
             playerController.switchToNextPlayer();
         }
-    }*/
+    }
 
 
 }

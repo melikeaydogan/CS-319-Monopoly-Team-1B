@@ -10,7 +10,7 @@ import entity.property.Property;
 import java.util.ArrayList;
 
 public class BuyPropertyAction implements Action{
-    private Property property; // ToDo implement after Property
+    private Property property;
     private Player player;
 
     public BuyPropertyAction(Property property, Player player) {
@@ -34,7 +34,7 @@ public class BuyPropertyAction implements Action{
                 player.getProperties().get("BUILDING").add((Building) property);
             }
 
-            player.removeMoney(property.getPrice());
+            new RemoveMoneyAction(player, property.getPrice());
 
             MonopolyGame.getActionLog().addMessage(player.getName() + " buys the property " + property.getName());
         }

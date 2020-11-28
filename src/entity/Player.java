@@ -101,7 +101,7 @@ public class Player {
         return false;
     }
 
-    public boolean getOutFromJail(int fee) { // ToDo change the name from getOut()
+    public boolean getOutFromJail(int fee) {
         if ( balance > fee && inJail ) {
             balance = balance - fee;
             inJail = false;
@@ -114,7 +114,7 @@ public class Player {
          return teamNumber == player.getTeamNumber();
     }
 
-    public boolean isComplete(int colorId) { // ToDo enumerate color in the property class
+    public boolean isComplete(String color) {
         return false; // ToDo complete the method
     }
 
@@ -204,6 +204,10 @@ public class Player {
 
     public void setInJail(boolean inJail) { // replaces the goToJail() in the diagram
         this.inJail = inJail;
+    }
+
+    public String toString() {
+        return "Player --> ID: " + playerId + ", Name: " + name;
     }
 
 }

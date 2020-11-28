@@ -20,7 +20,7 @@ public class MoveAction implements Action{
             MonopolyGame.getActionLog().addMessage(player.getName() + " moves " + moveAmount + " squares");
 
             if (passedTheGoTile) {
-                new PassAction(player);
+                new PassAction(player).act();
             }
         }
 
