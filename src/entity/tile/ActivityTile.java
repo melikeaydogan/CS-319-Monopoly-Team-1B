@@ -9,13 +9,13 @@ public class ActivityTile extends Tile {
      */
     private final Activity activity;
 
-    ActivityTile(Image image, int tileId, Activity activity) {
-        super(image, tileId);
+    ActivityTile( int tileId, Activity activity) {
+        super(tileId);
         this.activity = activity;
     }
 
     ActivityTile(ActivityTile savedTile) {
-        super(savedTile.getImage(), savedTile.getTileId());
+        super( savedTile.getTileId());
         this.activity = savedTile.activity;
     }
 
