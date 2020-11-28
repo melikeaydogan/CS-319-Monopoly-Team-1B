@@ -33,12 +33,10 @@
 		"id":7,
 		"instructions":"Go directly to the Jail. Do not pass the GO and do not collect 20.000TL.",
 		"cardType" : "COMMUNITY_CHEST_CARD"
-
 	},
 	{
 		"id":8,
 		"instructions":"Get Out Of Jail Free. This card can be sold or stored until it is necessary.",
 		"cardType" : "COMMUNITY_CHEST_CARD"
-
 	}
 ]
