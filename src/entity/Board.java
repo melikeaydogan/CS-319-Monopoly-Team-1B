@@ -47,6 +47,7 @@ public class Board {
     }
 
     public Board() throws IOException {
+        initializeTiles("tiles.json");
         initializeProperties("properties.json");
         initializeCommunityChestCardDeck("communityChestCard.json");
         initializeChanceCardDeck("chanceCard.json");
@@ -68,6 +69,19 @@ public class Board {
     //public boolean addBuilding( int playerID){}
     //public boolean canAddBuilding( int playerID){}
     //public boolean sellProperty( int PlayerID ){}
+    public void initializeTiles(String fileName) throws IOException {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Tile.class, new Tile.CustomDeserializer());
+        Gson customGson = builder.create();
+
+        Reader reader = Files.newBufferedReader(Paths.get(fileName));
+
+        // convert JSON array to list of users
+        tiles = customGson.fromJson(reader, new TypeToken<List<Tile>>() {}.getType());
+
+        for (Tile t : tiles)
+            System.out.println("Added a new Tile --> " + t);
+    }
 
     public void initializeProperties(String fileName) throws IOException {
         GsonBuilder builder = new GsonBuilder();
