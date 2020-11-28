@@ -83,8 +83,10 @@ public class Tile {
                         return context.deserialize(json, TaxTile.class);
                     case "JAIL":
                         return context.deserialize(json, JailTile.class);
-                    case "FREE":
+                    case "FREE_PARKING":
                         return context.deserialize(json, FreeParkingTile.class);
+                    case "GO_TO_JAIL":
+                        return context.deserialize(json, GoToJailTile.class);
                     default:
                         return null;
                 }
