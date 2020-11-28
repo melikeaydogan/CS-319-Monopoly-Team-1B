@@ -8,9 +8,12 @@ import entity.dice.DiceResult;
 import entity.property.Property;
 import entity.tile.*;
 
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -29,16 +32,11 @@ public class GameScreenController {
 
     MonopolyGame game;
 
-    @FXML Label label;
-
-    @FXML Label die1;
-    @FXML Label die2;
+    @FXML Label die1, die2;
 
     @FXML BorderPane boardPane;
-    @FXML GridPane grid0;
-    @FXML GridPane grid1;
-    @FXML GridPane grid2;
-    @FXML GridPane grid3;
+    @FXML GridPane grid0, grid1, grid2, grid3;
+    GridPane[] grids;
 
     @FXML Label log0, log1, log2, log3, log4, log5, log6, log7;
 
@@ -47,7 +45,7 @@ public class GameScreenController {
     @FXML
     protected void handleQuitButton(ActionEvent e) {
         try {
-            Stage stage = (Stage) label.getScene().getWindow();
+            Stage stage = (Stage) die1.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
             stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
         } catch (Exception ignored) {}
@@ -82,54 +80,31 @@ public class GameScreenController {
         // Set up Tiles
         ArrayList<Tile> tiles = game.getBoard().getTiles();
 
-        GridPane[] grids = new GridPane[4];
+        grids = new GridPane[4];
         grids[0] = grid0;
         grids[1] = grid1;
         grids[2] = grid2;
         grids[3] = grid3;
 
         for (Tile tile : tiles) {
+            // get x and y
             int x, y; // grids[x].get(y)
             int location = tile.getTileId();
 
-            // calculate x and y
-            if (location < 12) {
-                x = 0;
-                y = 11 - location;
-            } else if (location < 21) {
-                x = 1;
-                y = 20 - location;
-            } else if (location < 33) {
-                x = 2;
-                y = location - 21;
-            } else {
-                x = 3;
-                y = location - 33;
-            }
+            x = calculateX(location);
+            y = calculateY(location);
 
             // get the type of the tile and put images
 
             if (tile instanceof JailTile) {
                 ImageView imageView = new ImageView();
                 File file = new File("models/jail_tile.png");
-                Image image = new Image(file.toURI().toString());
-                imageView.setImage(image);
-
-                if (x % 2 == 0)
-                    grids[x].add(imageView, y, 0);
-                else
-                    grids[x].add(imageView, 0, y);
+                addImageToGrids(grids, x, y, imageView, file);
 
             } else if (tile instanceof StartTile) {
                 ImageView imageView = new ImageView();
                 File file = new File("models/start_tile.png");
-                Image image = new Image(file.toURI().toString());
-                imageView.setImage(image);
-
-                if (x % 2 == 0)
-                    grids[x].add(imageView, y, 0);
-                else
-                    grids[x].add(imageView, 0, y);
+                addImageToGrids(grids, x, y, imageView, file);
 
             } else if (tile instanceof PropertyTile) {
                 Property p = game.getBoard().getProperties().get(((PropertyTile) tile).getPropertyId());
@@ -142,62 +117,52 @@ public class GameScreenController {
                 BorderPane taxPane = new BorderPane();
                 taxPane.setCenter(new Label("PAY"));
                 taxPane.setBottom(new Label(Integer.toString(amount)));
+
                 if (x % 2 == 0)
-                        grids[x].add(taxPane, y, 0);
+                    grids[x].add(taxPane, y, 0);
                 else
-                        grids[x].add(taxPane, 0, y);
+                    grids[x].add(taxPane, 0, y);
 
             } else if (tile instanceof CardTile) {
                 if (((CardTile) tile).getCardType() == CardTile.CardType.COMMUNITY_CHEST_CARD) {
                     ImageView imageView = new ImageView();
                     File file = new File("models/community_chest_tile.png");
-                    Image image = new Image(file.toURI().toString());
-                    imageView.setImage(image);
-
-                    if (x % 2 == 0)
-                        grids[x].add(imageView, y, 0);
-                    else
-                        grids[x].add(imageView, 0, y);
+                    addImageToGrids(grids, x, y, imageView, file);
 
                 } else if (((CardTile) tile).getCardType() == CardTile.CardType.CHANCE_CARD) {
                     ImageView imageView = new ImageView();
                     File file = new File("models/chance_tile.png");
-                    Image image = new Image(file.toURI().toString());
-                    imageView.setImage(image);
-
-                    if (x % 2 == 0)
-                        grids[x].add(imageView, y, 0);
-                    else
-                        grids[x].add(imageView, 0, y);
+                    addImageToGrids(grids, x, y, imageView, file);
                 }
             } else if (tile instanceof GoToJailTile) {
                 ImageView imageView = new ImageView();
                 File file = new File("models/goto_jail_tile.png");
-                Image image = new Image(file.toURI().toString());
-                imageView.setImage(image);
-
-                if (x % 2 == 0)
-                    grids[x].add(imageView, y, 0);
-                else
-                    grids[x].add(imageView, 0, y);
-
+                addImageToGrids(grids, x, y, imageView, file);
             } else if (tile instanceof FreeParkingTile) {
                 ImageView imageView = new ImageView();
                 File file = new File("models/freeparking_tile.png");
-                Image image = new Image(file.toURI().toString());
-                imageView.setImage(image);
-
-                if (x % 2 == 0)
-                    grids[x].add(imageView, y, 0);
-                else
-                    grids[x].add(imageView, 0, y);
-
+                addImageToGrids(grids, x, y, imageView, file);
             }
         }
+
+        // Setup board
         updateBoardState();
     }
 
-    private void updateBoardState() {
+    private void addImageToGrids(GridPane[] grids, int x, int y, ImageView imageView, File file) {
+        Image image = new Image(file.toURI().toString());
+        imageView.setImage(image);
+        imageView.fitWidthProperty().bind(grids[x].widthProperty());
+        imageView.fitHeightProperty().bind(grids[x].heightProperty());
+
+        if (x % 2 == 0) {
+            grids[x].add(imageView, y, 0);
+        } else {
+            grids[x].add(imageView, 0, y);
+        }
+    }
+
+    public void updateBoardState() {
         // Update player labels
         Player p1 = game.getPlayerController().getPlayers().get(0);
         Player p2 = game.getPlayerController().getPlayers().get(1);
@@ -210,15 +175,77 @@ public class GameScreenController {
         for (int i = 0; i < LOG_CAPACITY; i++) {
             int logSize = actionLog.getNumActions();
 
-            if (i >= logSize)
+            if (i >= logSize) {
                 logLabels[i].setText("");
-            else
-                logLabels[i].setText(actionLog.getLog().get(i + logSize - LOG_CAPACITY));
-
+            } else {
+                int loc = i + logSize - LOG_CAPACITY;
+                logLabels[i].setText(loc + ": " + actionLog.getLog().get(loc));
+            }
         }
 
-        // TODO Draw Tokens
-        ImageView token1 = new ImageView(new Image((new File("models/tokens/" + p2.getTokenName() + ".png")).toURI().toString()));
-        ImageView token2 = new ImageView(new Image((new File("models/tokens/" + p2.getTokenName() + ".png")).toURI().toString()));
+        // Clear Tokens
+        for (int i = 0; i < 4; i++) {
+            ObservableList<Node> children = grids[i].getChildren();
+            for (Node n : children) {
+                if (n instanceof ImageView && (n.getId().equals("t1") || n.getId().equals("t2"))) {
+                    ImageView token = (ImageView) n;
+                    grids[i].getChildren().remove(token);
+                }
+            }
+        }
+
+        // Draw Tokens
+        int t1x = calculateX(p1.getPosition());
+        int t1y = calculateY(p1.getPosition());
+        int t2x = calculateX(p2.getPosition());
+        int t2y = calculateY(p2.getPosition());
+
+        ImageView token1 = (new ImageView(new Image((
+                new File("models/tokens/" + p2.getTokenName() + ".png")).toURI().toString())));
+        ImageView token2 = new ImageView(new Image((
+                new File("models/tokens/" + p2.getTokenName() + ".png")).toURI().toString()));
+
+        token1.setId("t1");
+        token2.setId("t2"); // set id to easily delete later
+
+        token1.setFitHeight(20);
+        token1.setFitWidth(20);
+        token2.setFitHeight(20);
+        token2.setFitWidth(20);
+
+        if (t1x % 2 == 0)
+            grids[t1x].add(token1, t1y, 0);
+        else
+            grids[t1x].add(token1, 0, t1y);
+
+        if (t2x % 2 == 0)
+            grids[t2x].add(token2, t2y, 0);
+        else
+            grids[t2x].add(token2, 0, t2y);
     }
+
+    private static int calculateX(int location) {
+        if (location < 12) {
+            return 0;
+        } else if (location < 21) {
+            return 1;
+        } else if (location < 33) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+
+    private static int calculateY(int location) {
+        if (location < 12) {
+            return 11 - location;
+        } else if (location < 21) {
+            return 20 - location;
+        } else if (location < 33) {
+            return location - 21;
+        } else {
+            return location - 33;
+        }
+    }
+
 }
