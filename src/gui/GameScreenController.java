@@ -1,5 +1,6 @@
 package gui;
 
+import control.MonopolyGame;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 

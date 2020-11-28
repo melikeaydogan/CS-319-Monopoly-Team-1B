@@ -125,5 +125,7 @@
             <Button layoutX="17.0" layoutY="30.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="113.0" text="Chat" />
          </children>
       </AnchorPane>
+      <Label fx:id="die1" layoutX="640.0" layoutY="501.0" text="6" textFill="#902f2f" />
+      <Label fx:id="die2" layoutX="665.0" layoutY="501.0" prefHeight="16.0" prefWidth="0.0" text="6" textFill="#9a4040" />
    </children>
 </AnchorPane>
