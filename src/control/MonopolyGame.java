@@ -17,6 +17,7 @@ import entity.tile.*;
 // It will call appropriate functions according to the user input
 // how do we bankrupt the player?
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MonopolyGame {
@@ -34,7 +35,7 @@ public class MonopolyGame {
     Dice dice;
     DiceResult diceResult;
 
-    public MonopolyGame() {
+    public MonopolyGame() throws IOException {
         board = new Board();
         turn = 0;
         actionLog = new ActionLog();
@@ -218,5 +219,9 @@ public class MonopolyGame {
 
     public void setDice(Dice dice) {
         this.dice = dice;
+    }
+
+    public static void main(String[] args) throws IOException {
+        MonopolyGame monopolyGame = new MonopolyGame();
     }
 }

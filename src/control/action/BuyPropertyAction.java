@@ -2,6 +2,9 @@ package control.action;
 
 import control.MonopolyGame;
 import entity.Player;
+import entity.property.Building;
+import entity.property.Dorm;
+import entity.property.Facility;
 import entity.property.Property;
 
 import java.util.ArrayList;
@@ -21,7 +24,15 @@ public class BuyPropertyAction implements Action{
             property.setOwned(true);
             property.setOwnerId(player.getPlayerId());
 
-            player.getProperties().add(property);
+            if (property instanceof Dorm) {
+                player.getProperties().get("DORM").add((Dorm) property);
+            }
+            else if (property instanceof Facility ) {
+                player.getProperties().get("FACILITY").add((Facility) property);
+            }
+            else if (property instanceof Building ) {
+                player.getProperties().get("BUILDING").add((Building) property);
+            }
 
             player.removeMoney(property.getPrice());
 

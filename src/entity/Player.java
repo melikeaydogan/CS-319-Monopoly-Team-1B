@@ -1,8 +1,11 @@
 package entity;
 
+import entity.property.Dorm;
 import entity.property.Property;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class Player {
     public enum Token {
@@ -25,13 +28,14 @@ public class Player {
     private int doubleCounter;
     private int jailFreeCardAmount;
     private int teamNumber; // ToDo maybe add a separate Team class?
-    private ArrayList<Property> properties; // ToDo add properties to the class diagram
+    //private ArrayList<Property> properties; // ToDo add properties to the class diagram
+    private HashMap<String, ArrayList<Property>> properties;
     private boolean inJail; // ToDo add this to the class diagram
 
     public Player(int playerId, String name, Token token, int teamNumber) {
         this.playerId = playerId;
         this.name = name;
-        balance = 2000; // ToDo check the balance from the rule book
+        balance = 10000; // ToDo check the balance from the rule book
         this.token = token;
         position = 0;
         bankrupt = false;
@@ -39,7 +43,10 @@ public class Player {
         jailFreeCardAmount = 0;
         inJail = false;
         this.teamNumber = teamNumber;
-        properties = new ArrayList<Property>(28);
+        properties = new HashMap<>(3);
+        properties.put("DORM", new ArrayList<Property>(4));
+        properties.put("BUILDING", new ArrayList<Property>(22));
+        properties.put("FACILITY", new ArrayList<Property>(2));
     }
 
     public Player(Player player) {
@@ -52,7 +59,7 @@ public class Player {
         doubleCounter = player.getDoubleCounter();
         jailFreeCardAmount = player.getJailFreeCardAmount();
         teamNumber = player.getTeamNumber();
-        properties = new ArrayList<Property>(player.getProperties()); // Full clone!
+        properties = new HashMap<String, ArrayList<Property>>(player.getProperties());
         inJail = player.isInJail();
     }
 
@@ -111,12 +118,12 @@ public class Player {
         return false; // ToDo complete the method
     }
 
-    public ArrayList<Property> getProperties() {
+    public HashMap<String, ArrayList<Property>> getProperties() {
         return properties;
     }
 
-    public void setProperties(ArrayList<Property> properties) {
-        this.properties = new ArrayList<Property>(properties); // Full clone!
+    public void setProperties(HashMap<String, ArrayList<Property>> properties) {
+        this.properties = new HashMap<>(properties); // Full clone!
     }
 
     public int getPlayerId() {
@@ -200,3 +207,6 @@ public class Player {
     }
 
 }
+
+// Starting balance??
+// 4M is equal to 40000 in our game

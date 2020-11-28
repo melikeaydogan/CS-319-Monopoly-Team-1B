@@ -77,4 +77,10 @@ public class Building extends Property{
     public void setColor(String color) {
         this.color = color;
     }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + " Name: " + name + " Price: " + price + " Color: " + color +
+                " House price: " + housePrice + " Hotel price: " + hotelPrice;
+    }
 }

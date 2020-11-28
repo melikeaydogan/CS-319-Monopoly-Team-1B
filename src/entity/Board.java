@@ -3,6 +3,7 @@ package entity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import control.action.BuyPropertyAction;
 import entity.card.Card;
 import entity.card.Deck;
 import entity.property.Property;
@@ -34,15 +35,21 @@ public class Board {
         //create communityChestDeck
     //}
 
-    public Board(ArrayList<Tile> tiles, ArrayList<Property> properties, Deck chanceDeck, Deck communityChestDeck) {
+    public Board(ArrayList<Tile> tiles, ArrayList<Property> properties, Deck chanceDeck, Deck communityChestDeck) throws IOException {
         this.tiles = tiles;
         this.properties = properties;
         this.chanceDeck = chanceDeck;
         this.communityChestDeck = communityChestDeck;
+
+        initializeProperties("properties.json");
+        initializeCommunityChestCardDeck("communityChestCard.json");
+        initializeChanceCardDeck("chanceCard.json");
     }
 
-    public Board() {
-
+    public Board() throws IOException {
+        initializeProperties("properties.json");
+        initializeCommunityChestCardDeck("communityChestCard.json");
+        initializeChanceCardDeck("chanceCard.json");
     }
 
     public Board(Board savedBoard){
@@ -51,7 +58,6 @@ public class Board {
         //this.gamemode = savedBoard.gamemode;
         this.chanceDeck = savedBoard.chanceDeck;
         this.communityChestDeck = savedBoard.communityChestDeck;
-
     }
 
     //public GameMode getGameMode(){
@@ -72,6 +78,9 @@ public class Board {
 
         // convert JSON array to list of users
         properties = customGson.fromJson(reader, new TypeToken<List<Property>>() {}.getType());
+
+        for (Property p : properties)
+            System.out.println("Added a new property --> " + p);
     }
 
     public void initializeChanceCardDeck(String filename) {
@@ -140,5 +149,15 @@ public class Board {
         for (Property p : board.getProperties()) {
             System.out.println("Property type: " + p.getClass().getSimpleName() + " / Details: " + p);
         }
+
+        Player player = new Player(1, "Mehmet", Player.Token.BATTLESHIP, 1);
+
+        System.out.println("Balance: " + player.getBalance());
+        System.out.println(board.getProperties().get(7));
+
+        new BuyPropertyAction(board.getProperties().get(7), player).act();
+
+        System.out.println("Balance: " + player.getBalance());
+        System.out.println("Properties: " + player.getProperties());
     }
 }
