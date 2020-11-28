@@ -17,13 +17,13 @@ public class BuyPropertyAction implements Action{
 
     @Override
     public void act() { // else throw exception
-        if ( player.getBalance() > property.getPurchasePrice() ) {
-            property.setIsOwned(true);
+        if ( player.getBalance() > property.getPrice() ) {
+            property.setOwned(true);
             property.setOwnerId(player.getPlayerId());
 
             player.getProperties().add(property);
 
-            player.takeMoney(property.getPurchasePrice());
+            player.removeMoney(property.getPrice());
 
             MonopolyGame.getActionLog().addMessage(player.getName() + " buys the property " + property.getName());
         }

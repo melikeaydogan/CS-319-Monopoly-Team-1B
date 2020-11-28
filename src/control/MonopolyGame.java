@@ -5,8 +5,6 @@ import control.action.*;
 import entity.Board;
 import entity.Player;
 import entity.card.Card;
-import entity.card.ChanceCard;
-import entity.card.CommunityChestCard;
 import entity.dice.Dice;
 import entity.dice.DiceResult;
 import entity.property.Property;
@@ -91,7 +89,7 @@ public class MonopolyGame {
                     new PassAction(player).act();
                 }
                 else if (tile instanceof TaxTile) {
-                    new TakeAction(player, 1000).act(); // Luxury tile takes 1M$ from player
+                    new RemoveMoneyAction(player, 1000).act(); // Luxury tile takes 1M$ from player
                 }
                 else if (tile instanceof ActivityTile) {
                     ActivityTile activityTile = (ActivityTile) tile;
@@ -154,7 +152,8 @@ public class MonopolyGame {
         //ui.showCard(card); this is business of control object
         card.processCard(this);
 
-        return card; // return to ui?
+        return card; // return to ui? Card card = monopolyGame.processChanceCardTile()
+        //
     }
 
     public Card processCommunityChestCardTile() {

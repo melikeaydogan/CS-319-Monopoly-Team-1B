@@ -4,7 +4,6 @@ import control.MonopolyGame;
 import entity.Board;
 import entity.Player;
 import entity.card.Card;
-import entity.card.CommunityChestCard;
 
 public class DrawCommunityChestCardAction implements Action{
     private Player player; // ToDo should we put players into the MonopolyGame instead of Board??

@@ -15,12 +15,12 @@ public class SellPropertyAction implements Action {
 
     @Override
     public void act() {
-        property.setIsOwned(false);
+        property.setOwned(false);
         property.setOwnerId(-1);
 
         player.getProperties().remove(property);
 
-        player.giveMoney(property.getPurchasePrice());
+        player.addMoney(property.getPrice());
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " sells the property " + property.getName());
     }

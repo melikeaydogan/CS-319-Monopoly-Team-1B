@@ -56,22 +56,29 @@ public class Player {
         inJail = player.isInJail();
     }
 
-    public void giveMoney(int amount) {
+    public void removeMoney(int amount) {
         balance = balance - amount;
     }
 
     public void transferMoney(Player player, int amount) { // ToDo add this method to the diagram
-        player.takeMoney(amount);
-        giveMoney(amount);
+        player.addMoney(amount);
+        removeMoney(amount);
     }
 
-    public void takeMoney(int amount) {
+    public void addMoney(int amount) {
         balance = balance + amount;
     }
 
-    public void move(int tiles) {
+    public boolean move(int tiles) {
         position = position + tiles;
-        position = position % 40; // there are 40 squares
+        if (position > 40) {
+            position = position % 40; // there are 40 squares
+            return true; // player passes the "go" tile
+        }
+        else if (position < 0) {
+            position = position + 40; // position is negative, player moved backwards
+        }
+        return false;
     }
 
     public void freeMove(int tile) {

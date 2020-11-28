@@ -1,57 +1,34 @@
 [
 	{
+		"id":8,
+		"instructions":"Go forward to GO."
+	},
+	{
 		"id":9,
-		"instructions":"Go forward to GO.",
-		"cardType": "CHANCE_CARD"
+		"instructions":"Go back three space."
 	},
 	{
-		"chanceCard": {
-			"id":10,
-			"instructions":"Go back three space.",
-			"cardType": "CHANCE_CARD"
-		}
+		"id":10,
+		"instructions":"Advance to Speed. If you pass Go, collect 20.000TL."
 	},
 	{
-		"chanceCard": {
-			"id":11,
-			"instructions":"Advance to Speed. If you pass Go, collect 20.000TL.",
-			"cardType": "CHANCE_CARD"
-		}
+		"id":11,
+		"instructions":"Go directly to the Jail. Do not pass the GO and do not get 20.000TL."
 	},
 	{
-		"chanceCard": {
-			"id":12,
-			"instructions":"Go directly to the Jail. Do not pass the GO and do not get 20.000TL.",
-			"cardType": "CHANCE_CARD"
-		}
+		"id":12,
+		"instructions":"Advance to Library."
 	},
 	{
-		"chanceCard": {
-			"id":13,
-			"instructions":"Advance to Library.",
-			"cardType": "CHANCE_CARD"
-		}
+		"id":13,
+		"instructions":"You have won a Sudoku contest. Collect 10.000TL."
 	},
 	{
-		"chanceCard": {
-			"id":14,
-			"instructions":"You have won a Sudoku contest. Collect 10.000TL.",
-			"cardType": "CHANCE_CARD"
-		}
+		"id":14,
+		"instructions":"You parked your car inaccurately. Pay fine 2.000TL."
 	},
 	{
-		"chanceCard": {
-			"id":15,
-			"instructions":"You parked your car inaccurately. Pay fine 2.000TL.",
-			"cardType": "CHANCE_CARD"
-		}
-	},
-	{
-		"chanceCard": {
-			"id":16,
-			"instructions":"Make general repairs on all your property. For each house pay 4.000TL, For each hotel pay 11.500TL.",
-			"cardType": "CHANCE_CARD"
-		}
+		"id":15,
+		"instructions":"Make general repairs on all your property. For each house pay 4.000TL, For each hotel pay 11.500TL."
 	}
-
 ]

@@ -27,10 +27,10 @@ public class Deck {
             cardlist = new Gson().fromJson(reader, new TypeToken<List<Card>>() {}.getType());
 
             // print users
-            cardlist.forEach(System.out::println);
+            //cardlist.forEach(System.out::println); this line prints object ids
 
             for(int i = 0; i<cardlist.size(); i++){
-                System.out.println(cardlist.get(i).id+" "+cardlist.get(i).instructions+" "+cardlist.get(i).cardType);
+                System.out.println("Added a new card --> id: " + cardlist.get(i).id+" "+ " - instructions: " + cardlist.get(i).instructions);
             }
             // close reader
             reader.close();
@@ -62,11 +62,10 @@ public class Deck {
         this.cards = cards;
     }
 
-    /*public static void main(String[] args) {
-        Deck deck = new Deck("chanceCard.json");
+    public static void main(String[] args) {
+        Deck chanceCardDeck = new Deck("chanceCard.json");
+        Deck communityChestChardDeck = new Deck("communityChestCard.json");
 
-        for ( Card c : deck.getCards() )
-            System.out.println(c); // Test GSON Library!!!
-    }*///test
+    }///test
 
 }

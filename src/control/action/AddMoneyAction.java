@@ -3,19 +3,19 @@ package control.action;
 import control.MonopolyGame;
 import entity.Player;
 
-public class TakeAction implements Action {
+public class AddMoneyAction implements Action{
     private Player player;
     private int amount;
 
-    public TakeAction(Player player, int amount) {
+    public AddMoneyAction(Player player, int amount) {
         this.player = player;
         this.amount = amount;
     }
 
     @Override
     public void act() {
-        player.takeMoney(amount);
+        player.addMoney(amount);
 
-        MonopolyGame.getActionLog().addMessage(player.getName() + " takes " + amount + "$");
+        MonopolyGame.getActionLog().addMessage(player.getName() + " gets " + amount + "$");
     }
 }

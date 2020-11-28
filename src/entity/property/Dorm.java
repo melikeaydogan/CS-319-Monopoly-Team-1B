@@ -1,24 +1,11 @@
 package entity.property;
 
-public class Dorm extends Property {
-    /*
-    int id;
-    boolean isOwned;
-    String name;
-    int ownerID;
-    int buildingCost;
-    int mortgageAmount;
-    int purchasePrice;
-    int colorID;
+import java.util.ArrayList;
 
-          */
-    public Dorm(){
+public class Dorm extends Property {
+
+    public Dorm(String name, int id, int price, ArrayList<Integer> rents, int mortgagePrice) {
+        super(name, id, price, rents, mortgagePrice);
     }
-    public int getRent( int diceSum );
-    //abstract int getMortgage();
-    public boolean isMortgaged();
-    public int makeMortgaged();
-    public int payMortgage();
-    public boolean isOwned();
-    public boolean changeOwner(int playerID);
+
 }

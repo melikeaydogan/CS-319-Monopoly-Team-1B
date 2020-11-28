@@ -22,7 +22,7 @@ public class StartTile extends Tile{
     }
 
     public void giveSalary(Player player) {
-        player.giveMoney(salary);
+        player.addMoney(salary);
     }
 
 }

@@ -12,7 +12,7 @@ public class PassAction implements Action {
 
     @Override
     public void act() {
-        player.giveMoney(2000);
+        player.addMoney(2000);
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " passes from the starting point" );
     }

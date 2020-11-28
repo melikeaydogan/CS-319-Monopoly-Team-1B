@@ -1,14 +1,21 @@
 package entity;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import entity.card.Card;
-import entity.card.ChanceCard;
 import entity.card.Deck;
 import entity.property.Property;
 import entity.tile.Tile;
 //import tile.Tile;
 //import card.*;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
     ArrayList<Tile> tiles; // convert to arraylist
@@ -56,6 +63,26 @@ public class Board {
     //public boolean canAddBuilding( int playerID){}
     //public boolean sellProperty( int PlayerID ){}
 
+    public void initializeProperties(String fileName) throws IOException {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Property.class, new Property.CustomDeserializer());
+        Gson customGson = builder.create();
+
+        Reader reader = Files.newBufferedReader(Paths.get(fileName));
+
+        // convert JSON array to list of users
+        properties = customGson.fromJson(reader, new TypeToken<List<Property>>() {}.getType());
+    }
+
+    public void initializeChanceCardDeck(String filename) {
+        chanceDeck = new Deck(filename);
+
+    }
+
+    public void initializeCommunityChestCardDeck(String filename) {
+        communityChestDeck = new Deck(filename);
+    }
+
     public Card drawChanceCard(){
         return chanceDeck.draw();
     }
@@ -102,4 +129,16 @@ public class Board {
     //+rollDice(rollDice) : DiceResult
     //+getPlayers() : Player []
     //+getTradeManager() : TradeManager
+
+    public static void main(String[] args) throws IOException { // works!!!
+        Board board = new Board();
+        board.initializeProperties("properties.json");
+
+        board.initializeCommunityChestCardDeck("communityChestCard.json");
+        board.initializeChanceCardDeck("chanceCard.json");
+
+        for (Property p : board.getProperties()) {
+            System.out.println("Property type: " + p.getClass().getSimpleName() + " / Details: " + p);
+        }
+    }
 }

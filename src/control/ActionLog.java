@@ -35,10 +35,11 @@ public class ActionLog {
     }
 
     public String toString() {
+        StringBuilder result = new StringBuilder();
         for( String s : log ) {
-            System.out.println(s);
+            result.append(s);
         }
-
+        return result.toString();
     }
 
     public static void main(String[] args) {
