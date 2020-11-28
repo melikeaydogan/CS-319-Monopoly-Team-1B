@@ -2,13 +2,12 @@ package gui;
 
 import control.ActionLog;
 import control.MonopolyGame;
-import entity.Board;
 import entity.Player;
 import entity.dice.DiceResult;
+import entity.property.Building;
 import entity.property.Property;
 import entity.tile.*;
 
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,16 +15,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class GameScreenController {
     private final int LOG_CAPACITY = 8;
@@ -39,12 +39,16 @@ public class GameScreenController {
     GridPane[] grids;
 
     @FXML Label log0, log1, log2, log3, log4, log5, log6, log7;
-
     @FXML Label player1Label, player2Label;
+
+    @FXML Text prompt, playerTurn;
+
+    @FXML Button yesButton, noButton;
 
     @FXML
     protected void handleQuitButton(ActionEvent e) {
         try {
+            game.stopGame();
             Stage stage = (Stage) die1.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
             stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
@@ -54,7 +58,7 @@ public class GameScreenController {
     @FXML
     protected void handleDiceButton(ActionEvent e) {
         // when multiplayer, make a new ActionEvent class for this and compare active player with the player clicked
-        if (true) {
+        if (game != null) {
             DiceResult result = game.rollDice();
             die1.setText(Integer.toString(result.getFirstDieResult()));
             die2.setText(Integer.toString(result.getSecondDieResult()));
@@ -65,7 +69,7 @@ public class GameScreenController {
 
     public void setupGame(String name) {
         try {
-            ArrayList<Player> players = new ArrayList<Player>();
+            ArrayList<Player> players = new ArrayList<>();
             game = new MonopolyGame(players);
 
             Player p1 = new Player(1, name, Player.Token.SHOE, 1);
@@ -77,6 +81,10 @@ public class GameScreenController {
     }
 
     private void setupBoard() {
+        // Disable yes, no buttons
+        yesButton.setDisable(true);
+        noButton.setDisable(true);
+
         // Set up Tiles
         ArrayList<Tile> tiles = game.getBoard().getTiles();
 
@@ -163,6 +171,9 @@ public class GameScreenController {
     }
 
     public void updateBoardState() {
+        // Set playerTurn
+        playerTurn.setText(game.getActivePlayer().getName() + "'s Turn!");
+
         // Update player labels
         Player p1 = game.getPlayerController().getPlayers().get(0);
         Player p2 = game.getPlayerController().getPlayers().get(1);
@@ -194,7 +205,7 @@ public class GameScreenController {
             }
         }
 
-        // Draw Tokens
+        // Put Tokens
         int t1x = calculateX(p1.getPosition());
         int t1y = calculateY(p1.getPosition());
         int t2x = calculateX(p2.getPosition());
@@ -248,4 +259,40 @@ public class GameScreenController {
         }
     }
 
+    public boolean showPropertyDialog(Property property) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+
+        String title;
+        String content;
+
+        String name = property.getName();
+        Building b = (Building) property;
+
+        if (!b.isOwned()) {
+            title = "Buy Property?";
+            content = "Do you wish to buy " + b.getName() + "?\n" +
+                    "Price: " + b.getPrice() + ".\n" +
+                    "Rent: " + b.getRents().get(0) + ".";
+        } else if (b.getHouseCount() < 4) {
+            title = "Add House?";
+            content = "Do you wish to build a house to " + b.getName() + "?\n" +
+                    "Price: " + b.getHousePrice() + ".\n" +
+                    "Rent: " + b.getRents().get(b.getHouseCount()) + " ==> " +
+                    b.getRents().get(b.getHouseCount() + 1);
+        } else {
+            title = "Add Hotel?";
+            content = "Do you wish to build a Hotel to " + b.getName() + "?\n" +
+                    "Price: " + b.getHotelPrice() + ".\n" +
+                    "Rent: " + b.getRents().get(4) + " ==> " +
+                    b.getRents().get(5);
+        }
+
+        dialog.setTitle(title);
+        dialog.setContentText(content);
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+        Optional<ButtonType> result = dialog.showAndWait();
+        return result.isPresent() && (result.get().equals(ButtonType.YES));
+    }
 }
