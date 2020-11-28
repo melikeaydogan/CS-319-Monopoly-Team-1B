@@ -6,7 +6,7 @@ public class PropertyTile extends Tile {
 
     private final int propertyId;
 
-    public PropertyTile(Image image, int tileId, int propertyId) {
+    public PropertyTile(int tileId, int propertyId) {
         super(tileId);
         this.propertyId = propertyId;
     }

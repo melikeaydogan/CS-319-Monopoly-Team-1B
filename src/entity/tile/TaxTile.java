@@ -9,7 +9,7 @@ public class TaxTile extends Tile {
      */
     private final int amount;
 
-    TaxTile(Image image, int tileId, int amount) {
+    TaxTile(int tileId, int amount) {
         super(tileId);
         this.amount = amount;
     }

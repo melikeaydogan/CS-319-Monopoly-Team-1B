@@ -6,9 +6,8 @@ import java.awt.*;
 public class StartTile extends Tile{
     private final int salary;
 
-    // start tile always has the tileId 0.
-    public StartTile( int salary) {
-        super(0);
+    public StartTile( int tileId, int salary) {
+        super(tileId);
         this.salary = salary;
     }
 
