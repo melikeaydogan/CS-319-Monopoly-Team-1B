@@ -18,7 +18,7 @@ public class FreeMoveAction implements Action{
             player.setPosition(position);
 
             // maybe get tile name from position?
-            MonopolyGame.getActionLog().addMessage(player.getName() + " directly moves to " + position);
+            MonopolyGame.getActionLog().addMessage(player.getName() + " directly moves to " + position + "\n");
         }
     }
 }

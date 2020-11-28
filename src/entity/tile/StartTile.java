@@ -24,4 +24,8 @@ public class StartTile extends Tile{
         player.addMoney(salary);
     }
 
+    public String toString() {
+        return "ID: " + super.getTileId() + "- Tile Type: " + this.getClass().getSimpleName() + " - Salary: " + salary;
+    }
+
 }

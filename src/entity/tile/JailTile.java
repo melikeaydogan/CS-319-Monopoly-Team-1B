@@ -12,9 +12,9 @@ public class JailTile extends Tile {
      *  we will only need the tokens to be put inside a physical boundary
      *  depending on if they are in jail or just visiting
      */
-    public JailTile( int tileId) {
+    public JailTile(int tileId) {
         super(tileId);
-        playersInsideId = new ArrayList<>();
+        playersInsideId = new ArrayList<>(6);
     }
 
     // Get the saved jailTile
@@ -41,6 +41,10 @@ public class JailTile extends Tile {
     // return true if the player is in the jail
     public boolean contains(int playerId) {
         return playersInsideId.contains(playerId);
+    }
+
+    public String toString() {
+        return "ID: " + super.getTileId() + "- Tile Type: " + this.getClass().getSimpleName();
     }
 
 }

@@ -25,4 +25,8 @@ public class CardTile extends Tile {
         return cardType;
     }
 
+    public String toString() {
+        return "ID: " + super.getTileId() + "- Tile Type: " + this.getClass().getSimpleName() + "- Card Type: " + cardType;
+    }
+
 }

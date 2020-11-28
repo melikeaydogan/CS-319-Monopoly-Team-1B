@@ -20,4 +20,8 @@ public class PropertyTile extends Tile {
         return propertyId;
     }
 
+    public String toString() {
+        return "ID: " + super.getTileId() + "- Tile Type: " + this.getClass().getSimpleName() + " - Property ID: " + propertyId;
+    }
+
 }

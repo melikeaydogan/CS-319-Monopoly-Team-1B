@@ -14,7 +14,7 @@ public class GetOutOfJailAction implements Action{
     public void act() {
         if ( player.isInJail() ) {
             player.setInJail(false);
-            MonopolyGame.getActionLog().addMessage(player.getName() + " gets out of jail!");
+            MonopolyGame.getActionLog().addMessage(player.getName() + " gets out of jail! \n");
         }
     }
 }

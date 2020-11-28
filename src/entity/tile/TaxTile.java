@@ -23,4 +23,7 @@ public class TaxTile extends Tile {
         return amount;
     }
 
+    public String toString() {
+        return "ID: " + super.getTileId() + "- Tile Type: " + this.getClass().getSimpleName() + " - Tax Amount: " + amount;
+    }
 }

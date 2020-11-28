@@ -20,7 +20,7 @@ public class AddHotelAction implements Action{
             building.addHotel(); // ???
         }
 
-        MonopolyGame.getActionLog().addMessage(player.getName() + "adds a hotel to " + building.getName());
+        MonopolyGame.getActionLog().addMessage(player.getName() + "adds a hotel to " + building.getName() + "\n");
     }
 
 }

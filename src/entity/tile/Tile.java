@@ -36,34 +36,6 @@ public class Tile {
         return tileId;
     }
 
-    public static class CustomTileDeserializer implements JsonDeserializer<Tile> {
-
-        public Tile deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-
-            if (json == null)
-                return null;
-            else {
-                String type = json.getAsJsonObject().get("type").getAsString();
-                switch(type){
-                    case "START":
-                        return context.deserialize(json, StartTile.class);
-                    case "PROPERTY":
-                        return context.deserialize(json, PropertyTile.class);
-                    case "CARD":
-                        return context.deserialize(json, ActivityTile.class);
-                    case "TAX":
-                        return context.deserialize(json, TaxTile.class);
-                    case "JAIL":
-                        return context.deserialize(json, JailTile.class);
-                    default:
-                        return null;
-                }
-            }
-
-        }
-
-    }
-
     public static class CustomDeserializer implements JsonDeserializer<Tile> {
 
         public Tile deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -83,8 +55,10 @@ public class Tile {
                         return context.deserialize(json, TaxTile.class);
                     case "JAIL":
                         return context.deserialize(json, JailTile.class);
-                    case "FREE":
+                    case "FREE_PARKING":
                         return context.deserialize(json, FreeParkingTile.class);
+                    case "GO_TO_JAIL":
+                        return context.deserialize(json, GoToJailTile.class);
                     default:
                         return null;
                 }

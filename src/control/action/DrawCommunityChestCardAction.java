@@ -18,7 +18,7 @@ public class DrawCommunityChestCardAction implements Action{
         // ???
         //communityChestCard.processCard();
 
-        MonopolyGame.getActionLog().addMessage(player.getName() + " draws a community chance card");
+        MonopolyGame.getActionLog().addMessage(player.getName() + " draws a community chance card \n");
     }
 }
 

@@ -36,7 +36,7 @@ public class BuyPropertyAction implements Action{
 
             new RemoveMoneyAction(player, property.getPrice());
 
-            MonopolyGame.getActionLog().addMessage(player.getName() + " buys the property " + property.getName());
+            MonopolyGame.getActionLog().addMessage(player.getName() + " buys the property " + property.getName() + "\n");
         }
     }
 

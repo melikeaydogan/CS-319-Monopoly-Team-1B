@@ -13,6 +13,6 @@ public class GoToJailAction implements Action{
     @Override
     public void act() {
         player.setInJail(true);
-        MonopolyGame.getActionLog().addMessage(player.getName() + " goes to jail ");
+        MonopolyGame.getActionLog().addMessage(player.getName() + " goes to jail \n");
     }
 }

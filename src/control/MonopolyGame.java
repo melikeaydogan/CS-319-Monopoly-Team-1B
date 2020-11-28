@@ -19,6 +19,7 @@ import entity.tile.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MonopolyGame {
 
@@ -51,19 +52,20 @@ public class MonopolyGame {
     }
 
     public void startGame() {
-        playerController.setActivePlayer(playerController.getPlayers().get(0)); // randomize this
+        ArrayList<Player> players = playerController.getPlayers();
+        playerController.setActivePlayer(players.get(new Random().nextInt(players.size() - 1))); // randomize the process
         gameStarted = true;
     }
 
     public DiceResult rollDice() {
-        DiceResult diceResult = dice.roll(false); // false for not-speedDie
+        diceResult = dice.roll(false); // false for not-speedDie
 
         if ( diceResult.isDouble() ) {
             doubleCount++;
         }
 
-        actionLog.addMessage((getActivePlayer().getName() + " rolls dice and gets " + diceResult.getFirstDieResult()
-                + ", " + diceResult.getSecondDieResult()));
+        actionLog.addMessage(getActivePlayer().getName() + " rolls dice and gets " + diceResult.getFirstDieResult()
+                + ", " + diceResult.getSecondDieResult() + "\n");
 
         moveCount = diceResult.getFirstDieResult() + diceResult.getSecondDieResult();
         return diceResult; // return because ui will show this result
@@ -85,43 +87,28 @@ public class MonopolyGame {
                 if (tile instanceof PropertyTile) {
                     processPropertyTile((PropertyTile) board.getTiles().get(player.getPosition()));
                 }
-                else if (tile instanceof JailTile) {
+                else if (tile instanceof JailTile || tile instanceof FreeParkingTile) {
                     // nothing, skip the turn
                 }
                 else if (tile instanceof StartTile) {
                     new PassAction(player).act();
                 }
                 else if (tile instanceof TaxTile) {
-                    new RemoveMoneyAction(player, 1000).act(); // Luxury tile takes 1M$ from player
+                    TaxTile taxTile = (TaxTile) tile;
+                    new RemoveMoneyAction(player, taxTile.getAmount()).act();
                 }
-                else if (tile instanceof ActivityTile) {
-                    ActivityTile activityTile = (ActivityTile) tile;
-                    Activity activity = activityTile.getActivity();
-
-                    if (activity == Activity.CHANCE) {
+                else if (tile instanceof GoToJailTile) {
+                    new GoToJailAction(player).act();
+                }
+                else if (tile instanceof CardTile) {
+                    CardTile cardTile = (CardTile) tile;
+                    if (cardTile.getCardType() == CardTile.CardType.CHANCE_CARD)
                         processChanceCardTile();
-                    }
-                    else if (activity == Activity.COMMUNITY_CHEST) {
+                    else
                         processCommunityChestCardTile();
-                    }
-                    else if (activity == Activity.FREE_PARK_VISIT) {
-                        // do nothing, skip the turn
-                    }
-                    else if (activity == Activity.GO_TO_JAIL) {
-                        new GoToJailAction(player).act();
-                    }
                 }
             }
         }
-
-        // if tile is PropertyTile --> processPropertyTile()
-        // if tile is JailTile --> processJailTile()  visitor
-        // if tile is ActivityTile --> if ActivityTile.getActivity() == Activity.GO_TO_JAIL --> processGoToJailTile()
-        //                         --> if ActivityTile.getActivity() == Activity.CHANCE --> processChanceCardTile()
-        //                         --> if ActivityTile.getActivity() == Activity.COMMUNITY_CHEST --> processCommunityChestCardTile()
-        //                         --> if ActivityTile.getActivity() == Activity.FREE_PARK_VISIT --> processFreeParkTile()
-        // if tile is StartTile --> processStartTile()
-        // if tile is TaxTile --> processTaxTile() maybe rename TaxTile to LuxuryTile
 
         // if user clicks at end turn --> nextTurn(); this is business of ui controller, not this class
     }
@@ -221,8 +208,8 @@ public class MonopolyGame {
 
     public static void main(String[] args) throws IOException {
         Player player1 = new Player(1, "Mehmet" , Player.Token.BATTLESHIP, 1);
-        Player player2 = new Player(2, "Mehmet" , Player.Token.BATTLESHIP, 1);
-        Player player3 = new Player(3, "Mehmet" , Player.Token.BATTLESHIP, 1);
+        Player player2 = new Player(2, "Ali" , Player.Token.BATTLESHIP, 1);
+        Player player3 = new Player(3, "Veli" , Player.Token.BATTLESHIP, 1);
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
@@ -233,10 +220,12 @@ public class MonopolyGame {
         monopolyGame.startGame();
 
         for ( int i = 0; i < 4; i++ ) {
+            System.out.println("Active player: " + monopolyGame.getActivePlayer().getName());
             monopolyGame.rollDice();
             monopolyGame.processTurn();
             monopolyGame.nextTurn();
             System.out.println(actionLog.toString());
+            System.out.println("---------------------------");
         }
 
     }

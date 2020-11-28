@@ -155,10 +155,12 @@ public class Board {
 
     public static void main(String[] args) throws IOException { // works!!!
         Board board = new Board();
-        board.initializeProperties("properties.json");
 
-        board.initializeCommunityChestCardDeck("communityChestCard.json");
-        board.initializeChanceCardDeck("chanceCard.json");
+        //board.initializeProperties("properties.json");
+
+        //board.initializeCommunityChestCardDeck("communityChestCard.json");
+        //board.initializeChanceCardDeck("chanceCard.json");
+        //board.initializeTiles("tiles.json");
 
         for (Property p : board.getProperties()) {
             System.out.println("Property type: " + p.getClass().getSimpleName() + " / Details: " + p);

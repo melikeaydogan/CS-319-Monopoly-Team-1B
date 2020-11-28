@@ -10,4 +10,8 @@ public class GoToJailTile extends Tile{
         super( savedTile.getTileId());
     }
 
+    public String toString() {
+        return "ID: " + super.getTileId() + "- Tile Type: " + this.getClass().getSimpleName();
+    }
+
 }

@@ -20,7 +20,7 @@ public class TransferAction implements Action{
             player.transferMoney(player2, amount);
 
             MonopolyGame.getActionLog().addMessage(player.getName() + " gives " + amount + "$" + " to "
-                    + player2.getName());
+                    + player2.getName() + "\n");
         }
     }
 }

@@ -14,7 +14,7 @@ public class PassAction implements Action {
     public void act() {
         new AddMoneyAction(player, 2000).act();
 
-        MonopolyGame.getActionLog().addMessage(player.getName() + " passes from the starting point" );
+        MonopolyGame.getActionLog().addMessage(player.getName() + " passes from the starting point \n" );
     }
 
 }
