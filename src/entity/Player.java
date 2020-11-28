@@ -126,6 +126,26 @@ public class Player {
         this.properties = new HashMap<>(properties); // Full clone!
     }
 
+    public String getTokenName() {
+        if (token == Token.BATTLESHIP)
+            return "Battleship";
+        else if (token == Token.CAR)
+            return "Car";
+        else if (token == Token.SCOTTISH_TERRIER)
+            return "Scottish Terrier";
+        else if (token == Token.IRON)
+            return "Iron";
+        else if (token == Token.SHOE)
+            return "Shoe";
+        else if (token == Token.THIMBLE)
+            return "Thimble";
+        else if (token == Token.TOP_HAT)
+            return "Top Hat";
+        else if (token == Token.WHEELBARROW)
+            return "Wheelbarrow";
+        return "";
+    }
+
     public int getPlayerId() {
         return playerId;
     }

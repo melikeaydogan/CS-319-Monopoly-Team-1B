@@ -50,7 +50,7 @@
   },
   {
     "id" : 10,
-    "jailType" : "VISITOR",
+    "activity" : "VISITOR",
     "type": "JAIL"
   },
   {
@@ -100,7 +100,7 @@
   },
   {
     "id" : 20,
-    "type": "FREE"
+    "type": "JAIL"
   },
   {
     "id" : 21,
@@ -149,7 +149,7 @@
   },
   {
     "id" : 30,
-    "jailType" : "GO_TO_JAIL",
+    "activity" : "GO_TO_JAIL",
     "type": "JAIL"
   },
   {

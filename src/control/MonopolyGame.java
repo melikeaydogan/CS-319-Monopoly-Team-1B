@@ -114,10 +114,6 @@ public class MonopolyGame {
             }
         }
 
-
-
-
-
         // if tile is PropertyTile --> processPropertyTile()
         // if tile is JailTile --> processJailTile()  visitor
         // if tile is ActivityTile --> if ActivityTile.getActivity() == Activity.GO_TO_JAIL --> processGoToJailTile()
@@ -138,7 +134,7 @@ public class MonopolyGame {
         turn++;
     }
 
-    public void processPropertyTile(PropertyTile tile) {
+    public void processPropertyTile(PropertyTile tile) { // ToDo Implement after tile implementation
         Property property = board.getProperties().get(tile.getPropertyId());
 
         //if (!properties.contains(property)) {
