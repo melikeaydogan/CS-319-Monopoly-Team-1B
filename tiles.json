@@ -51,7 +51,6 @@
   },
   {
     "tileId" : 10,
-    "activity" : "VISITOR",
     "type": "JAIL"
   },
   {
@@ -101,7 +100,7 @@
   },
   {
     "tileId" : 20,
-    "type": "JAIL"
+    "type": "FREE_PARKING"
   },
   {
     "tileId" : 21,
@@ -150,8 +149,7 @@
   },
   {
     "tileId" : 30,
-    "activity" : "GO_TO_JAIL",
-    "type": "JAIL"
+    "type": "GO_TO_JAIL"
   },
   {
     "tileId" : 31,
