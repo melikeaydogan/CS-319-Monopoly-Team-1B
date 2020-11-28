@@ -17,7 +17,8 @@ public class MoveAction implements Action{
     public void act() {
         if ( !player.isInJail() ) {
             boolean passedTheGoTile = player.move(moveAmount);
-            MonopolyGame.getActionLog().addMessage(player.getName() + " moves " + moveAmount + " squares \n");
+            MonopolyGame.getActionLog().addMessage(player.getName() + " moves " + moveAmount
+                    + " squares (current position: " + player.getPosition() + ")\n");
 
             if (passedTheGoTile) {
                 new PassAction(player).act();

@@ -7,9 +7,11 @@ import entity.card.Card;
 
 public class DrawCommunityChestCardAction implements Action{
     private Player player;
+    private Card card;
 
-    public DrawCommunityChestCardAction(Player player) {
+    public DrawCommunityChestCardAction(Player player, Card card) {
         this.player = player;
+        this.card = card;
     }
 
     @Override
@@ -18,7 +20,7 @@ public class DrawCommunityChestCardAction implements Action{
         // ???
         //communityChestCard.processCard();
 
-        MonopolyGame.getActionLog().addMessage(player.getName() + " draws a community chance card \n");
+        MonopolyGame.getActionLog().addMessage(player.getName() + " draws the community chance card: " + card + "\n");
     }
 }
 

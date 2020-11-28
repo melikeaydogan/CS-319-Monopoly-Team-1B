@@ -1,6 +1,5 @@
 package control;
 
-import com.sun.org.apache.bcel.internal.generic.GOTO;
 import control.action.*;
 import entity.Board;
 import entity.Player;
@@ -80,7 +79,7 @@ public class MonopolyGame {
         }
         else {
             if (!player.isInJail()) {
-                new MoveAction(player, moveCount); // try catch? PlayerIsInJailException
+                new MoveAction(player, moveCount).act(); // try catch? PlayerIsInJailException
 
                 Tile tile = board.getTiles().get(player.getPosition());
 
@@ -124,6 +123,7 @@ public class MonopolyGame {
     public void processPropertyTile(PropertyTile tile) { // ToDo Implement after tile implementation
         Property property = board.getProperties().get(tile.getPropertyId());
 
+        actionLog.addMessage(getActivePlayer().getName() + " lands on " + property.getName() + "\n");
         //if (!properties.contains(property)) {
             // ui.showBuyPropertyDialog(property); this is business of control object
         //}
@@ -135,6 +135,7 @@ public class MonopolyGame {
 
     public Card processChanceCardTile() {
         Card card = board.drawChanceCard();
+        new DrawChanceCardAction(getActivePlayer(), card).act();
         //ui.showCard(card); this is business of control object
         card.processCard(this);
 
@@ -144,6 +145,7 @@ public class MonopolyGame {
 
     public Card processCommunityChestCardTile() {
         Card card = board.drawCommunityChestCard();
+        new DrawCommunityChestCardAction(getActivePlayer(), card).act();
         // ui.showCard(card); this is business of control object
         card.processCard(this);
 
@@ -230,5 +232,3 @@ public class MonopolyGame {
 
     }
 }
-
-// ToDo initialize tiles!!
