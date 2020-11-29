@@ -133,16 +133,17 @@ public class GameScreenController {
                 DecimalFormat decimalFormat = new DecimalFormat();
 
                 BorderPane propertyPane = new BorderPane();
-                propertyPane.setTop(new Label(type));
+                propertyPane.setTop(new Label("     " + type));
                 propertyPane.setCenter(new Label(name));
-                propertyPane.setBottom(new Label(decimalFormat.format(price) + "$"));
+                propertyPane.setBottom(new Label("     " + decimalFormat.format(price) + "$"));
 
                 this.squares[location].getChildren().add(propertyPane);
             } else if (tile instanceof TaxTile) {
+                DecimalFormat decimalFormat = new DecimalFormat();
                 int amount = ((TaxTile) tile).getAmount();
                 BorderPane taxPane = new BorderPane();
-                taxPane.setCenter(new Label("PAY"));
-                taxPane.setBottom(new Label(Integer.toString(amount)));
+                taxPane.setCenter(new Label("Tax"));
+                taxPane.setBottom(new Label("     " + decimalFormat.format(amount) + "$"));
 
                 this.squares[location].getChildren().add(taxPane);
             }

@@ -14,8 +14,10 @@ public class ActionLog {
     }
 
     public void addMessage(String s) {
-        if ( numActions < MAX_LOG )
+        if ( numActions < MAX_LOG ) {
             log.add(s);
+            numActions++;
+        }
         System.out.println(s);
     }
 
