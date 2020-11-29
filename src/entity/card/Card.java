@@ -55,6 +55,7 @@ public /*abstract*/ class Card {
         switch (id) {
             case 0:
                 new FreeMoveAction(activePlayer, 1).act(); // L Building --> position = 1
+                monopolyGame.processTurn();
                 break;
             case 1:
                 new AddMoneyAction(activePlayer, 1_000).act();
@@ -66,11 +67,12 @@ public /*abstract*/ class Card {
                 new RemoveMoneyAction(activePlayer, 10_000).act();
                 break;
             case 4:
-                new FreeMoveAction(activePlayer, 0).act();
+                new FreeMoveAction(activePlayer, 0).act(); // ToDo convert freemoveactions to move
                 break;
             case 5:
                 for (Player p : monopolyGame.getPlayerController().getPlayers() )
-                    new TransferAction(p, activePlayer, 1_000).act();
+                    if ( p.getPlayerId() != activePlayer.getPlayerId() )
+                        new TransferAction(p, activePlayer, 1_000).act();
                 break;
             case 6:
                 new GoToJailAction(activePlayer).act();
@@ -82,15 +84,18 @@ public /*abstract*/ class Card {
                 break;
             case 9:
                 new MoveAction(activePlayer, -3).act();
+                monopolyGame.processTurn();
                 break;
             case 10:
                 new FreeMoveAction(activePlayer, 23).act(); // Kirac is in 23th tile
+                monopolyGame.processTurn();
                 break;
             case 11:
                 new GoToJailAction(activePlayer).act();
                 break;
             case 12:
                 new FreeMoveAction(activePlayer,39).act(); // Library is the last tile (39th)
+                monopolyGame.processTurn();
                 break;
             case 13:
                 new AddMoneyAction(activePlayer, 10_000).act();
@@ -111,6 +116,10 @@ public /*abstract*/ class Card {
                 new RemoveMoneyAction(activePlayer, repairAmount);
                 break;
         }
+    }
+
+    public String toString() {
+        return "ID: " + id + " - Instructions: " + instructions;
     }
 
     // ChanceCard 0 --> You won $200 from lottery

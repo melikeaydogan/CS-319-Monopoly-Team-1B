@@ -14,7 +14,7 @@ public class RemoveMoneyAction implements Action {
 
     @Override
     public void act() {
-        if (player.getBalance() > amount)
+        if (player.getBalance() >= amount)
             player.removeMoney(amount);
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " gives " + amount + "$ \n");

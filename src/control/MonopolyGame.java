@@ -6,6 +6,9 @@ import entity.Player;
 import entity.card.Card;
 import entity.dice.Dice;
 import entity.dice.DiceResult;
+import entity.property.Building;
+import entity.property.Dorm;
+import entity.property.Facility;
 import entity.property.Property;
 import entity.tile.*;
 import gui.GameScreenController;
@@ -93,7 +96,7 @@ public class MonopolyGame {
                     // nothing, skip the turn
                 }
                 else if (tile instanceof StartTile) {
-                    new PassAction(player).act();
+                    // new PassAction(player).act();
                 }
                 else if (tile instanceof TaxTile) {
                     TaxTile taxTile = (TaxTile) tile;
@@ -112,6 +115,8 @@ public class MonopolyGame {
             }
         }
 
+        nextTurn();
+
         // if user clicks at end turn --> nextTurn(); this is business of ui controller, not this class
     }
 
@@ -127,9 +132,74 @@ public class MonopolyGame {
         Property property = board.getProperties().get(tile.getPropertyId());
 
         actionLog.addMessage(getActivePlayer().getName() + " lands on " + property.getName() + "\n");
-        //if (!properties.contains(property)) {
-            // ui.showBuyPropertyDialog(property); this is business of control object
-        //}
+        if (!getActivePlayer().getProperties().containsValue(property) && getActivePlayer().getBalance() >= property.getPrice()) {
+            boolean playerBoughtProperty = ui.showPropertyDialog(property);
+
+            System.out.println("Answer: " + playerBoughtProperty);
+
+            if (playerBoughtProperty) {
+                new BuyPropertyAction(property, getActivePlayer()).act();
+            }
+            else {
+                // auction --> iteration 2
+            }
+        }
+        else if ( property.isOwned() ){
+            int transferAmount = 0;
+            Player propertyOwner = playerController.getPlayers().get(property.getOwnerId());
+
+            if (property instanceof Dorm) {
+                if ( propertyOwner.getProperties().get("DORM").size() == 1 ) {
+                    transferAmount = 2500;
+                }
+                else if (propertyOwner.getProperties().get("DORM").size() == 2 ){
+                    transferAmount = 5000;
+                }
+                else if ( propertyOwner.getProperties().get("DORM").size() == 3 ) {
+                    transferAmount = 10000;
+                }
+                else if ( propertyOwner.getProperties().get("DORM").size() == 4 ) {
+                    transferAmount = 20000;
+                }
+            }
+            else if (property instanceof Facility) {
+                int diceTotal = diceResult.getFirstDieResult() + diceResult.getSecondDieResult();
+                if ( propertyOwner.getProperties().get("FACILITY").size() == 1 ) {
+                    transferAmount = diceTotal * 400;
+                }
+                else if ( propertyOwner.getProperties().get("FACILITY").size() == 2 ) {
+                    transferAmount = diceTotal * 1000;
+                }
+            }
+            else if (property instanceof Building ) {
+                Building building = (Building) property;
+                boolean isComplete = propertyOwner.isComplete(building);
+
+                if ( building.getHouseCount() == 0 && !isComplete ) {
+                    transferAmount = building.getRents().get(0);
+                }
+                else if ( building.getHouseCount() == 0 && isComplete ) {
+                    transferAmount = building.getRents().get(0) * 2;
+                }
+                else if ( building.getHotelCount() == 1 ) {
+                    transferAmount = building.getRents().get(5);
+                }
+                else if ( building.getHouseCount() == 1 ) {
+                    transferAmount = building.getRents().get(1);
+                }
+                else if ( building.getHouseCount() == 2 ) {
+                    transferAmount = building.getRents().get(2);
+                }
+                else if ( building.getHouseCount() == 3 ) {
+                    transferAmount = building.getRents().get(3);
+                }
+                else if ( building.getHouseCount() == 4 ) {
+                    transferAmount = building.getRents().get(4);
+                }
+            }
+
+            new TransferAction(getActivePlayer(), propertyOwner, transferAmount).act();
+        }
     }
 
     public void buyProperty(PropertyTile tile) {
@@ -167,6 +237,10 @@ public class MonopolyGame {
         }
 
         return bankruptPlayerCount == 3;
+    }
+
+    public void bankruptPlayer(Player player) {
+        player.setBankrupt(true);
     }
 
     public Player getActivePlayer() {return playerController.getActivePlayer();}

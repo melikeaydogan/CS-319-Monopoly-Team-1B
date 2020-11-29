@@ -1,5 +1,6 @@
 package entity;
 
+import entity.property.Building;
 import entity.property.Dorm;
 import entity.property.Property;
 
@@ -35,7 +36,7 @@ public class Player {
     public Player(int playerId, String name, Token token, int teamNumber) {
         this.playerId = playerId;
         this.name = name;
-        balance = 10000; // ToDo check the balance from the rule book
+        balance = 150_000; // ToDo check the balance from the rule book
         this.token = token;
         position = 0;
         bankrupt = false;
@@ -114,8 +115,23 @@ public class Player {
          return teamNumber == player.getTeamNumber();
     }
 
-    public boolean isComplete(String color) {
-        return false; // ToDo complete the method
+    public boolean isComplete(Building building) {
+        int sameColorCount = 0;
+
+        for (Property property : properties.get("BUILDING")) {
+            Building building1 = (Building) property;
+
+            if ( building.getColor().equals(building1.getColor()) && building.getId() != building1.getId())
+                sameColorCount++;
+        }
+
+        if ( sameColorCount == 3 ) {
+            return true;
+        }
+        else if ( building.getColor().equals("BROWN") && sameColorCount == 2)
+            return true;
+        else
+            return false;
     }
 
     public HashMap<String, ArrayList<Property>> getProperties() {

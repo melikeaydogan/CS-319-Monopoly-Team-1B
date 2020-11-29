@@ -5,6 +5,8 @@ import control.MonopolyGame;
 import entity.Player;
 import entity.dice.DiceResult;
 import entity.property.Building;
+import entity.property.Dorm;
+import entity.property.Facility;
 import entity.property.Property;
 import entity.tile.*;
 
@@ -83,10 +85,11 @@ public class GameScreenController {
     public void setupGame(String name) {
         try {
             ArrayList<Player> players = new ArrayList<>();
-            game = new MonopolyGame(players, this);
-
             Player p1 = new Player(1, name, Player.Token.SHOE, 1);
             Player p2 = new Player(2, "Deneme", Player.Token.TOP_HAT, 1);
+
+            game = new MonopolyGame(players, this);
+
             game.addPlayer(p1);
             game.addPlayer(p2);
             setupBoard();
@@ -267,30 +270,55 @@ public class GameScreenController {
     public boolean showPropertyDialog(Property property) {
         Dialog<ButtonType> dialog = new Dialog<>();
 
-        String title;
-        String content;
+        String title = "";
+        String content = "";
 
         String name = property.getName();
-        Building b = (Building) property;
 
-        if (!b.isOwned()) {
-            title = "Buy Property?";
-            content = "Do you wish to buy " + b.getName() + "?\n" +
-                    "Price: " + b.getPrice() + ".\n" +
-                    "Rent: " + b.getRents().get(0) + ".";
-        } else if (b.getHouseCount() < 4) {
-            title = "Add House?";
-            content = "Do you wish to build a house to " + b.getName() + "?\n" +
-                    "Price: " + b.getHousePrice() + ".\n" +
-                    "Rent: " + b.getRents().get(b.getHouseCount()) + " ==> " +
-                    b.getRents().get(b.getHouseCount() + 1);
-        } else {
-            title = "Add Hotel?";
-            content = "Do you wish to build a Hotel to " + b.getName() + "?\n" +
-                    "Price: " + b.getHotelPrice() + ".\n" +
-                    "Rent: " + b.getRents().get(4) + " ==> " +
-                    b.getRents().get(5);
+        if ( property instanceof Building) {
+            Building b = (Building) property; // ToDo it can be also Dorm or Facility, so it gives ClassCastException
+
+            if (!b.isOwned()) {
+                title = "Buy Property?";
+                content = "Do you wish to buy " + b.getName() + "?\n" +
+                        "Price: " + b.getPrice() + ".\n" +
+                        "Rent: " + b.getRents().get(0) + ".";
+            } else if (b.getHouseCount() < 4 && game.getActivePlayer().isComplete(b)) {
+                title = "Add House?";
+                content = "Do you wish to build a house to " + b.getName() + "?\n" +
+                        "Price: " + b.getHousePrice() + ".\n" +
+                        "Rent: " + b.getRents().get(b.getHouseCount()) + " ==> " +
+                        b.getRents().get(b.getHouseCount() + 1);
+            } else if (b.getHotelCount() == 4 && game.getActivePlayer().isComplete(b)) {
+                title = "Add Hotel?";
+                content = "Do you wish to build a Hotel to " + b.getName() + "?\n" +
+                        "Price: " + b.getHotelPrice() + ".\n" +
+                        "Rent: " + b.getRents().get(4) + " ==> " +
+                        b.getRents().get(5);
+            }
         }
+        else if (property instanceof Dorm) {
+            Dorm d = (Dorm) property;
+
+            if (!d.isOwned()) {
+                title = "Buy Dormitory?";
+                content = "Do you wish to buy " + d.getName() + "?\n" +
+                        "Price: " + d.getPrice() + ".\n" +
+                        "Rent: " + d.getRents().get(0) + ".";
+            }
+        }
+
+        else {
+            Facility f = (Facility) property;
+
+            if (!f.isOwned()) {
+                title = "Buy Dormitory?";
+                content = "Do you wish to buy " + f.getName() + "?\n" +
+                        "Price: " + f.getPrice() + ".\n" +
+                        "Rent: " + f.getRents().get(0) + ".";
+            }
+        }
+
 
         dialog.setTitle(title);
         dialog.setContentText(content);

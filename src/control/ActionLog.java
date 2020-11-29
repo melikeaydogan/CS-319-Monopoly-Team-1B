@@ -16,6 +16,7 @@ public class ActionLog {
     public void addMessage(String s) {
         if ( numActions < MAX_LOG )
             log.add(s);
+        System.out.println(s);
     }
 
     public ArrayList<String> getLog() {

@@ -16,7 +16,7 @@ public class TransferAction implements Action{
 
     @Override
     public void act() {
-        if ( player.getBalance() > amount ) {
+        if ( player.getBalance() >= amount ) {
             player.transferMoney(player2, amount);
 
             MonopolyGame.getActionLog().addMessage(player.getName() + " gives " + amount + "$" + " to "
