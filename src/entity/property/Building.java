@@ -3,17 +3,6 @@ package entity.property;
 import java.util.ArrayList;
 
 public class Building extends Property{
-    public enum BuildingColor {
-        BROWN,
-        BLUE,
-        PINK,
-        ORANGE,
-        RED,
-        YELLOW,
-        GREEN,
-        NAVY
-    }
-
     int housePrice;
     int hotelPrice;
     String color;
