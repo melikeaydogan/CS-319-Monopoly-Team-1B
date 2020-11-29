@@ -117,6 +117,7 @@ public class MonopolyGame {
         ui.updateBoardState();
         nextTurn();
 
+        System.out.println("Active player balance: " + getActivePlayer().getBalance());
         // if user clicks at end turn --> nextTurn(); this is business of ui controller, not this class
     }
 

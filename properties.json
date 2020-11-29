@@ -40,7 +40,7 @@
     "type" : "FACILITY"
   },
   {
-    "name" : "Student Activities Center",
+    "name" : "Student Center",
     "id" : 6,
     "price" : 15000,
     "rents" : [400,1000],
