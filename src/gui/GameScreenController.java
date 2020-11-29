@@ -161,14 +161,18 @@ public class GameScreenController {
         // Update Game Log
         ActionLog actionLog = MonopolyGame.getActionLog();
         Label[] logLabels = {log0, log1, log2, log3, log4, log5, log6, log7};
-        for (int i = 0; i < LOG_CAPACITY; i++) {
-            int logSize = actionLog.getNumActions();
-            if (i >= logSize) {
-                logLabels[i].setText("");
-            } else {
-                int loc = i + logSize - LOG_CAPACITY;
-                logLabels[i].setText(loc + ": " + actionLog.getLog().get(loc));
+        int logSize = actionLog.getNumActions();
+        if (logSize > LOG_CAPACITY) {
+            for (int i = logSize - 1, j = LOG_CAPACITY - 1; j >= 0; i--, j--) {
+                logLabels[j].setText(actionLog.getLog().get(i));
             }
+        } else {
+            int i = 0;
+            for ( ; i < logSize; i++)
+                logLabels[i].setText(actionLog.getLog().get(i));
+
+            for ( ; i < LOG_CAPACITY; i++)
+                logLabels[i].setText(" ");
         }
 
         // Clear Tokens
@@ -192,21 +196,26 @@ public class GameScreenController {
         int p1Pos = p1.getPosition();
         int p2Pos = p2.getPosition();
 
-        ImageView token1 = (new ImageView(new Image((
-                new File("models/tokens/" + p2.getTokenName() + ".png")).toURI().toString())));
-        ImageView token2 = new ImageView(new Image((
+        ImageView token1 = new ImageView();
+        token1.setImage(new Image((
+                new File("models/tokens/" + p1.getTokenName() + ".png")).toURI().toString()));
+        ImageView token2 = new ImageView();
+        token2.setImage(new Image((
                 new File("models/tokens/" + p2.getTokenName() + ".png")).toURI().toString()));
 
         token1.setId("t1");
         token2.setId("t2"); // set id to easily delete later
 
-        token1.setFitHeight(20);
-        token1.setFitWidth(20);
-        token2.setFitHeight(20);
-        token2.setFitWidth(20);
+        token1.setFitHeight(50);
+        token1.setFitWidth(50);
+        token2.setFitHeight(50);
+        token2.setFitWidth(50);
 
         squares[p1Pos].getChildren().add(token1);
         squares[p2Pos].getChildren().add(token2);
+
+        token1.toFront();
+        token2.toFront();
     }
 
     public boolean showPropertyDialog(Property property) {
