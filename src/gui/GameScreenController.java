@@ -46,11 +46,7 @@ public class GameScreenController {
             square11, square12, square13, square14,square15,square16,square17,square18,square19, square20, square21,
             square22, square23, square24, square25, square26, square27, square28, square29, square30, square31, square32,
             square33, square34, square35, square36, square37, square38, square39;
-
-    StackPane[] squares = {square0, square1, square2, square3, square4, square5, square6, square7, square8, square9, square10,
-            square11, square12, square13, square14,square15,square16,square17,square18,square19, square20, square21,
-            square22, square23, square24, square25, square26, square27, square28, square29, square30, square31, square32,
-            square33, square34, square35, square36, square37, square38, square39};
+    StackPane[] squares;
 
     @FXML AnchorPane anchorPane;
 
@@ -106,6 +102,12 @@ public class GameScreenController {
     }
 
     private void setupBoard() {
+         StackPane[] squares = {square0, square1, square2, square3, square4, square5, square6, square7, square8, square9, square10,
+                square11, square12, square13, square14,square15,square16,square17,square18,square19, square20, square21,
+                square22, square23, square24, square25, square26, square27, square28, square29, square30, square31, square32,
+                square33, square34, square35, square36, square37, square38, square39};
+        this.squares = squares;
+
         // Set up Tiles
         ArrayList<Tile> tiles = game.getBoard().getTiles();
 
@@ -130,14 +132,14 @@ public class GameScreenController {
                 propertyPane.setCenter(new Label(name));
                 propertyPane.setBottom(new Label(Integer.toString(price)));
 
-                squares[location].getChildren().add(propertyPane);
+                this.squares[location].getChildren().add(propertyPane);
             } else if (tile instanceof TaxTile) {
                 int amount = ((TaxTile) tile).getAmount();
                 BorderPane taxPane = new BorderPane();
                 taxPane.setCenter(new Label("PAY"));
                 taxPane.setBottom(new Label(Integer.toString(amount)));
 
-                squares[location].getChildren().add(taxPane);
+                this.squares[location].getChildren().add(taxPane);
             }
         }
 
