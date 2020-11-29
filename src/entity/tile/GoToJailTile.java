@@ -6,7 +6,7 @@ public class GoToJailTile extends Tile{
         super( tileId);
     }
 
-    GoToJailTile(FreeParkingTile savedTile) {
+    GoToJailTile(GoToJailTile savedTile) {
         super( savedTile.getTileId());
     }
 
