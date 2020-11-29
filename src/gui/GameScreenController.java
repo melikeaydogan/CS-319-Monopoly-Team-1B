@@ -35,31 +35,36 @@ import java.util.Optional;
 public class GameScreenController {
     private final int LOG_CAPACITY = 8;
 
+    // Game object
     MonopolyGame game;
 
+    // Labels for die results
     @FXML Label die1, die2;
 
-    @FXML BorderPane boardPane;
-    @FXML GridPane grid0, grid1, grid2, grid3;
-    GridPane[] grids;
+    // The squares on board
+    @FXML StackPane square0, square1, square2, square3, square4, square5, square6, square7, square8, square9, square10,
+            square11, square12, square13, square14,square15,square16,square17,square18,square19, square20, square21,
+            square22, square23, square24, square25, square26, square27, square28, square29, square30, square31, square32,
+            square33, square34, square35, square36, square37, square38, square39;
 
-    @FXML StackPane square0, square1, square2;
+    StackPane[] squares = {square0, square1, square2, square3, square4, square5, square6, square7, square8, square9, square10,
+            square11, square12, square13, square14,square15,square16,square17,square18,square19, square20, square21,
+            square22, square23, square24, square25, square26, square27, square28, square29, square30, square31, square32,
+            square33, square34, square35, square36, square37, square38, square39};
 
-    @FXML
-    AnchorPane anchorPane;
+    @FXML AnchorPane anchorPane;
 
-    @FXML Label brown1;
-
+    // Activity Log
     @FXML Label log0, log1, log2, log3, log4, log5, log6, log7;
+
+    // Player information labels
     @FXML Label player1Label, player2Label;
 
-    @FXML
-    Rectangle rect1, rect2, rect3;
+    // Text that shows whose turn is it
+    @FXML Text playerTurn;
 
-    @FXML Text prompt, playerTurn;
 
-    @FXML Button yesButton, noButton;
-
+    // Stop the game and go to main menu when quit button is pressed
     @FXML
     protected void handleQuitButton(ActionEvent e) {
         try {
@@ -70,6 +75,7 @@ public class GameScreenController {
         } catch (Exception ignored) {}
     }
 
+    // Roll dice when dice button is pressed
     @FXML
     protected void handleDiceButton(ActionEvent e) {
         // when multiplayer, make a new ActionEvent class for this and compare active player with the player clicked
@@ -89,9 +95,9 @@ public class GameScreenController {
             Player p2 = new Player(2, "Deneme", Player.Token.TOP_HAT, 1);
 
             game = new MonopolyGame(players, this);
-
             game.addPlayer(p1);
             game.addPlayer(p2);
+
             setupBoard();
 
         } catch (Exception e) {
@@ -100,81 +106,42 @@ public class GameScreenController {
     }
 
     private void setupBoard() {
-        // Disable yes, no buttons
-        yesButton.setDisable(true);
-        noButton.setDisable(true);
-
         // Set up Tiles
         ArrayList<Tile> tiles = game.getBoard().getTiles();
 
-        grids = new GridPane[4];
-        grids[0] = grid0;
-        grids[1] = grid1;
-        grids[2] = grid2;
-        grids[3] = grid3;
-
         for (Tile tile : tiles) {
-            // get x and y
-            int x, y; // grids[x].get(y)
             int location = tile.getTileId();
 
-            x = calculateX(location);
-            y = calculateY(location);
+            // get the type of the tile and put labels
+            if (tile instanceof PropertyTile) {
+                Property property = game.getBoard().getProperties().get(((PropertyTile) tile).getPropertyId());
+                String name = property.getName();
+                int price = property.getPrice();
+                String type;
+                if (property instanceof Building) {
+                    type = "Building";
+                } else  if (property instanceof Dorm) {
+                    type = "Dorm";
+                } else { // property instanceof Facility
+                    type = "Facility";
+                }
+                BorderPane propertyPane = new BorderPane();
+                propertyPane.setTop(new Label(type));
+                propertyPane.setCenter(new Label(name));
+                propertyPane.setBottom(new Label(Integer.toString(price)));
 
-            // get the type of the tile and put images
-
-
-            if (tile instanceof JailTile) {
-                ImageView imageView = new ImageView();
-                File file = new File("models/jail_tile.png");
-                //addImageToGrids(grids, x, y, imageView, file);
-
-            } else if (tile instanceof StartTile) {
-                ImageView imageView = new ImageView();
-                File file = new File("models/start_tile.png");
-                //addImageToGrids(grids, x, y, imageView, file);
-
-            } else if (tile instanceof PropertyTile) {
-                Property p = game.getBoard().getProperties().get(((PropertyTile) tile).getPropertyId());
-                String name = p.getName();
-                int price = p.getPrice();
-                // TODO
-
+                squares[location].getChildren().add(propertyPane);
             } else if (tile instanceof TaxTile) {
                 int amount = ((TaxTile) tile).getAmount();
                 BorderPane taxPane = new BorderPane();
                 taxPane.setCenter(new Label("PAY"));
                 taxPane.setBottom(new Label(Integer.toString(amount)));
 
-                if (x % 2 == 0)
-                    grids[x].add(taxPane, y, 0);
-                else
-                    grids[x].add(taxPane, 0, y);
-
-            } else if (tile instanceof CardTile) {
-                if (((CardTile) tile).getCardType() == CardTile.CardType.COMMUNITY_CHEST_CARD) {
-                    ImageView imageView = new ImageView();
-                    File file = new File("models/community_chest_tile.png");
-                    //addImageToGrids(grids, x, y, imageView, file);
-
-                } else if (((CardTile) tile).getCardType() == CardTile.CardType.CHANCE_CARD) {
-                    ImageView imageView = new ImageView();
-                    File file = new File("models/chance_tile.png");
-                    //addImageToGrids(grids, x, y, imageView, file);
-                }
-            } else if (tile instanceof GoToJailTile) {
-                ImageView imageView = new ImageView();
-                File file = new File("models/goto_jail_tile.png");
-               // addImageToGrids(grids, x, y, imageView, file);
-            } else if (tile instanceof FreeParkingTile) {
-                ImageView imageView = new ImageView();
-                File file = new File("models/freeparking_tile.png");
-               // addImageToGrids(grids, x, y, imageView, file);
+                squares[location].getChildren().add(taxPane);
             }
         }
 
-
-        // Setup board
+        // Setup others
         updateBoardState();
     }
 
@@ -203,21 +170,19 @@ public class GameScreenController {
         }
 
         // Clear Tokens
-        for (int i = 0; i < 4; i++) {
-            ObservableList<Node> children = grids[i].getChildren();
+        for (StackPane square : squares) {
+            ObservableList<Node> children = square.getChildren();
             for (Node n : children) {
                 if (n instanceof ImageView && (n.getId().equals("t1") || n.getId().equals("t2"))) {
                     ImageView token = (ImageView) n;
-                    grids[i].getChildren().remove(token);
+                    square.getChildren().remove(token);
                 }
             }
         }
 
         // Put Tokens
-        int t1x = calculateX(p1.getPosition());
-        int t1y = calculateY(p1.getPosition());
-        int t2x = calculateX(p2.getPosition());
-        int t2y = calculateY(p2.getPosition());
+        int p1Pos = p1.getPosition();
+        int p2Pos = p2.getPosition();
 
         ImageView token1 = (new ImageView(new Image((
                 new File("models/tokens/" + p2.getTokenName() + ".png")).toURI().toString())));
@@ -232,39 +197,8 @@ public class GameScreenController {
         token2.setFitHeight(20);
         token2.setFitWidth(20);
 
-        if (t1x % 2 == 0)
-            grids[t1x].add(token1, t1y, 0);
-        else
-            grids[t1x].add(token1, 0, t1y);
-
-        if (t2x % 2 == 0)
-            grids[t2x].add(token2, t2y, 0);
-        else
-            grids[t2x].add(token2, 0, t2y);
-    }
-
-    private static int calculateX(int location) {
-        if (location < 12) {
-            return 0;
-        } else if (location < 21) {
-            return 1;
-        } else if (location < 33) {
-            return 2;
-        } else {
-            return 3;
-        }
-    }
-
-    private static int calculateY(int location) {
-        if (location < 12) {
-            return 11 - location;
-        } else if (location < 21) {
-            return 20 - location;
-        } else if (location < 33) {
-            return location - 21;
-        } else {
-            return location - 33;
-        }
+        squares[p1Pos].getChildren().add(token1);
+        squares[p2Pos].getChildren().add(token2);
     }
 
     public boolean showPropertyDialog(Property property) {
@@ -275,7 +209,7 @@ public class GameScreenController {
 
         String name = property.getName();
 
-        if ( property instanceof Building) {
+        if (property instanceof Building) {
             Building b = (Building) property; // ToDo it can be also Dorm or Facility, so it gives ClassCastException
 
             if (!b.isOwned()) {
@@ -312,7 +246,7 @@ public class GameScreenController {
             Facility f = (Facility) property;
 
             if (!f.isOwned()) {
-                title = "Buy Dormitory?";
+                title = "Buy Facility?";
                 content = "Do you wish to buy " + f.getName() + "?\n" +
                         "Price: " + f.getPrice() + ".\n" +
                         "Rent: " + f.getRents().get(0) + ".";
@@ -326,6 +260,7 @@ public class GameScreenController {
         dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
         Optional<ButtonType> result = dialog.showAndWait();
+
         return result.isPresent() && (result.get().equals(ButtonType.YES));
     }
 }
