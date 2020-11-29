@@ -30,6 +30,13 @@ public class PlayerController {
         return null;
     }
 
+    public Player getById(int id) {
+        for (Player p : players)
+            if (p.getPlayerId() == id)
+                return p;
+        return null;
+    }
+
     public void setActivePlayer(Player activePlayer) {
         this.activePlayer = activePlayer;
         activePlayerIndex = activePlayer.getPlayerId();

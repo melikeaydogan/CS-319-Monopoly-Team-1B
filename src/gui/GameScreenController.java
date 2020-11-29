@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 public class GameScreenController {
@@ -116,7 +117,7 @@ public class GameScreenController {
 
             // get the type of the tile and put labels
             if (tile instanceof PropertyTile) {
-                Property property = game.getBoard().getProperties().get(((PropertyTile) tile).getPropertyId());
+                Property property = game.getBoard().getPropertyById(((PropertyTile) tile).getPropertyId());
                 String name = property.getName();
                 int price = property.getPrice();
                 String type;
@@ -162,7 +163,6 @@ public class GameScreenController {
         Label[] logLabels = {log0, log1, log2, log3, log4, log5, log6, log7};
         for (int i = 0; i < LOG_CAPACITY; i++) {
             int logSize = actionLog.getNumActions();
-
             if (i >= logSize) {
                 logLabels[i].setText("");
             } else {
@@ -172,14 +172,20 @@ public class GameScreenController {
         }
 
         // Clear Tokens
+        ArrayList<ImageView> tokens = new ArrayList<>(6);
         for (StackPane square : squares) {
             ObservableList<Node> children = square.getChildren();
             for (Node n : children) {
-                if (n instanceof ImageView && (n.getId().equals("t1") || n.getId().equals("t2"))) {
-                    ImageView token = (ImageView) n;
-                    square.getChildren().remove(token);
+                if (!Objects.isNull(n.getId())) {
+                    if (n instanceof ImageView && (n.getId().equals("t1") || n.getId().equals("t2"))) {
+                        ImageView token = (ImageView) n;
+                        tokens.add(token);
+                    }
                 }
+
             }
+            for (ImageView tokenImage : tokens)
+            square.getChildren().remove(tokenImage);
         }
 
         // Put Tokens

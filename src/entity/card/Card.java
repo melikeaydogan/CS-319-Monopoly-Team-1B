@@ -55,7 +55,7 @@ public /*abstract*/ class Card {
         switch (id) {
             case 0:
                 new FreeMoveAction(activePlayer, 1).act(); // L Building --> position = 1
-                monopolyGame.processTurn();
+                //monopolyGame.processTurn();
                 break;
             case 1:
                 new AddMoneyAction(activePlayer, 1_000).act();
@@ -84,18 +84,18 @@ public /*abstract*/ class Card {
                 break;
             case 9:
                 new MoveAction(activePlayer, -3).act();
-                monopolyGame.processTurn();
+                //monopolyGame.processTurn();
                 break;
             case 10:
                 new FreeMoveAction(activePlayer, 23).act(); // Kirac is in 23th tile
-                monopolyGame.processTurn();
+                //monopolyGame.processTurn(); // ToDo seperate processturn and processtile
                 break;
             case 11:
                 new GoToJailAction(activePlayer).act();
                 break;
             case 12:
                 new FreeMoveAction(activePlayer,39).act(); // Library is the last tile (39th)
-                monopolyGame.processTurn();
+                //monopolyGame.processTurn();
                 break;
             case 13:
                 new AddMoneyAction(activePlayer, 10_000).act();

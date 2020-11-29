@@ -102,6 +102,13 @@ public class Board {
 
     }
 
+    public Property getPropertyById(int id) {
+        for (Property p : properties)
+            if (p.getId() == id)
+                return p;
+        return null;
+    }
+
     public void initializeCommunityChestCardDeck(String filename) {
         communityChestDeck = new Deck(filename);
     }

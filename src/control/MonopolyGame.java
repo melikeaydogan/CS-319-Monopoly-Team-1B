@@ -114,7 +114,7 @@ public class MonopolyGame {
                 }
             }
         }
-
+        ui.updateBoardState();
         nextTurn();
 
         // if user clicks at end turn --> nextTurn(); this is business of ui controller, not this class
@@ -129,10 +129,10 @@ public class MonopolyGame {
     }
 
     public void processPropertyTile(PropertyTile tile) { // ToDo Implement after tile implementation
-        Property property = board.getProperties().get(tile.getPropertyId());
+        Property property = board.getPropertyById(tile.getPropertyId());
 
         actionLog.addMessage(getActivePlayer().getName() + " lands on " + property.getName() + "\n");
-        if (!getActivePlayer().getProperties().containsValue(property) && getActivePlayer().getBalance() >= property.getPrice()) {
+        if (!property.isOwned() && getActivePlayer().getBalance() >= property.getPrice()) {
             boolean playerBoughtProperty = ui.showPropertyDialog(property);
 
             System.out.println("Answer: " + playerBoughtProperty);
@@ -146,9 +146,11 @@ public class MonopolyGame {
         }
         else if ( property.isOwned() ){
             int transferAmount = 0;
-            Player propertyOwner = playerController.getPlayers().get(property.getOwnerId());
+            Player propertyOwner = playerController.getById(property.getOwnerId());
+            System.out.println("Property owner: " + propertyOwner.getName());
 
             if (property instanceof Dorm) {
+                System.out.println("Dorm count: " + propertyOwner.getProperties().get("DORM").size());
                 if ( propertyOwner.getProperties().get("DORM").size() == 1 ) {
                     transferAmount = 2500;
                 }
