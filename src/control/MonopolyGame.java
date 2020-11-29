@@ -8,6 +8,7 @@ import entity.dice.Dice;
 import entity.dice.DiceResult;
 import entity.property.Property;
 import entity.tile.*;
+import gui.GameScreenController;
 // import javafx.beans.property.Property;
 
 // how does ui and this communicate?
@@ -33,13 +34,15 @@ public class MonopolyGame {
     int moveCount = 0; // sum of dices
     Dice dice;
     DiceResult diceResult;
+    GameScreenController ui;
 
-    public MonopolyGame(ArrayList<Player> players) throws IOException {
+    public MonopolyGame(ArrayList<Player> players, GameScreenController ui) throws IOException {
         board = new Board();
         turn = 0;
         actionLog = new ActionLog();
         playerController = new PlayerController(players);
         dice = new Dice(System.currentTimeMillis());
+        this.ui = ui;
     }
 
     public void addPlayer(Player player) {
@@ -208,7 +211,7 @@ public class MonopolyGame {
         this.dice = dice;
     }
 
-    public static void main(String[] args) throws IOException {
+/*    public static void main(String[] args) throws IOException {
         Player player1 = new Player(1, "Mehmet" , Player.Token.BATTLESHIP, 1);
         Player player2 = new Player(2, "Ali" , Player.Token.BATTLESHIP, 1);
         Player player3 = new Player(3, "Veli" , Player.Token.BATTLESHIP, 1);
@@ -230,5 +233,5 @@ public class MonopolyGame {
             System.out.println("---------------------------");
         }
 
-    }
+    }*/
 }

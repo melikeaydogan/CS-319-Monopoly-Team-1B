@@ -18,8 +18,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -38,8 +41,18 @@ public class GameScreenController {
     @FXML GridPane grid0, grid1, grid2, grid3;
     GridPane[] grids;
 
+    @FXML StackPane square0, square1, square2;
+
+    @FXML
+    AnchorPane anchorPane;
+
+    @FXML Label brown1;
+
     @FXML Label log0, log1, log2, log3, log4, log5, log6, log7;
     @FXML Label player1Label, player2Label;
+
+    @FXML
+    Rectangle rect1, rect2, rect3;
 
     @FXML Text prompt, playerTurn;
 
@@ -70,14 +83,17 @@ public class GameScreenController {
     public void setupGame(String name) {
         try {
             ArrayList<Player> players = new ArrayList<>();
-            game = new MonopolyGame(players);
+            game = new MonopolyGame(players, this);
 
             Player p1 = new Player(1, name, Player.Token.SHOE, 1);
-            Player p2 = new Player(2, "Player2", Player.Token.TOP_HAT, 1);
+            Player p2 = new Player(2, "Deneme", Player.Token.TOP_HAT, 1);
             game.addPlayer(p1);
             game.addPlayer(p2);
             setupBoard();
-        } catch (Exception ignored) {}
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setupBoard() {
@@ -104,15 +120,16 @@ public class GameScreenController {
 
             // get the type of the tile and put images
 
+
             if (tile instanceof JailTile) {
                 ImageView imageView = new ImageView();
                 File file = new File("models/jail_tile.png");
-                addImageToGrids(grids, x, y, imageView, file);
+                //addImageToGrids(grids, x, y, imageView, file);
 
             } else if (tile instanceof StartTile) {
                 ImageView imageView = new ImageView();
                 File file = new File("models/start_tile.png");
-                addImageToGrids(grids, x, y, imageView, file);
+                //addImageToGrids(grids, x, y, imageView, file);
 
             } else if (tile instanceof PropertyTile) {
                 Property p = game.getBoard().getProperties().get(((PropertyTile) tile).getPropertyId());
@@ -135,39 +152,27 @@ public class GameScreenController {
                 if (((CardTile) tile).getCardType() == CardTile.CardType.COMMUNITY_CHEST_CARD) {
                     ImageView imageView = new ImageView();
                     File file = new File("models/community_chest_tile.png");
-                    addImageToGrids(grids, x, y, imageView, file);
+                    //addImageToGrids(grids, x, y, imageView, file);
 
                 } else if (((CardTile) tile).getCardType() == CardTile.CardType.CHANCE_CARD) {
                     ImageView imageView = new ImageView();
                     File file = new File("models/chance_tile.png");
-                    addImageToGrids(grids, x, y, imageView, file);
+                    //addImageToGrids(grids, x, y, imageView, file);
                 }
             } else if (tile instanceof GoToJailTile) {
                 ImageView imageView = new ImageView();
                 File file = new File("models/goto_jail_tile.png");
-                addImageToGrids(grids, x, y, imageView, file);
+               // addImageToGrids(grids, x, y, imageView, file);
             } else if (tile instanceof FreeParkingTile) {
                 ImageView imageView = new ImageView();
                 File file = new File("models/freeparking_tile.png");
-                addImageToGrids(grids, x, y, imageView, file);
+               // addImageToGrids(grids, x, y, imageView, file);
             }
         }
 
+
         // Setup board
         updateBoardState();
-    }
-
-    private void addImageToGrids(GridPane[] grids, int x, int y, ImageView imageView, File file) {
-        Image image = new Image(file.toURI().toString());
-        imageView.setImage(image);
-        imageView.fitWidthProperty().bind(grids[x].widthProperty());
-        imageView.fitHeightProperty().bind(grids[x].heightProperty());
-
-        if (x % 2 == 0) {
-            grids[x].add(imageView, y, 0);
-        } else {
-            grids[x].add(imageView, 0, y);
-        }
     }
 
     public void updateBoardState() {

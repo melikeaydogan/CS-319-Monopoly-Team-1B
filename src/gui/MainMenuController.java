@@ -21,7 +21,8 @@ public class MainMenuController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game_screen.fxml"));
             Parent root = (Parent) loader.load();
 
-            Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+            //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+            Scene scene = new Scene(root, 1920, 1080);
 
             GameScreenController gameScreenController = loader.getController();
             gameScreenController.setupGame(username);
