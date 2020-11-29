@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="320.0" prefWidth="343.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainMenuController">
+   <children>
+      <Button fx:id="newGameButton" layoutX="181.0" layoutY="107.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="26.0" prefWidth="134.0" text="Create New Game" />
+      <Label layoutX="202.0" layoutY="28.0" text="Lets Play Now!" />
+      <TextArea fx:id="usernameField" layoutX="176.0" layoutY="49.0" prefHeight="18.0" prefWidth="142.0" promptText="Enter Username" />
+      <Button layoutX="181.0" layoutY="144.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="26.0" prefWidth="134.0" text=" Join Game" />
+      <Button layoutX="180.0" layoutY="181.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="26.0" prefWidth="134.0" text="Load Game" />
+      <Button fx:id="howToPlay" layoutX="180.0" layoutY="220.0" mnemonicParsing="false" onAction="#howToPlayPressed" prefHeight="26.0" prefWidth="134.0" text="How to play " />
+      <Button layoutX="180.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleOptionsButton" prefHeight="26.0" prefWidth="134.0" text="Options" />
+      <ImageView fx:id="imageView" fitHeight="38.0" fitWidth="164.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@models/monopoly.jpeg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="139.0" layoutX="39.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@models/mr_monopoly.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

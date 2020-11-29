@@ -1,0 +1,292 @@
+[
+  {
+    "name" : "Dorm 77",
+    "id" : 1,
+    "price" : 20000,
+    "rents" : [2500,5000, 10000,20000],
+    "mortgagePrice" : 10000,
+    "type" : "DORM"
+  },
+  {
+    "name" : "Dorm 78",
+    "id" : 2,
+    "price" : 20000,
+    "rents" : [2500,5000, 10000,20000],
+    "mortgagePrice" : 10000,
+    "type" : "DORM"
+  },
+  {
+    "name" : "Dorm 91",
+    "id" : 3,
+    "price" : 20000,
+    "rents" : [2500,5000, 10000,20000],
+    "mortgagePrice" : 10000,
+    "type" : "DORM"
+  },
+  {
+    "name" : "Dorm 92",
+    "id" : 4,
+    "price" : 20000,
+    "rents" : [2500,5000, 10000,20000],
+    "mortgagePrice" : 10000,
+    "type" : "DORM"
+  },
+  {
+    "name" : "Health Center",
+    "id" : 5,
+    "price" : 15000,
+    "rents" : [400,1000],
+    "mortgagePrice" : 7500,
+    "type" : "FACILITY"
+  },
+  {
+    "name" : "Student Cntr.",
+    "id" : 6,
+    "price" : 15000,
+    "rents" : [400,1000],
+    "mortgagePrice" : 7500,
+    "type" : "FACILITY"
+  },
+  {
+    "name" : "L Building",
+    "id" : 7,
+    "price": 6000,
+    "rents" : [200,1000,3000,9000,16000,25000],
+    "mortgagePrice" : 3000,
+    "housePrice" : 5000,
+    "hotelPrice" : 5000,
+    "color": "BROWN",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "G Building",
+    "id" : 8,
+    "price" : 6000,
+    "rents" : [400,2000,6000,18000,32000,45000],
+    "mortgagePrice" : 3000,
+    "housePrice" : 5000,
+    "hotelPrice" : 5000,
+    "color": "BROWN",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "N Building",
+    "id" : 9,
+    "price" : 10000,
+    "rents" : [600,3000,9000,27000,40000,55000],
+    "mortgagePrice" : 5000,
+    "housePrice" : 5000,
+    "hotelPrice" : 5000,
+    "color": "BLUE",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "Tourism Hotel",
+    "id" : 10,
+    "price" : 10000,
+    "rents" : [600,3000,9000,27000,40000,55000],
+    "mortgagePrice" : 5000,
+    "housePrice" : 5000,
+    "hotelPrice" : 5000,
+    "color": "BLUE",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "CTIS",
+    "id" : 11,
+    "price" : 12000,
+    "rents" : [800,4000,10000,30000,45000,60000],
+    "mortgagePrice" : 6000,
+    "housePrice" : 5000,
+    "hotelPrice" : 5000,
+    "color": "BLUE",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "Coffee Break",
+    "id" : 12,
+    "price" : 14000,
+    "rents" : [1000,5000,15000,45000,62000,75000],
+    "mortgagePrice" : 7000,
+    "housePrice" : 10000,
+    "hotelPrice" : 10000,
+    "color": "PINK",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "H Building",
+    "id" : 13,
+    "price" : 14000,
+    "rents" : [1000,5000,15000,45000,62000,75000],
+    "mortgagePrice" : 7000,
+    "housePrice" : 10000,
+    "hotelPrice" : 10000,
+    "color": "PINK",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "A Building",
+    "id" : 14,
+    "price" : 16000,
+    "rents" : [1200,6000,18000,50000,70000,90000],
+    "mortgagePrice" : 8000,
+    "housePrice" : 10000,
+    "hotelPrice" : 10000,
+    "color": "PINK",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "SB Building",
+    "id" : 15,
+    "price" : 18000,
+    "rents" : [1400,7000,20000,55000, 75000,95000],
+    "mortgagePrice" : 9000,
+    "housePrice" : 10000,
+    "hotelPrice" : 10000,
+    "color": "ORANGE",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "SA Building",
+    "id" : 16,
+    "price" : 18000,
+    "rents" : [1400,7000,20000,55000,75000,95000],
+    "mortgagePrice" : 9000,
+    "housePrice" : 10000,
+    "hotelPrice" : 10000,
+    "color": "ORANGE",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "B Building",
+    "id" : 17,
+    "price" : 20000,
+    "rents" : [1600,8000,22000,60000,80000,100000],
+    "mortgagePrice" : 10000,
+    "housePrice" : 10000,
+    "hotelPrice" : 10000,
+    "color": "ORANGE",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "Kirac",
+    "id" : 18,
+    "price" : 22000,
+    "rents" : [1800,9000,25000,70000,87500,105000],
+    "mortgagePrice" : 11000,
+    "housePrice" : 15000,
+    "hotelPrice" : 15000,
+    "color": "RED",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "Speed",
+    "id" : 19,
+    "price" : 22000,
+    "rents" : [1800,9000,25000,70000,87500,105000],
+    "mortgagePrice" : 11000,
+    "housePrice" : 15000,
+    "hotelPrice" : 15000,
+    "color": "RED",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "F Buildings",
+    "id" : 20,
+    "price" : 24000,
+    "rents" : [2000,10000,30000,75000,92500,110000],
+    "mortgagePrice" : 12000,
+    "housePrice" : 15000,
+    "hotelPrice" : 15000,
+    "color": "RED",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "EB Building",
+    "id" : 21,
+    "price" : 26000,
+    "rents" : [2200,11000,33000,80000,97500,115000],
+    "mortgagePrice" : 13000,
+    "housePrice" : 15000,
+    "hotelPrice" : 15000,
+    "color": "YELLOW",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "EA Building",
+    "id" : 22,
+    "price" : 26000,
+    "rents" : [2200,11000,33000,80000,97500,115000],
+    "mortgagePrice" : 13000,
+    "housePrice" : 15000,
+    "hotelPrice" : 15000,
+    "color": "YELLOW",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "EE Building",
+    "id" : 23,
+    "price" : 28000,
+    "rents" : [2400,12000,36000,85000,102500,120000],
+    "mortgagePrice" : 14000,
+    "housePrice" : 15000,
+    "hotelPrice" : 15000,
+    "color": "YELLOW",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "V Building",
+    "id" : 24,
+    "price" : 30000,
+    "rents" : [2600,13000,39000,90000,110000,127500],
+    "mortgagePrice" : 15000,
+    "housePrice" : 20000,
+    "hotelPrice" : 20000,
+    "color": "GREEN",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "M Building",
+    "id" : 25,
+    "price" : 30000,
+    "rents" : [2600,13000,39000,90000,110000,127500],
+    "mortgagePrice" : 15000,
+    "housePrice" : 20000,
+    "hotelPrice" : 20000,
+    "color": "GREEN",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "Starbucks",
+    "id" : 26,
+    "price" : 32000,
+    "rents" : [2800,15000,45000,100000,120000,140000],
+    "mortgagePrice" : 16000,
+    "housePrice" : 20000,
+    "hotelPrice" : 20000,
+    "color": "GREEN",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "Marmara",
+    "id" : 27,
+    "price" : 35000,
+    "rents" : [3500,17500,50000,110000,130000,150000],
+    "mortgagePrice" : 17500,
+    "housePrice" : 20000,
+    "hotelPrice" : 20000,
+    "color": "NAVY",
+    "type" : "BUILDING"
+  },
+  {
+    "name" : "Library",
+    "id" : 28,
+    "price" : 40000,
+    "rents" : [5000,20000,60000,140000,170000,200000],
+    "mortgagePrice" : 20000,
+    "housePrice" : 20000,
+    "hotelPrice" : 20000,
+    "color": "NAVY",
+    "type" : "BUILDING"
+  }
+]

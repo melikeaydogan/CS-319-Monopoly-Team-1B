@@ -1,0 +1,34 @@
+[
+	{
+		"id":8,
+		"instructions":"Go forward to GO."
+	},
+	{
+		"id":9,
+		"instructions":"Go back three space."
+	},
+	{
+		"id":10,
+		"instructions":"Advance to Speed. If you pass Go, collect 20.000TL."
+	},
+	{
+		"id":11,
+		"instructions":"Go directly to the Jail. Do not pass the GO and do not get 20.000TL."
+	},
+	{
+		"id":12,
+		"instructions":"Advance to Library."
+	},
+	{
+		"id":13,
+		"instructions":"You have won a Sudoku contest. Collect 10.000TL."
+	},
+	{
+		"id":14,
+		"instructions":"You parked your car inaccurately. Pay fine 2.000TL."
+	},
+	{
+		"id":15,
+		"instructions":"Make general repairs on all your property. For each house pay 4.000TL, For each hotel pay 11.500TL."
+	}
+]

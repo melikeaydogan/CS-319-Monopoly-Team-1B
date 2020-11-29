@@ -1,0 +1,199 @@
+[
+  {
+    "tileId" : 0,
+    "salary" : 20000,
+    "type": "START"
+  },
+  {
+    "tileId" : 1,
+    "propertyId" : 7,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 2,
+    "cardType" : "COMMUNITY_CHEST_CARD",
+    "type": "CARD"
+  },
+  {
+    "tileId" : 3,
+    "propertyId" : 8,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 4,
+    "amount" : 20000,
+    "type": "TAX"
+  },
+  {
+    "tileId" : 5,
+    "propertyId" : 1,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 6,
+    "propertyId" : 9,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 7,
+    "cardType" : "CHANCE_CARD",
+    "type": "CARD"
+  },
+  {
+    "tileId" : 8,
+    "propertyId" : 10,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 9,
+    "propertyId" : 11,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 10,
+    "type": "JAIL"
+  },
+  {
+    "tileId" : 11,
+    "propertyId" : 12,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 12,
+    "propertyId" : 5,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 13,
+    "propertyId" : 13,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 14,
+    "propertyId" : 14,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 15,
+    "propertyId" : 2,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 16,
+    "propertyId" : 15,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 17,
+    "cardType" : "COMMUNITY_CHEST_CARD",
+    "type": "CARD"
+  },
+  {
+    "tileId" : 18,
+    "propertyId" : 16,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 19,
+    "propertyId" : 17,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 20,
+    "type": "FREE_PARKING"
+  },
+  {
+    "tileId" : 21,
+    "propertyId" : 18,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 22,
+    "cardType" : "CHANCE_CARD",
+    "type": "CARD"
+  },
+  {
+    "tileId" : 23,
+    "propertyId" : 19,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 24,
+    "propertyId" : 20,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 25,
+    "propertyId" : 3,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 26,
+    "propertyId" : 21,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 27,
+    "propertyId" : 22,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 28,
+    "propertyId" : 6,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 29,
+    "propertyId" : 23,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 30,
+    "type": "GO_TO_JAIL"
+  },
+  {
+    "tileId" : 31,
+    "propertyId" : 24,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 32,
+    "propertyId" : 25,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 33,
+    "cardType" : "COMMUNITY_CHEST_CARD",
+    "type": "CARD"
+  },
+  {
+    "tileId" : 34,
+    "propertyId" : 26,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 35,
+    "propertyId" : 4,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 36,
+    "cardType" : "CHANCE_CARD",
+    "type": "CARD"
+  },
+  {
+    "tileId" : 37,
+    "propertyId" : 27,
+    "type": "PROPERTY"
+  },
+  {
+    "tileId" : 38,
+    "amount": 10000,
+    "type": "TAX"
+  },
+  {
+    "tileId" : 39,
+    "propertyId" : 28,
+    "type": "PROPERTY"
+  }
+]
