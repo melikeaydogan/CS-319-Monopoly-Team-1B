@@ -83,9 +83,15 @@ public class MonopolyGame {
             new GoToJailAction(player).act();
             doubleCount = 0;
         }
+        else if ((diceResult.isDouble() && player.isInJail()) || (player.getJailTurnCount() == 3)) {
+            new GetOutOfJailAction(player).act();
+            player.setJailTurnCount(0);
+        }
         else {
             if (!player.isInJail()) {
                 new MoveAction(player, moveCount).act(); // try catch? PlayerIsInJailException
+
+                ui.updateBoardState();
 
                 Tile tile = board.getTiles().get(player.getPosition());
 
@@ -113,11 +119,14 @@ public class MonopolyGame {
                         processCommunityChestCardTile();
                 }
             }
+            else {
+                player.setJailTurnCount(player.getJailTurnCount() + 1);
+            }
         }
-        ui.updateBoardState();
         nextTurn();
+        ui.updateBoardState();
 
-        System.out.println("Active player balance: " + getActivePlayer().getBalance());
+
         // if user clicks at end turn --> nextTurn(); this is business of ui controller, not this class
     }
 
@@ -129,7 +138,7 @@ public class MonopolyGame {
         turn++;
     }
 
-    public void processPropertyTile(PropertyTile tile) { // ToDo Implement after tile implementation
+    public void processPropertyTile(PropertyTile tile) {
         Property property = board.getPropertyById(tile.getPropertyId());
 
         actionLog.addMessage(getActivePlayer().getName() + " lands on " + property.getName() + "\n");
@@ -145,7 +154,7 @@ public class MonopolyGame {
                 // auction --> iteration 2
             }
         }
-        else if ( property.isOwned() ){
+        else if ( property.isOwned() && getActivePlayer().getPlayerId() != property.getOwnerId() ){
             int transferAmount = 0;
             Player propertyOwner = playerController.getById(property.getOwnerId());
             System.out.println("Property owner: " + propertyOwner.getName());

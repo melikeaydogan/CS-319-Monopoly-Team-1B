@@ -29,6 +29,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
@@ -128,10 +129,13 @@ public class GameScreenController {
                 } else { // property instanceof Facility
                     type = "Facility";
                 }
+
+                DecimalFormat decimalFormat = new DecimalFormat();
+
                 BorderPane propertyPane = new BorderPane();
                 propertyPane.setTop(new Label(type));
                 propertyPane.setCenter(new Label(name));
-                propertyPane.setBottom(new Label(Integer.toString(price)));
+                propertyPane.setBottom(new Label(decimalFormat.format(price) + "$"));
 
                 this.squares[location].getChildren().add(propertyPane);
             } else if (tile instanceof TaxTile) {
@@ -152,11 +156,13 @@ public class GameScreenController {
         // Set playerTurn
         playerTurn.setText(game.getActivePlayer().getName() + "'s Turn!");
 
+        DecimalFormat decimalFormat = new DecimalFormat();
+
         // Update player labels
         Player p1 = game.getPlayerController().getPlayers().get(0);
         Player p2 = game.getPlayerController().getPlayers().get(1);
-        player1Label.setText("  " + p1.getName() + " - " + p1.getTokenName() + " - " + p1.getBalance());
-        player2Label.setText("  " + p2.getName() + " - " + p2.getTokenName() + " - " + p2.getBalance());
+        player1Label.setText("  " + p1.getName() + " - " + p1.getTokenName() + " - " + decimalFormat.format(p1.getBalance()) + "$");
+        player2Label.setText("  " + p2.getName() + " - " + p2.getTokenName() + " - " + decimalFormat.format(p2.getBalance()) + "$");
 
         // Update Game Log
         ActionLog actionLog = MonopolyGame.getActionLog();
@@ -189,19 +195,20 @@ public class GameScreenController {
 
             }
             for (ImageView tokenImage : tokens)
-            square.getChildren().remove(tokenImage);
+                square.getChildren().remove(tokenImage);
         }
 
         // Put Tokens
         int p1Pos = p1.getPosition();
         int p2Pos = p2.getPosition();
 
-        ImageView token1 = new ImageView();
-        token1.setImage(new Image((
-                new File("models/tokens/" + p1.getTokenName() + ".png")).toURI().toString()));
-        ImageView token2 = new ImageView();
-        token2.setImage(new Image((
-                new File("models/tokens/" + p2.getTokenName() + ".png")).toURI().toString()));
+        File file1 = new File("src/gui/models/tokens/" + p1.getTokenName() + ".png");
+        Image image1 = new Image(file1.toURI().toString());
+        ImageView token1 = new ImageView(image1);
+
+        File file2 = new File("src/gui/models/tokens/" + p2.getTokenName() + ".png");
+        Image image2 = new Image(file2.toURI().toString());
+        ImageView token2 = new ImageView(image2);
 
         token1.setId("t1");
         token2.setId("t2"); // set id to easily delete later
@@ -214,8 +221,9 @@ public class GameScreenController {
         squares[p1Pos].getChildren().add(token1);
         squares[p2Pos].getChildren().add(token2);
 
-        token1.toFront();
-        token2.toFront();
+        //anchorPane.getChildren().add(token1);
+        //token1.toFront();
+       // token2.toFront();
     }
 
     public boolean showPropertyDialog(Property property) {

@@ -40,7 +40,7 @@
     "type" : "FACILITY"
   },
   {
-    "name" : "Student Center",
+    "name" : "Student Cntr.",
     "id" : 6,
     "price" : 15000,
     "rents" : [400,1000],
@@ -103,7 +103,7 @@
     "type" : "BUILDING"
   },
   {
-    "name" : "Cofee Break",
+    "name" : "Coffee Break",
     "id" : 12,
     "price" : 14000,
     "rents" : [1000,5000,15000,45000,62000,75000],

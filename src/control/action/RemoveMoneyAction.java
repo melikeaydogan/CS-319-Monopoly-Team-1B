@@ -17,6 +17,6 @@ public class RemoveMoneyAction implements Action {
         if (player.getBalance() >= amount)
             player.removeMoney(amount);
 
-        MonopolyGame.getActionLog().addMessage(player.getName() + " gives " + amount + "$ \n");
+        MonopolyGame.getActionLog().addMessage(player.getName() + " pays " + amount + "$ \n");
     }
 }

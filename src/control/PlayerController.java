@@ -109,7 +109,7 @@ public class PlayerController {
     }
 
 
-    public static void main(String[] args) { //!! ToDo Execute this test after Property implementation
+    public static void main(String[] args) {
         ArrayList<Player> players = new ArrayList<>(6);
         Player player = new Player(0, "Mehmet", Player.Token.BATTLESHIP, 1);
         Player player2 = new Player(1, "Ahmet", Player.Token.BATTLESHIP, 2);

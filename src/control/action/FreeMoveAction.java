@@ -15,10 +15,16 @@ public class FreeMoveAction implements Action{
     @Override
     public void act() {
         if ( !player.isInJail() ) {
-            player.setPosition(position);
+            int moveAmount = 0;
+            if ( position < player.getPosition() ) {
+                position = position + 40;
+                moveAmount = position - player.getPosition();
+            }
+            else {
+                moveAmount = position - player.getPosition();
+            }
 
-            // maybe get tile name from position?
-            MonopolyGame.getActionLog().addMessage(player.getName() + " directly moves to " + position + "\n");
+            new MoveAction(player, moveAmount).act();
         }
     }
 }

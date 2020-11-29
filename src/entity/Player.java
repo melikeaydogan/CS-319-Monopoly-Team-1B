@@ -27,21 +27,21 @@ public class Player {
     private int position;
     private boolean bankrupt;
     private int doubleCounter;
-    private int jailFreeCardAmount;
+    private int jailTurnCount;
     private int teamNumber; // ToDo maybe add a separate Team class?
-    //private ArrayList<Property> properties; // ToDo add properties to the class diagram
+    //private ArrayList<Property> properties;
     private HashMap<String, ArrayList<Property>> properties;
-    private boolean inJail; // ToDo add this to the class diagram
+    private boolean inJail;
 
     public Player(int playerId, String name, Token token, int teamNumber) {
         this.playerId = playerId;
         this.name = name;
-        balance = 150_000; // ToDo check the balance from the rule book
+        balance = 150_000;
         this.token = token;
         position = 0;
         bankrupt = false;
         doubleCounter = 0;
-        jailFreeCardAmount = 0;
+        jailTurnCount = 0;
         inJail = false;
         this.teamNumber = teamNumber;
         properties = new HashMap<>(3);
@@ -58,7 +58,7 @@ public class Player {
         position = player.getPosition();
         bankrupt = player.isBankrupt();
         doubleCounter = player.getDoubleCounter();
-        jailFreeCardAmount = player.getJailFreeCardAmount();
+        jailTurnCount = player.getJailTurnCount();
         teamNumber = player.getTeamNumber();
         properties = new HashMap<String, ArrayList<Property>>(player.getProperties());
         inJail = player.isInJail();
@@ -79,7 +79,7 @@ public class Player {
 
     public boolean move(int tiles) {
         position = position + tiles;
-        if (position > 40) {
+        if (position >= 40) {
             position = position % 40; // there are 40 squares
             return true; // player passes the "go" tile
         }
@@ -93,14 +93,14 @@ public class Player {
         position = tile;
     }
 
-    public boolean useJailFreeCard() { // includes the hasJailFreeCard() function in the diagram
+    /*public boolean useJailFreeCard() { // includes the hasJailFreeCard() function in the diagram
         if ( jailFreeCardAmount > 0 && inJail ) {
             jailFreeCardAmount = jailFreeCardAmount - 1;
             inJail = false;
             return true;
         }
         return false;
-    }
+    }*/
 
     public boolean getOutFromJail(int fee) {
         if ( balance > fee && inJail ) {
@@ -111,7 +111,7 @@ public class Player {
         return false;
     }
 
-    public boolean isInSameTeam(Player player) { // ToDo change the name from sameTeam() in the diagram
+    public boolean isInSameTeam(Player player) {
          return teamNumber == player.getTeamNumber();
     }
 
@@ -218,12 +218,12 @@ public class Player {
         this.doubleCounter = doubleCounter;
     }
 
-    public int getJailFreeCardAmount() {
-        return jailFreeCardAmount;
+    public int getJailTurnCount() {
+        return jailTurnCount;
     }
 
-    public void setJailFreeCardAmount(int jailFreeCard) {
-        this.jailFreeCardAmount = jailFreeCard;
+    public void setJailTurnCount(int jailTurnCount) {
+        this.jailTurnCount = jailTurnCount;
     }
 
     public int getTeamNumber() {
