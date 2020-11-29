@@ -232,6 +232,7 @@ public class GameScreenController {
 
         String title = "";
         String content = "";
+        DecimalFormat decimalFormat = new DecimalFormat();
 
         String name = property.getName();
 
@@ -241,20 +242,20 @@ public class GameScreenController {
             if (!b.isOwned()) {
                 title = "Buy Property?";
                 content = "Do you wish to buy " + b.getName() + "?\n" +
-                        "Price: " + b.getPrice() + ".\n" +
-                        "Rent: " + b.getRents().get(0) + ".";
+                        "Price: " + decimalFormat.format(b.getPrice()) + "$\n" +
+                        "Rent: " + decimalFormat.format(b.getRents().get(0)) + "$";
             } else if (b.getHouseCount() < 4 && game.getActivePlayer().isComplete(b)) {
                 title = "Add House?";
                 content = "Do you wish to build a house to " + b.getName() + "?\n" +
-                        "Price: " + b.getHousePrice() + ".\n" +
-                        "Rent: " + b.getRents().get(b.getHouseCount()) + " ==> " +
-                        b.getRents().get(b.getHouseCount() + 1);
+                        "Price: " + decimalFormat.format(b.getHousePrice()) + "$\n" +
+                        "Rent: " + decimalFormat.format(b.getRents().get(b.getHouseCount())) + " ==> " +
+                        decimalFormat.format(b.getRents().get(b.getHouseCount() + 1));
             } else if (b.getHotelCount() == 4 && game.getActivePlayer().isComplete(b)) {
                 title = "Add Hotel?";
                 content = "Do you wish to build a Hotel to " + b.getName() + "?\n" +
-                        "Price: " + b.getHotelPrice() + ".\n" +
-                        "Rent: " + b.getRents().get(4) + " ==> " +
-                        b.getRents().get(5);
+                        "Price: " + decimalFormat.format(b.getHotelPrice()) + "$\n" +
+                        "Rent: " + decimalFormat.format(b.getRents().get(4)) + " ==> " +
+                        decimalFormat.format(b.getRents().get(5));
             }
         }
         else if (property instanceof Dorm) {
@@ -263,8 +264,8 @@ public class GameScreenController {
             if (!d.isOwned()) {
                 title = "Buy Dormitory?";
                 content = "Do you wish to buy " + d.getName() + "?\n" +
-                        "Price: " + d.getPrice() + ".\n" +
-                        "Rent: " + d.getRents().get(0) + ".";
+                        "Price: " + decimalFormat.format(d.getPrice()) + ".\n" +
+                        "Rent: " + decimalFormat.format(d.getRents().get(0)) + "$";
             }
         }
 
@@ -274,8 +275,8 @@ public class GameScreenController {
             if (!f.isOwned()) {
                 title = "Buy Facility?";
                 content = "Do you wish to buy " + f.getName() + "?\n" +
-                        "Price: " + f.getPrice() + ".\n" +
-                        "Rent: " + f.getRents().get(0) + ".";
+                        "Price: " + decimalFormat.format(f.getPrice()) + "$\n" +
+                        "Rent: " + decimalFormat.format(f.getRents().get(0)) + "$";
             }
         }
 
