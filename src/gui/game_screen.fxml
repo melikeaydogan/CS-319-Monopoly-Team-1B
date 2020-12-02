@@ -17,24 +17,24 @@
          <font>
             <Font size="16.0" />
          </font></Label>
-      <GridPane gridLinesVisible="true" layoutX="1232.0" layoutY="29.0" prefHeight="280.0" prefWidth="455.0">
+      <GridPane gridLinesVisible="true" layoutX="1232.0" layoutY="29.0" prefHeight="387.0" prefWidth="505.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="227.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="227.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints />
-            <RowConstraints maxHeight="118.4" minHeight="10.0" prefHeight="30.600003814697267" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="248.59999618530273" minHeight="10.0" prefHeight="248.59999618530273" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="118.4" minHeight="10.0" prefHeight="16.40000381469727" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="350.7999961853028" minHeight="10.0" prefHeight="350.7999961853028" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label fx:id="player1Label" prefHeight="16.0" prefWidth="217.0" text=" Player1 - Token1 - Money1" textAlignment="CENTER" GridPane.rowIndex="1" />
             <Label fx:id="player2Label" prefHeight="18.0" prefWidth="215.0" text=" Player2 - Token2 - Money2" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="player1Properties" alignment="TOP_LEFT" layoutX="10.0" layoutY="16.0" prefHeight="239.0" prefWidth="223.0" text="Properties " GridPane.rowIndex="2" />
-            <Label fx:id="player2Properties" alignment="TOP_LEFT" layoutX="237.0" layoutY="28.0" prefHeight="235.0" prefWidth="227.0" text="Properties" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="player1Properties" alignment="TOP_LEFT" layoutX="10.0" layoutY="16.0" prefHeight="348.0" prefWidth="223.0" text="Properties " GridPane.rowIndex="2" />
+            <Label fx:id="player2Properties" alignment="TOP_LEFT" layoutX="237.0" layoutY="28.0" prefHeight="347.0" prefWidth="227.0" text="Properties" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button layoutX="1779.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleQuitButton" prefHeight="48.0" prefWidth="89.0" text="Quit game" />
+      <Button layoutX="1779.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleQuitButton" prefHeight="48.0" prefWidth="125.0" text="Quit game" />
       <Text fx:id="playerTurn" layoutX="1332.0" layoutY="898.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="286.2978515625">
          <font>
             <Font name="System Bold" size="21.0" />

@@ -212,6 +212,23 @@ public class MonopolyGame {
 
             new TransferAction(getActivePlayer(), propertyOwner, transferAmount).act();
         }
+        else if (property.isOwned() && getActivePlayer().getPlayerId() == property.getOwnerId() &&
+                 property instanceof Building && getActivePlayer().isComplete((Building) property))  {
+            Building building = (Building) property;
+
+            if (building.getHouseCount() != 4) {
+                boolean boughtHouse = ui.showAddHouseDialog(building);
+
+                if (boughtHouse)
+                    new AddHouseAction(building, getActivePlayer()).act();
+            }
+            else {
+                boolean boughtHotel = ui.showAddHotelDialog(building);
+
+                if (boughtHotel)
+                    new AddHouseAction(building, getActivePlayer()).act();
+            }
+        }
     }
 
     public void buyProperty(PropertyTile tile) {

@@ -125,13 +125,10 @@ public class Player {
                 sameColorCount++;
         }
 
-        if ( sameColorCount == 3 ) {
+        if ( sameColorCount == 2 ) {
             return true;
         }
-        else if ( building.getColor().equals("BROWN") && sameColorCount == 2)
-            return true;
-        else
-            return false;
+        else return building.getColor().equals("BROWN") && sameColorCount == 1;
     }
 
     public HashMap<String, ArrayList<Property>> getProperties() {

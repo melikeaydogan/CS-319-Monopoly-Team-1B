@@ -171,9 +171,9 @@ public class GameScreenController {
         player1Properties.setText("");
         player2Properties.setText("");
 
-        getSortedProperties(p1, player1Properties);
+        setSortedProperties(p1, player1Properties);
 
-        getSortedProperties(p2, player2Properties);
+        setSortedProperties(p2, player2Properties);
 
         // Update Game Log
         ActionLog actionLog = MonopolyGame.getActionLog();
@@ -237,7 +237,7 @@ public class GameScreenController {
        // token2.toFront();
     }
 
-    private void getSortedProperties(Player p1, Label player1Properties) {
+    private void setSortedProperties(Player p1, Label player1Properties) {
         for (Map.Entry<String, ArrayList<Property>> entry : p1.getProperties().entrySet()) {
             String key = entry.getKey();
             ArrayList<Property> properties = entry.getValue();
@@ -249,12 +249,12 @@ public class GameScreenController {
                 });
                 properties.forEach(property -> {
                     Building building = (Building) property;
-                    player1Properties.setText(player1Properties.getText() + "\n" + key + " - " + building.getColor() + " - " + building.getName());
+                    player1Properties.setText(player1Properties.getText() + "\n " + building.getColor() + " - " + building.getName());
                 });
             }
             else {
                 properties.forEach(property -> {
-                    player1Properties.setText(player1Properties.getText() + "\n" + key + " - " + property.getName());
+                    player1Properties.setText(player1Properties.getText() + "\n " + key + " - " + property.getName());
                 });
             }
         }
@@ -270,7 +270,7 @@ public class GameScreenController {
         String name = property.getName();
 
         if (property instanceof Building) {
-            Building b = (Building) property; // ToDo it can be also Dorm or Facility, so it gives ClassCastException
+            Building b = (Building) property;
 
             if (!b.isOwned()) {
                 title = "Buy Property?";
@@ -316,6 +316,68 @@ public class GameScreenController {
 
         dialog.setTitle(title);
         dialog.setContentText(content);
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        return result.isPresent() && (result.get().equals(ButtonType.YES));
+    }
+
+    public boolean showAddHouseDialog(Building building) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+
+        String title = "";
+        String content = "";
+        DecimalFormat decimalFormat = new DecimalFormat();
+
+        String name = building.getName();
+
+        title = "Add House?";
+        content = "Do you wish to build a house to " + building.getName() + "?\n" +
+                "Price: " + decimalFormat.format(building.getHousePrice()) + "$\n" +
+                "Rent: " + decimalFormat.format(building.getRents().get(building.getHouseCount())) + " ==> " +
+                decimalFormat.format(building.getRents().get(building.getHouseCount() + 1));
+
+        dialog.setTitle(title);
+        dialog.setContentText(content);
+
+        // convert to local image, causes performance issues
+        File file = new File("src/gui/models/build_house.jpg");
+        Image image = new Image(file.toURI().toString());
+        ImageView imageView = new ImageView(image);
+        dialog.setGraphic(imageView);
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        return result.isPresent() && (result.get().equals(ButtonType.YES));
+    }
+
+    public boolean showAddHotelDialog(Building building) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+
+        String title = "";
+        String content = "";
+        DecimalFormat decimalFormat = new DecimalFormat();
+
+        String name = building.getName();
+
+        title = "Add Hotel?";
+        content = "Do you wish to build a Hotel to " + building.getName() + "?\n" +
+        "Price: " + decimalFormat.format(building.getHotelPrice()) + "$\n" +
+        "Rent: " + decimalFormat.format(building.getRents().get(4)) + " ==> " +
+        decimalFormat.format(building.getRents().get(5));
+
+        dialog.setTitle(title);
+        dialog.setContentText(content);
+
+        // convert to local image, causes performance issues
+        File file = new File("src/gui/models/build_hotel.jpg");
+        Image image = new Image(file.toURI().toString());
+        ImageView imageView = new ImageView(image);
+        dialog.setGraphic(imageView);
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
