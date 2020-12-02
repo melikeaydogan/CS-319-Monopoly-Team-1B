@@ -143,7 +143,7 @@ public class MonopolyGame {
 
         actionLog.addMessage(getActivePlayer().getName() + " lands on " + property.getName() + "\n");
         if (!property.isOwned() && getActivePlayer().getBalance() >= property.getPrice()) {
-            boolean playerBoughtProperty = ui.showPropertyDialog(property);
+            boolean playerBoughtProperty = ui.showPropertyDialog(property); // separate the house and hotel dialog
 
             System.out.println("Answer: " + playerBoughtProperty);
 

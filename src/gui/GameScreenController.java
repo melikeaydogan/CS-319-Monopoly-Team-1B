@@ -31,8 +31,10 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
 public class GameScreenController {
     private final int LOG_CAPACITY = 8;
@@ -56,7 +58,7 @@ public class GameScreenController {
     @FXML Label log0, log1, log2, log3, log4, log5, log6, log7;
 
     // Player information labels
-    @FXML Label player1Label, player2Label;
+    @FXML Label player1Label, player2Label, player1Properties, player2Properties;
 
     // Text that shows whose turn is it
     @FXML Text playerTurn;
@@ -90,7 +92,7 @@ public class GameScreenController {
         try {
             ArrayList<Player> players = new ArrayList<>();
             Player p1 = new Player(1, name, Player.Token.SHOE, 1);
-            Player p2 = new Player(2, "Deneme", Player.Token.TOP_HAT, 1);
+            Player p2 = new Player(2, "Dummy", Player.Token.TOP_HAT, 1);
 
             game = new MonopolyGame(players, this);
             game.addPlayer(p1);
@@ -165,6 +167,14 @@ public class GameScreenController {
         player1Label.setText("  " + p1.getName() + " - " + p1.getTokenName() + " - " + decimalFormat.format(p1.getBalance()) + "$");
         player2Label.setText("  " + p2.getName() + " - " + p2.getTokenName() + " - " + decimalFormat.format(p2.getBalance()) + "$");
 
+        String player1Props = "";
+        player1Properties.setText("");
+        player2Properties.setText("");
+
+        getSortedProperties(p1, player1Properties);
+
+        getSortedProperties(p2, player2Properties);
+
         // Update Game Log
         ActionLog actionLog = MonopolyGame.getActionLog();
         Label[] logLabels = {log0, log1, log2, log3, log4, log5, log6, log7};
@@ -225,6 +235,29 @@ public class GameScreenController {
         //anchorPane.getChildren().add(token1);
         //token1.toFront();
        // token2.toFront();
+    }
+
+    private void getSortedProperties(Player p1, Label player1Properties) {
+        for (Map.Entry<String, ArrayList<Property>> entry : p1.getProperties().entrySet()) {
+            String key = entry.getKey();
+            ArrayList<Property> properties = entry.getValue();
+            if ( key.equals("BUILDING")) {
+                properties.sort((b1, b2) -> {
+                    Building building1 = (Building) b1;
+                    Building building2 = (Building) b2;
+                    return building1.getColor().compareTo(building2.getColor());
+                });
+                properties.forEach(property -> {
+                    Building building = (Building) property;
+                    player1Properties.setText(player1Properties.getText() + "\n" + key + " - " + building.getColor() + " - " + building.getName());
+                });
+            }
+            else {
+                properties.forEach(property -> {
+                    player1Properties.setText(player1Properties.getText() + "\n" + key + " - " + property.getName());
+                });
+            }
+        }
     }
 
     public boolean showPropertyDialog(Property property) {

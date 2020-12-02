@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GameScreenController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GameScreenController">
    <children>
-      <Button layoutX="1333.0" layoutY="878.0" mnemonicParsing="false" onAction="#handleDiceButton" prefHeight="47.0" prefWidth="83.0" text="Roll Dice" />
-      <Label fx:id="die1" layoutX="1361.0" layoutY="935.0" text="6" textFill="#902f2f" />
-      <Label fx:id="die2" layoutX="1381.0" layoutY="935.0" prefHeight="16.0" prefWidth="0.0" text="6" textFill="#9a4040" />
-      <GridPane gridLinesVisible="true" layoutX="1232.0" layoutY="29.0" prefHeight="25.0" prefWidth="454.0">
+      <Button layoutX="1433.0" layoutY="911.0" mnemonicParsing="false" onAction="#handleDiceButton" prefHeight="47.0" prefWidth="83.0" text="Roll Dice" />
+      <Label fx:id="die1" layoutX="1433.0" layoutY="974.0" text="Dice1" textFill="#902f2f">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+      <Label fx:id="die2" layoutX="1483.0" layoutY="975.0" prefHeight="26.0" prefWidth="46.0" text="Dice2" textFill="#9a4040">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+      <GridPane gridLinesVisible="true" layoutX="1232.0" layoutY="29.0" prefHeight="280.0" prefWidth="455.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="227.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="227.0" minWidth="10.0" prefWidth="227.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="118.4" minHeight="10.0" prefHeight="30.600003814697267" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="248.59999618530273" minHeight="10.0" prefHeight="248.59999618530273" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="player1Label" prefHeight="16.0" prefWidth="217.0" text=" Player1 - Token1 - Money1" GridPane.rowIndex="1" />
-            <Label fx:id="player2Label" text=" Player2 - Token2 - Money2" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="player1Label" prefHeight="16.0" prefWidth="217.0" text=" Player1 - Token1 - Money1" textAlignment="CENTER" GridPane.rowIndex="1" />
+            <Label fx:id="player2Label" prefHeight="18.0" prefWidth="215.0" text=" Player2 - Token2 - Money2" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="player1Properties" alignment="TOP_LEFT" layoutX="10.0" layoutY="16.0" prefHeight="239.0" prefWidth="223.0" text="Properties " GridPane.rowIndex="2" />
+            <Label fx:id="player2Properties" alignment="TOP_LEFT" layoutX="237.0" layoutY="28.0" prefHeight="235.0" prefWidth="227.0" text="Properties" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button layoutX="1547.0" layoutY="91.0" mnemonicParsing="false" onAction="#handleQuitButton" prefHeight="48.0" prefWidth="89.0" text="quit" />
-      <Text fx:id="playerTurn" layoutX="1304.0" layoutY="672.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="120.2978515625" />
+      <Button layoutX="1779.0" layoutY="26.0" mnemonicParsing="false" onAction="#handleQuitButton" prefHeight="48.0" prefWidth="89.0" text="Quit game" />
+      <Text fx:id="playerTurn" layoutX="1332.0" layoutY="898.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="286.2978515625">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font></Text>
       <StackPane fx:id="square20" layoutX="3.0" layoutY="2.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#86edac" height="96.0" stroke="BLACK" strokeType="INSIDE" width="96.0" />
@@ -286,7 +297,7 @@
             </ImageView>
          </children>
       </StackPane>
-      <GridPane fx:id="logPane" gridLinesVisible="true" layoutX="1098.0" layoutY="167.0" prefHeight="387.0" prefWidth="461.0">
+      <GridPane fx:id="logPane" gridLinesVisible="true" layoutX="1228.0" layoutY="455.0" prefHeight="387.0" prefWidth="461.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -303,44 +314,44 @@
         </rowConstraints>
          <children>
             <Label text="Game Log:" />
-            <Label fx:id="log0" text="Label" GridPane.rowIndex="1">
+            <Label fx:id="log0" prefHeight="15.0" prefWidth="441.0" text="Label" GridPane.rowIndex="1">
                <font>
-                  <Font size="10.0" />
+                  <Font size="13.0" />
                </font>
             </Label>
-            <Label fx:id="log1" prefHeight="11.0" prefWidth="208.0" text="Label" GridPane.rowIndex="2">
+            <Label fx:id="log1" prefHeight="15.0" prefWidth="446.0" text="Label" GridPane.rowIndex="2">
                <font>
-                  <Font size="10.0" />
+                  <Font size="13.0" />
                </font>
             </Label>
-            <Label fx:id="log2" text="Label" GridPane.rowIndex="3">
+            <Label fx:id="log2" prefHeight="15.0" prefWidth="442.0" text="Label" GridPane.rowIndex="3">
                <font>
-                  <Font size="10.0" />
+                  <Font size="13.0" />
                </font>
             </Label>
-            <Label fx:id="log3" text="Label" GridPane.rowIndex="4">
+            <Label fx:id="log3" prefHeight="15.0" prefWidth="434.0" text="Label" GridPane.rowIndex="4">
                <font>
-                  <Font size="10.0" />
+                  <Font size="13.0" />
                </font>
             </Label>
-            <Label fx:id="log4" text="Label" GridPane.rowIndex="5">
+            <Label fx:id="log4" prefHeight="15.0" prefWidth="444.0" text="Label" GridPane.rowIndex="5">
                <font>
-                  <Font size="10.0" />
+                  <Font size="13.0" />
                </font>
             </Label>
-            <Label fx:id="log5" text="Label" GridPane.rowIndex="6">
+            <Label fx:id="log5" prefHeight="15.0" prefWidth="437.0" text="Label" GridPane.rowIndex="6">
                <font>
-                  <Font size="10.0" />
+                  <Font size="13.0" />
                </font>
             </Label>
-            <Label fx:id="log6" text="Label" GridPane.rowIndex="7">
+            <Label fx:id="log6" prefHeight="15.0" prefWidth="442.0" text="Label" GridPane.rowIndex="7">
                <font>
-                  <Font size="10.0" />
+                  <Font size="13.0" />
                </font>
             </Label>
-            <Label fx:id="log7" text="Label" GridPane.rowIndex="8">
+            <Label fx:id="log7" prefHeight="15.0" prefWidth="440.0" text="Label" GridPane.rowIndex="8">
                <font>
-                  <Font size="10.0" />
+                  <Font size="13.0" />
                </font>
             </Label>
          </children>

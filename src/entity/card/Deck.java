@@ -1,7 +1,5 @@
 package entity.card;
 
-import entity.card.Card;
-
 import java.util.*;
 
 import java.io.Reader;

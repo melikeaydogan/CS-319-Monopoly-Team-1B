@@ -5,15 +5,15 @@
 	},
 	{
 		"id":1,
-		"instructions":"You won a ... contest. Collect 1000 TL."
+		"instructions":"You won a ... contest. Collect 1000 $."
 	},
 	{
 		"id":2,
-		"instructions":"Pay 1000 TL for the punishment or draw a chance card."
+		"instructions":"Pay 1000 $ for the punishment or draw a chance card."
 	},
 	{
 		"id":3,
-		"instructions":"It is time for the first installment of the Tution Fee. Pay 10.000TL.  "
+		"instructions":"It is time for the first installment of the Tution Fee. Pay 10.000$.  "
 	},
 	{
 		"id":4,
@@ -21,11 +21,11 @@
 	},
 	{
 		"id":5,
-		"instructions":"Today is your birthday. Collect 1.000TL from every player as prize."
+		"instructions":"Today is your birthday. Collect 1.000$ from every player as prize."
 	},
 	{
 		"id":6,
-		"instructions":"Go directly to the Jail. Do not pass the GO and do not collect 20.000TL."
+		"instructions":"Go directly to the Jail. Do not pass the GO and do not collect 20.000$."
 	},
 	{
 		"id":7,
