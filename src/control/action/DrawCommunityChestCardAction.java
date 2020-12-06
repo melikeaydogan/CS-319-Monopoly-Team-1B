@@ -14,6 +14,9 @@ public class DrawCommunityChestCardAction implements Action{
         this.card = card;
     }
 
+    public DrawCommunityChestCardAction() {
+    }
+
     @Override
     public void act() {
         //Card communityChestCard = board.drawCommunityChestCard();

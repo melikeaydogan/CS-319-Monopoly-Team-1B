@@ -10,6 +10,9 @@ public class PassAction implements Action {
         this.player = player;
     }
 
+    public PassAction() {
+    }
+
     @Override
     public void act() {
         new AddMoneyAction(player, 20_000).act();

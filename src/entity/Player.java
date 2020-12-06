@@ -50,6 +50,23 @@ public class Player {
         properties.put("FACILITY", new ArrayList<Property>(2));
     }
 
+    public Player(String name, Token token, int teamNumber) {
+        // this.playerId = playerId; set id from server side
+        this.name = name;
+        balance = 150_000;
+        this.token = token;
+        position = 0;
+        bankrupt = false;
+        doubleCounter = 0;
+        jailTurnCount = 0;
+        inJail = false;
+        this.teamNumber = teamNumber;
+        properties = new HashMap<>(3);
+        properties.put("DORM", new ArrayList<Property>(4));
+        properties.put("BUILDING", new ArrayList<Property>(22));
+        properties.put("FACILITY", new ArrayList<Property>(2));
+    }
+
     public Player(Player player) {
         playerId = player.getPlayerId();
         name = player.getName();
@@ -62,6 +79,9 @@ public class Player {
         teamNumber = player.getTeamNumber();
         properties = new HashMap<String, ArrayList<Property>>(player.getProperties());
         inJail = player.isInJail();
+    }
+
+    public Player() {
     }
 
     public void removeMoney(int amount) {

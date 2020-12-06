@@ -32,6 +32,9 @@ public abstract class Property {
         ownerId = -1;
     }
 
+    public Property() {
+    }
+
     public String getName() {
         return name;
     }

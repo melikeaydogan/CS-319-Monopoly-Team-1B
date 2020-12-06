@@ -14,6 +14,9 @@ public class AddHouseAction implements Action {
         this.player = player;
     }
 
+    public AddHouseAction() {
+    }
+
     @Override
     public void act() { // color check?
         if ( player.getBalance() > building.getHousePrice() ) {

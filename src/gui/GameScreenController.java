@@ -274,9 +274,8 @@ public class GameScreenController {
 
             if (!b.isOwned()) {
                 title = "Buy Property?";
-                content = "Do you wish to buy " + b.getName() + "?\n" +
-                        "Price: " + decimalFormat.format(b.getPrice()) + "$\n" +
-                        "Rent: " + decimalFormat.format(b.getRents().get(0)) + "$";
+                content = "Do you wish to buy " + b.getName() + "?\n\n" +
+                        "Price: " + decimalFormat.format(b.getPrice()) + "$\n";
             } else if (b.getHouseCount() < 4 && game.getActivePlayer().isComplete(b)) {
                 title = "Add House?";
                 content = "Do you wish to build a house to " + b.getName() + "?\n" +
@@ -297,8 +296,7 @@ public class GameScreenController {
             if (!d.isOwned()) {
                 title = "Buy Dormitory?";
                 content = "Do you wish to buy " + d.getName() + "?\n" +
-                        "Price: " + decimalFormat.format(d.getPrice()) + ".\n" +
-                        "Rent: " + decimalFormat.format(d.getRents().get(0)) + "$";
+                        "Price: " + decimalFormat.format(d.getPrice()) + ".\n";
             }
         }
 
@@ -308,14 +306,18 @@ public class GameScreenController {
             if (!f.isOwned()) {
                 title = "Buy Facility?";
                 content = "Do you wish to buy " + f.getName() + "?\n" +
-                        "Price: " + decimalFormat.format(f.getPrice()) + "$\n" +
-                        "Rent: " + decimalFormat.format(f.getRents().get(0)) + "$";
+                        "Price: " + decimalFormat.format(f.getPrice()) + "$\n";
             }
         }
 
 
         dialog.setTitle(title);
         dialog.setContentText(content);
+
+        File file = new File("src/gui/models/properties/" + property.getName() +".jpg");
+        Image image = new Image(file.toURI().toString());
+        ImageView imageView = new ImageView(image);
+        dialog.setGraphic(imageView);
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);

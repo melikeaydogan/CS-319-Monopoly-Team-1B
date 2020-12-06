@@ -12,6 +12,9 @@ public class FreeMoveAction implements Action{
         this.position = position;
     }
 
+    public FreeMoveAction() {
+    }
+
     @Override
     public void act() {
         if ( !player.isInJail() ) {

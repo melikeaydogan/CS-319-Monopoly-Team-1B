@@ -13,6 +13,9 @@ public class MoveAction implements Action{
         this.moveAmount = moveAmount;
     }
 
+    public MoveAction() {
+    }
+
     @Override
     public void act() {
         if ( !player.isInJail() ) {

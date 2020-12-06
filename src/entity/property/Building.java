@@ -19,6 +19,10 @@ public class Building extends Property{
         hotelCount = 0;
     }
 
+    public Building() {
+        super();
+    }
+
     public void addHouse() {
         houseCount++;
     }

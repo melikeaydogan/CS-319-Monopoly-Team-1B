@@ -12,6 +12,9 @@ public class RemoveMoneyAction implements Action {
         this.amount = amount;
     }
 
+    public RemoveMoneyAction() {
+    }
+
     @Override
     public void act() {
         if (player.getBalance() >= amount)

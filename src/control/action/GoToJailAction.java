@@ -10,6 +10,9 @@ public class GoToJailAction implements Action{
         this.player = player;
     }
 
+    public GoToJailAction() {
+    }
+
     @Override
     public void act() {
         player.setInJail(true);

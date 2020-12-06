@@ -12,6 +12,9 @@ public class AddMoneyAction implements Action{
         this.amount = amount;
     }
 
+    public AddMoneyAction() {
+    }
+
     @Override
     public void act() {
         player.addMoney(amount);

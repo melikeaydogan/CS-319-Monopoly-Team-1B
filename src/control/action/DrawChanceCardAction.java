@@ -14,6 +14,9 @@ public class DrawChanceCardAction implements Action{
         this.card = card;
     }
 
+    public DrawChanceCardAction() {
+    }
+
     @Override
     public void act() {
         MonopolyGame.getActionLog().addMessage(player.getName() + " draws the chance card: " + card + "\n" );

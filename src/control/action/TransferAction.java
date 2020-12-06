@@ -14,6 +14,9 @@ public class TransferAction implements Action{
         this.amount = amount;
     }
 
+    public TransferAction() {
+    }
+
     @Override
     public void act() {
         if ( player.getBalance() >= amount ) {

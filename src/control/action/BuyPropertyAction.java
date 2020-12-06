@@ -18,6 +18,9 @@ public class BuyPropertyAction implements Action{
         this.player = player;
     }
 
+    public BuyPropertyAction() {
+    }
+
     @Override
     public void act() { // else throw exception
         if ( player.getBalance() >= property.getPrice() ) {

@@ -20,6 +20,11 @@ import gui.GameScreenController;
 // It will call appropriate functions according to the user input
 // how do we bankrupt the player?
 
+// about multiplayer
+// return ArrayList<Action> to server
+// server will send these actions to other clients
+// clients will process these actions
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -28,7 +33,7 @@ public class MonopolyGame {
 
     Board board;
     int turn;
-    static ActionLog actionLog;
+    public static ActionLog actionLog;
     PlayerController playerController;
     // GameMode gameMode;
     boolean gameStarted = false;
@@ -48,6 +53,23 @@ public class MonopolyGame {
         this.ui = ui;
     }
 
+    public MonopolyGame() throws IOException {
+        board = new Board();
+        turn = 0;
+        actionLog = new ActionLog();
+        //playerController = new PlayerController(players);
+        dice = new Dice(System.currentTimeMillis());
+        //this.ui = ui;
+    }
+
+    public MonopolyGame(ArrayList<Player> players, long seed) throws IOException {
+        board = new Board();
+        turn = 0;
+        actionLog = new ActionLog();
+        playerController = new PlayerController(players);
+        dice = new Dice(seed);
+    }
+
     public void addPlayer(Player player) {
         playerController.addPlayer(player);
     }
@@ -56,10 +78,13 @@ public class MonopolyGame {
         gameStarted = false;
     }
 
-    public void startGame() {
+    public Player startGame() {
         ArrayList<Player> players = playerController.getPlayers();
+        System.out.println("Size of players: " + players.size());
         playerController.setActivePlayer(players.get(new Random().nextInt(players.size() - 1))); // randomize the process
         gameStarted = true;
+
+        return playerController.getActivePlayer();
     }
 
     public DiceResult rollDice() {
@@ -314,7 +339,23 @@ public class MonopolyGame {
         this.dice = dice;
     }
 
-/*    public static void main(String[] args) throws IOException {
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+
+    public GameScreenController getUi() {
+        return ui;
+    }
+
+    public void setUi(GameScreenController ui) {
+        this.ui = ui;
+    }
+
+    /*    public static void main(String[] args) throws IOException {
         Player player1 = new Player(1, "Mehmet" , Player.Token.BATTLESHIP, 1);
         Player player2 = new Player(2, "Ali" , Player.Token.BATTLESHIP, 1);
         Player player3 = new Player(3, "Veli" , Player.Token.BATTLESHIP, 1);

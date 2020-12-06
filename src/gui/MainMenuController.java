@@ -29,6 +29,9 @@ public class MainMenuController {
 
             Stage stage = (Stage) imageView.getScene().getWindow();
 
+            stage.setX(0);
+            stage.setY(0);
+            stage.setMaximized(true);
             stage.setScene(scene);
         } catch (Exception e) {
             System.out.println(e);

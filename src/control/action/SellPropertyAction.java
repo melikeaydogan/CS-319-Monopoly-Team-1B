@@ -13,6 +13,9 @@ public class SellPropertyAction implements Action {
         this.property = property;
     }
 
+    public SellPropertyAction() {
+    }
+
     @Override
     public void act() {
         property.setOwned(false);
