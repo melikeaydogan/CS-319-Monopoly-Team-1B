@@ -86,12 +86,12 @@
       </StackPane>
       <StackPane fx:id="square27" layoutX="670.0" layoutY="2.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#86edac" height="96.0" stroke="BLACK" strokeType="INSIDE" width="96.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f6ff1f" height="96.0" stroke="BLACK" strokeType="INSIDE" width="96.0" />
          </children>
       </StackPane>
       <StackPane fx:id="square28" layoutX="766.0" layoutY="2.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f6ff1f" height="96.0" stroke="BLACK" strokeType="INSIDE" width="96.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#86edac" height="96.0" stroke="BLACK" strokeType="INSIDE" width="96.0" />
          </children>
       </StackPane>
       <StackPane fx:id="square29" layoutX="862.0" layoutY="2.0">
