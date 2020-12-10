@@ -19,6 +19,7 @@ public class MonopolyServer {
     private MonopolyGame monopolyGame;
     private Connection activeConnection = null;
     boolean gameStarted = false;
+    // LobbyController lobbyController
 
     public MonopolyServer() throws IOException {
 
@@ -38,7 +39,7 @@ public class MonopolyServer {
                 }
                 System.out.println("[SERVER] New client connected --> " + connection.getID());
                 connection.sendTCP("Hi connection number " + connection.getID() + "! :)");
-
+                // lobbyController.update()
                 // activeConnection = connection;
 //
 //                if (clients.size() >= 2) {
@@ -79,7 +80,9 @@ public class MonopolyServer {
                             }
                         }
                         else {
-                            connection.sendTCP("It is not player's turn!");
+                            if (o instanceof ChatMessage) {
+                                server.sendToAllExceptTCP(connection.getID(), o);
+                            }
                         }
                     }
                 }
@@ -131,6 +134,10 @@ public class MonopolyServer {
         activeConnection = registeredPlayer.get(activePlayer);
         activeConnection.sendTCP("buttons active"); // continue this method, inactive for other connections
         // go to the game screen in clients
+    }
+
+    public void stopGame() {
+        server.stop(); // too harsh??
     }
 
     public static void main(String[] args) throws IOException {

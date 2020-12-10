@@ -24,6 +24,7 @@ public class MainMenuController {
             //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
             Scene scene = new Scene(root, 1920, 1080);
 
+            // how to switch to lobby??
             GameScreenController gameScreenController = loader.getController();
             gameScreenController.setupGame(username);
 
@@ -34,7 +35,7 @@ public class MainMenuController {
             stage.setMaximized(true);
             stage.setScene(scene);
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

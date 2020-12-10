@@ -9,6 +9,8 @@ import control.action.Action;
 import entity.Player;
 import entity.card.Card;
 import entity.property.Building;
+import gui.GameScreenController;
+import gui.LobbyController;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -22,7 +24,9 @@ public class MonopolyClient {
     String name;
     ArrayList<Player> players;
     long seed;
-    MonopolyGame monopolyGame;
+    GameScreenController gameScreenController;
+    LobbyController lobbyController; // server will send the players,
+    // MonopolyGame monopolyGame;
 
     boolean isConnected = false;
     boolean gameStarted = false;
@@ -61,27 +65,18 @@ public class MonopolyClient {
                     if (o instanceof Action) {
                         Action action = (Action) o;
                         if (Objects.isNull(MonopolyGame.getActionLog())) {
-                            MonopolyGame.actionLog = new ActionLog();
+                            MonopolyGame.actionLog = ActionLog.getInstance();
                         }
                         action.act(); // how is it connected to the MonopolyGame class?
                         System.out.println(action);
                     }
+                    else if (o instanceof ChatMessage) {
+                        ChatMessage message = (ChatMessage) o;
+                        // gameScreenController.addChatMessage(message);
+                    }
                     else if (o instanceof String) {
                         String s = (String) o;
                         System.out.println("[SERVER] " + s);
-                    }
-                    else if (o instanceof Player) {
-                        Player p = (Player) o;
-                        System.out.println("[SERVER] sent the player --> " + p);
-                        System.out.println("Player position " + p.getPosition());
-                    }
-                    else if (o instanceof Building) {
-                        Building b = (Building) o;
-                        System.out.println("[SERVER] sent the building --> " + b);
-                    }
-                    else if (o instanceof Card) {
-                        Card c = (Card) o;
-                        System.out.println("[SERVER] sent the card --> " + c);
                     }
                 }
                 else {
@@ -97,8 +92,11 @@ public class MonopolyClient {
                         String message = (String) o;
                         if (message.equals("game started")) {
                             try {
-                                monopolyGame = new MonopolyGame(players, seed); // what about ui?
+                                MonopolyGame monopolyGame = new MonopolyGame(players, seed); // what about ui?
+                                gameScreenController.setGame(monopolyGame);
                                 gameStarted = true;
+
+                                // switch ui to game screen
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -135,8 +133,12 @@ public class MonopolyClient {
         }.start();
     }
 
-    public void sendAction(Action action) {
+    public void sendStartGameCommand() {
+        connection.sendTCP("start game");
+    }
 
+    public void sendAction(Action action) {
+        connection.sendTCP(action);
     }
 
     public Client getClient() {

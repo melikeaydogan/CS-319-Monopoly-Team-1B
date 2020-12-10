@@ -18,16 +18,23 @@ public class LobbyController {
 
     private final int CAPACITY = 6;
 
-    private ArrayList<String> names;
-    private ArrayList<Player.Token> tokens;
-    private ArrayList<Integer> teams;
+    private ArrayList<Player> players;
+
+    // private MonopolyClient monopolyClient;
+    // players = monopolyClient.getPlayers()
+
+    // monopolyClient.getId() == 1
 
     private int allianceEnabled, speedDieEnabled, privateLobby;
     private String pin;
 
     @FXML
     protected void startButtonPressed(ActionEvent e) {
+        // monopolyClient.startGame()
+    }
 
+    public void startGame() {
+        // switch to game screen
     }
 
     public void setUpLobby(String hostName) {
@@ -37,7 +44,7 @@ public class LobbyController {
         teams = new ArrayList<>();
 
         names.add(hostName);
-        updateLobbyState();
+        //updateLobbyState();
     }
 
     public boolean isFull() {
@@ -56,10 +63,10 @@ public class LobbyController {
         names.remove(i);
         teams.remove(i);
         tokens.remove(i);
-        redrawPlayers();
+        //redrawPlayers();
     }
 
-    public void
+    //public void
 
     public void updateLobby() {
         // Insert new children according to data
@@ -67,7 +74,7 @@ public class LobbyController {
             int loc = i + 1;
             String name = names.get(i);
 
-            playersPane.add();
+            //playersPane.add();
 
         }
     }

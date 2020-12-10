@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 
 public class GameScreenController {
     private final int LOG_CAPACITY = 8;
@@ -86,6 +85,14 @@ public class GameScreenController {
 
             game.processTurn();
         }
+    }
+
+    public void disableButtons() {
+
+    }
+
+    public void enableButtons() {
+
     }
 
     public void setupGame(String name) {
@@ -171,43 +178,18 @@ public class GameScreenController {
         player1Properties.setText("");
         player2Properties.setText("");
 
-        setSortedProperties(p1, player1Properties);
+        setPropertyTable(p1, player1Properties);
 
-        setSortedProperties(p2, player2Properties);
+        setPropertyTable(p2, player2Properties);
 
         // Update Game Log
-        ActionLog actionLog = MonopolyGame.getActionLog();
-        Label[] logLabels = {log0, log1, log2, log3, log4, log5, log6, log7};
-        int logSize = actionLog.getNumActions();
-        if (logSize > LOG_CAPACITY) {
-            for (int i = logSize - 1, j = LOG_CAPACITY - 1; j >= 0; i--, j--) {
-                logLabels[j].setText(actionLog.getLog().get(i));
-            }
-        } else {
-            int i = 0;
-            for ( ; i < logSize; i++)
-                logLabels[i].setText(actionLog.getLog().get(i));
+        updateGameLog();
 
-            for ( ; i < LOG_CAPACITY; i++)
-                logLabels[i].setText(" ");
-        }
+        int p1oldPos = p1.getPosition();
+        int p2oldPos = p2.getPosition();
 
         // Clear Tokens
-        ArrayList<ImageView> tokens = new ArrayList<>(6);
-        for (StackPane square : squares) {
-            ObservableList<Node> children = square.getChildren();
-            for (Node n : children) {
-                if (!Objects.isNull(n.getId())) {
-                    if (n instanceof ImageView && (n.getId().equals("t1") || n.getId().equals("t2"))) {
-                        ImageView token = (ImageView) n;
-                        tokens.add(token);
-                    }
-                }
-
-            }
-            for (ImageView tokenImage : tokens)
-                square.getChildren().remove(tokenImage);
-        }
+        clearTokens();
 
         // Put Tokens
         int p1Pos = p1.getPosition();
@@ -237,7 +219,43 @@ public class GameScreenController {
        // token2.toFront();
     }
 
-    private void setSortedProperties(Player p1, Label player1Properties) {
+    private void updateGameLog() {
+        ActionLog actionLog = MonopolyGame.getActionLog();
+        Label[] logLabels = {log0, log1, log2, log3, log4, log5, log6, log7};
+        int logSize = actionLog.getNumActions();
+        if (logSize > LOG_CAPACITY) {
+            for (int i = logSize - 1, j = LOG_CAPACITY - 1; j >= 0; i--, j--) {
+                logLabels[j].setText(actionLog.getLog().get(i));
+            }
+        } else {
+            int i = 0;
+            for ( ; i < logSize; i++)
+                logLabels[i].setText(actionLog.getLog().get(i));
+
+            for ( ; i < LOG_CAPACITY; i++)
+                logLabels[i].setText(" ");
+        }
+    }
+
+    private void clearTokens() {
+        ArrayList<ImageView> tokens = new ArrayList<>(6);
+        for (StackPane square : squares) {
+            ObservableList<Node> children = square.getChildren();
+            for (Node n : children) {
+                if (!Objects.isNull(n.getId())) {
+                    if (n instanceof ImageView && (n.getId().equals("t1") || n.getId().equals("t2"))) {
+                        ImageView token = (ImageView) n;
+                        tokens.add(token);
+                    }
+                }
+
+            }
+            for (ImageView tokenImage : tokens)
+                square.getChildren().remove(tokenImage);
+        }
+    }
+
+    private void setPropertyTable(Player p1, Label player1Properties) {
         for (Map.Entry<String, ArrayList<Property>> entry : p1.getProperties().entrySet()) {
             String key = entry.getKey();
             ArrayList<Property> properties = entry.getValue();
@@ -344,7 +362,6 @@ public class GameScreenController {
         dialog.setTitle(title);
         dialog.setContentText(content);
 
-        // convert to local image, causes performance issues
         File file = new File("src/gui/models/build_house.jpg");
         Image image = new Image(file.toURI().toString());
         ImageView imageView = new ImageView(image);
@@ -375,7 +392,6 @@ public class GameScreenController {
         dialog.setTitle(title);
         dialog.setContentText(content);
 
-        // convert to local image, causes performance issues
         File file = new File("src/gui/models/build_hotel.jpg");
         Image image = new Image(file.toURI().toString());
         ImageView imageView = new ImageView(image);
@@ -386,5 +402,13 @@ public class GameScreenController {
         Optional<ButtonType> result = dialog.showAndWait();
 
         return result.isPresent() && (result.get().equals(ButtonType.YES));
+    }
+
+    public MonopolyGame getGame() {
+        return game;
+    }
+
+    public void setGame(MonopolyGame game) {
+        this.game = game;
     }
 }

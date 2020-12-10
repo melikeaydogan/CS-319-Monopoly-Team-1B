@@ -4,13 +4,23 @@ import java.util.ArrayList;
 
 public class ActionLog {
 
+    private static ActionLog log_instance = null; // singleton
+
     private final int MAX_LOG = Integer.MAX_VALUE;
     ArrayList<String> log;
     private int numActions;
 
-    public ActionLog() {
+    private ActionLog() {
         log = new ArrayList<>();
         numActions = 0;
+    }
+
+    public static ActionLog getInstance() {
+        if (log_instance == null) {
+            log_instance = new ActionLog();
+        }
+
+        return log_instance;
     }
 
     public void addMessage(String s) {
