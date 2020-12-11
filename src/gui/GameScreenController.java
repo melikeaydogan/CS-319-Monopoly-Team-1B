@@ -92,14 +92,6 @@ public class GameScreenController {
         }
     }
 
-    public void disableButtons() {
-
-    }
-
-    public void enableButtons() {
-
-    }
-
     public void setupGame(ArrayList<Player> players) {
         try {
             game = new MonopolyGame(players, this);

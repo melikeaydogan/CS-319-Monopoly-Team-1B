@@ -45,7 +45,8 @@ public class LobbyController {
         return !(monopolyClient.getPlayers().size() < CAPACITY);
     }
 
-    public void leaveButtonPressed(String name) {
+    @FXML
+    protected void leaveButtonPressed(String name) {
         // TODO: Terminate the client,
         //  if the player is host stop the server
         //  else, the server is still on.

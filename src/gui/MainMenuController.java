@@ -84,7 +84,7 @@ public class MainMenuController {
     }
 
     @FXML
-    protected void handleOptionsButton(ActionEvent e) {
+    protected void optionsPressed(ActionEvent e) {
         try {
             Stage stage = (Stage) imageView.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("options.fxml"));
