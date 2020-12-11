@@ -19,17 +19,23 @@ import java.util.Objects;
 
 public class MonopolyClient {
 
+    // Connection members
+    boolean isConnected = false;
     Client client;
     Connection connection;
+
+    // Control members
+    boolean gameStarted = false;
+    GameScreenController gameScreenController;
+    LobbyController lobbyController;
+
+    // Lobby members
     String name;
     ArrayList<Player> players;
-    long seed;
-    GameScreenController gameScreenController;
-    LobbyController lobbyController; // server will send the players,
-    // MonopolyGame monopolyGame;
 
-    boolean isConnected = false;
-    boolean gameStarted = false;
+    // Game members
+    long seed;
+    MonopolyGame monopolyGame;
 
     public MonopolyClient(String name) {
         this.name = name;
@@ -165,8 +171,20 @@ public class MonopolyClient {
         isConnected = connected;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     public static void main(String[] args) {
         MonopolyClient client = new MonopolyClient("Mehmet");
         client.connect();
+    }
+
+    public int getId() {
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getName().equals(name))
+                return i;
+        }
+        return -1;
     }
 }

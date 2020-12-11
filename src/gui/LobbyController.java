@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import network.MonopolyClient;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -18,15 +19,13 @@ public class LobbyController {
 
     private final int CAPACITY = 6;
 
-    private ArrayList<Player> players;
+    private MonopolyClient monopolyClient;
 
-    // private MonopolyClient monopolyClient;
+    // To get the users from the client:
     // players = monopolyClient.getPlayers()
 
-    // monopolyClient.getId() == 1
-
-    private int allianceEnabled, speedDieEnabled, privateLobby;
-    private String pin;
+    // To check if the user is host:
+    // monopolyClient.getId() == 0
 
     @FXML
     protected void startButtonPressed(ActionEvent e) {
@@ -37,46 +36,23 @@ public class LobbyController {
         // switch to game screen
     }
 
-    public void setUpLobby(String hostName) {
-        pin = "312312";
-        names = new ArrayList<>();
-        tokens = new ArrayList<>();
-        teams = new ArrayList<>();
-
-        names.add(hostName);
-        //updateLobbyState();
+    public void setUpLobby(MonopolyClient monopolyClient) {
+        this.monopolyClient = monopolyClient;
+        updateLobbyState();
     }
 
     public boolean isFull() {
-        return names.size() < CAPACITY;
+        return !(monopolyClient.getPlayers().size() < CAPACITY);
     }
 
-    public void playerJoined(String name) {
-        if (!isFull()) {
-            names.add(name);
-            updateLobby();
-        }
+    public void leaveButtonPressed(String name) {
+        // TODO: Terminate the client,
+        //  if the player is host stop the server
+        //  else, the server is still on.
     }
 
-    public void playerLeft(String name) {
-        int i = names.indexOf(name);
-        names.remove(i);
-        teams.remove(i);
-        tokens.remove(i);
-        //redrawPlayers();
-    }
-
-    //public void
-
-    public void updateLobby() {
-        // Insert new children according to data
-        for (int i = 0; i < names.size(); i++) {
-            int loc = i + 1;
-            String name = names.get(i);
-
-            //playersPane.add();
-
-        }
+    public void updateLobbyState() {
+        // TODO: updates the labels from the players.
     }
 
 }

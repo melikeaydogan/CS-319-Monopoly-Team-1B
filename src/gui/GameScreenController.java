@@ -39,7 +39,9 @@ public class GameScreenController {
     private final int LOG_CAPACITY = 8;
 
     // Game object
+    // TODO: replace game object with the client
     MonopolyGame game;
+    // MonopolyClient monopolyClient;
 
     // Labels for die results
     @FXML Label die1, die2;
@@ -55,6 +57,7 @@ public class GameScreenController {
 
     // Activity Log
     @FXML Label log0, log1, log2, log3, log4, log5, log6, log7;
+    Label [] logs;
 
     // Player information and property labels
     @FXML Label player0Label, player1Label, player2Label, player3Label,player4Label, player5Label,
@@ -107,17 +110,19 @@ public class GameScreenController {
     }
 
     private void setupBoard() {
-         StackPane[] squares = {square0, square1, square2, square3, square4, square5, square6, square7, square8, square9, square10,
-                square11, square12, square13, square14,square15,square16,square17,square18,square19, square20, square21,
-                square22, square23, square24, square25, square26, square27, square28, square29, square30, square31, square32,
-                square33, square34, square35, square36, square37, square38, square39};
-        this.squares = squares;
+        this.squares = new StackPane[]{square0, square1, square2, square3, square4, square5, square6, square7,
+                square8, square9, square10, square11, square12, square13, square14, square15, square16, square17,
+                square18,square19, square20, square21, square22, square23, square24, square25, square26,
+                square27, square28, square29, square30, square31, square32, square33, square34, square35,
+                square36, square37, square38, square39};
 
-        Label[] labels = {player0Label, player1Label, player2Label, player3Label,player4Label, player5Label};
-        this.playerLabels = labels;
+        this.playerLabels = new Label[]{player0Label, player1Label, player2Label, player3Label,
+                player4Label, player5Label};
 
-        Label[] properties = {player0Properties, player1Properties, player2Properties, player3Properties, player4Properties, player5Properties};
-        this.playerProperties = properties;
+        this.playerProperties = new Label[]{player0Properties, player1Properties, player2Properties,
+                player3Properties, player4Properties, player5Properties};
+
+        this.logs = new Label[]{log0, log1, log2, log3, log4, log5, log6, log7};
 
         // Set up Tiles
         ArrayList<Tile> tiles = game.getBoard().getTiles();
@@ -201,19 +206,18 @@ public class GameScreenController {
 
     private void updateGameLog() {
         ActionLog actionLog = MonopolyGame.getActionLog();
-        Label[] logLabels = {log0, log1, log2, log3, log4, log5, log6, log7};
         int logSize = actionLog.getNumActions();
         if (logSize > LOG_CAPACITY) {
             for (int i = logSize - 1, j = LOG_CAPACITY - 1; j >= 0; i--, j--) {
-                logLabels[j].setText(actionLog.getLog().get(i));
+                logs[j].setText(actionLog.getLog().get(i));
             }
         } else {
             int i = 0;
             for ( ; i < logSize; i++)
-                logLabels[i].setText(actionLog.getLog().get(i));
+                logs[i].setText(actionLog.getLog().get(i));
 
             for ( ; i < LOG_CAPACITY; i++)
-                logLabels[i].setText(" ");
+                logs[i].setText(" ");
         }
     }
 
