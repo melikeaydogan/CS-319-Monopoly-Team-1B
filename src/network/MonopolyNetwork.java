@@ -64,15 +64,4 @@ public class MonopolyNetwork {
         kyro.register(java.util.LinkedList.class);
     }
 
-    public static int getPORT() {
-        return PORT;
-    }
-
-    public static String getIpAddress() {
-        return ipAddress;
-    }
-
-    public static void setIpAddress(String ipAddress) {
-        MonopolyNetwork.ipAddress = ipAddress;
-    }
 }

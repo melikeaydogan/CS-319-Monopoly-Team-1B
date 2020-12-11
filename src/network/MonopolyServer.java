@@ -11,6 +11,10 @@ import entity.Player;
 import java.io.IOException;
 import java.util.*;
 
+// 1. Player clicks at create new game and MonopolyServer gets created.
+// 2. MonopolyClient object gets created for the owner and connects to the server
+// 3. MonopolyServer class sends "buttons active" command to the client.
+// 4. Every time a player joins, MonopolyServer class adds this player and sends the list to the clients
 public class MonopolyServer {
 
     Server server;
@@ -26,7 +30,7 @@ public class MonopolyServer {
         server = new Server();
         server.start();
 
-        server.bind(MonopolyNetwork.getPORT());
+        server.bind(MonopolyNetwork.PORT);
 
         MonopolyNetwork.register(server);
         System.out.println("[SERVER] Server initialized and ready for connections...");
@@ -41,6 +45,8 @@ public class MonopolyServer {
                 connection.sendTCP("Hi connection number " + connection.getID() + "! :)");
                 // lobbyController.update()
                 // activeConnection = connection;
+                ArrayList<Player> players = new ArrayList<>(registeredPlayer.keySet());
+                connection.sendTCP(players);
 //
 //                if (clients.size() >= 2) {
 //                    try {
@@ -57,6 +63,7 @@ public class MonopolyServer {
                     clients.remove(connection);
                 }
                 System.out.println("[SERVER] Client disconnected --> " + connection.getID());
+                registeredPlayer.values().remove(connection); // not sure whether it works or not
             }
 
             @Override
@@ -129,11 +136,14 @@ public class MonopolyServer {
         // bind the ui to the game
         // start the game, when start game??? create a command class for startgame or message as "start game"
         Player activePlayer = monopolyGame.startGame();
-        server.sendToAllTCP("game started");
+        // go to the game screen in clients
+        server.sendToAllTCP("start game");
+        server.sendToAllTCP("Game started with these players --> " + players);
+        server.sendToAllTCP("Game started with this seed --> " + seed);
         gameStarted = true;
         activeConnection = registeredPlayer.get(activePlayer);
-        activeConnection.sendTCP("buttons active"); // continue this method, inactive for other connections
-        // go to the game screen in clients
+        activeConnection.sendTCP("activate buttons"); // continue this method, inactive for other connections
+
     }
 
     public void stopGame() {

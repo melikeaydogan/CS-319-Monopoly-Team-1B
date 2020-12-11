@@ -24,18 +24,8 @@ public class AddHouseAction implements Action {
                 building.addHouse(); // ???
         }
 
-        MonopolyGame.getActionLog().addMessage(player.getName() + "adds a house to " + building.getName() + "\n");
+        MonopolyGame.getActionLog().addMessage(player.getName() + "adds a house to "
+                + building.getName() + "\n");
     }
-
-    /* addBuildingButton.addActionListener(new ActionListener () {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            addBuildingPanel.setVisible(false);
-            new AddBuildingAction(monopolyGame.getBoard().getActiveTile() ,monopolyGame.getPlayerController().getActivePlayer(), false);
-
-        }
-    }
-
-     */
 
 }

@@ -17,6 +17,14 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
+// create this when player joins to the lobby
+
+// 1. client enters the ip address and clicks join game
+// 2. MonopolyClient object gets created and logins into the specified IP Address
+// 3. If login successful, MonopolyClient sends a player to the server and gets players from the server
+// 4. UI switches to Lobby and LobbyController gets this players array
+// 5. If a new player joins, server sends the array and MonopolyClient class updates the
+//    LobbyController
 public class MonopolyClient {
 
     // Connection members
@@ -41,6 +49,8 @@ public class MonopolyClient {
         this.name = name;
         client = new Client();
         new Thread(client).start(); // it keeps the client alive
+        lobbyController = new LobbyController();
+        gameScreenController = new GameScreenController();
 
         MonopolyNetwork.register(client);
 
@@ -91,12 +101,11 @@ public class MonopolyClient {
                         System.out.println(players);
                     }
                     else if (o instanceof Long) {
-                        Long longSeed = (Long) o;
-                        seed = longSeed;
+                        seed = (Long) o;
                     }
                     else if (o instanceof String) {
                         String message = (String) o;
-                        if (message.equals("game started")) {
+                        if (message.equals("start game")) {
                             try {
                                 MonopolyGame monopolyGame = new MonopolyGame(players, seed); // what about ui?
                                 gameScreenController.setGame(monopolyGame);
@@ -107,10 +116,10 @@ public class MonopolyClient {
                                 e.printStackTrace();
                             }
                         }
-                        else if (message.equals("buttons active")) {
+                        else if (message.equals("activate buttons")) {
                             // make the buttons active
                         }
-                        else if (message.equals("buttons inactive")) {
+                        else if (message.equals("deactivate buttons")) {
                             // make the buttons inactive
                         }
                         else {
@@ -123,8 +132,9 @@ public class MonopolyClient {
         });
     }
 
-    public void connect() {
+    public void connect(String ipAddress) {
         System.out.println("[CLIENT] Connecting to the server...");
+        MonopolyNetwork.ipAddress = ipAddress;
         new Thread("Connect") {
             public void run () {
                 try {
@@ -175,11 +185,6 @@ public class MonopolyClient {
         return players;
     }
 
-    public static void main(String[] args) {
-        MonopolyClient client = new MonopolyClient("Mehmet");
-        client.connect();
-    }
-
     public int getId() {
         for (int i = 0; i < players.size(); i++) {
             if (players.get(i).getName().equals(name))
@@ -187,4 +192,10 @@ public class MonopolyClient {
         }
         return -1;
     }
+
+    public static void main(String[] args) {
+        MonopolyClient client = new MonopolyClient("Mehmet");
+        client.connect("127.0.0.1");
+    }
+
 }
