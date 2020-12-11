@@ -56,8 +56,10 @@ public class GameScreenController {
     // Activity Log
     @FXML Label log0, log1, log2, log3, log4, log5, log6, log7;
 
-    // Player information labels
-    @FXML Label player1Label, player2Label, player1Properties, player2Properties;
+    // Player information and property labels
+    @FXML Label player0Label, player1Label, player2Label, player3Label,player4Label, player5Label,
+            player0Properties, player1Properties, player2Properties, player3Properties, player4Properties, player5Properties;
+    Label[] playerLabels, playerProperties;
 
     // Text that shows whose turn is it
     @FXML Text playerTurn;
@@ -95,18 +97,10 @@ public class GameScreenController {
 
     }
 
-    public void setupGame(String name) {
+    public void setupGame(ArrayList<Player> players) {
         try {
-            ArrayList<Player> players = new ArrayList<>();
-            Player p1 = new Player(1, name, Player.Token.SHOE, 1);
-            Player p2 = new Player(2, "Dummy", Player.Token.TOP_HAT, 1);
-
             game = new MonopolyGame(players, this);
-            game.addPlayer(p1);
-            game.addPlayer(p2);
-
             setupBoard();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,6 +112,12 @@ public class GameScreenController {
                 square22, square23, square24, square25, square26, square27, square28, square29, square30, square31, square32,
                 square33, square34, square35, square36, square37, square38, square39};
         this.squares = squares;
+
+        Label[] labels = {player0Label, player1Label, player2Label, player3Label,player4Label, player5Label};
+        this.playerLabels = labels;
+
+        Label[] properties = {player0Properties, player1Properties, player2Properties, player3Properties, player4Properties, player5Properties};
+        this.playerProperties = properties;
 
         // Set up Tiles
         ArrayList<Tile> tiles = game.getBoard().getTiles();
@@ -168,55 +168,35 @@ public class GameScreenController {
 
         DecimalFormat decimalFormat = new DecimalFormat();
 
-        // Update player labels
-        Player p1 = game.getPlayerController().getPlayers().get(0);
-        Player p2 = game.getPlayerController().getPlayers().get(1);
-        player1Label.setText("  " + p1.getName() + " - " + p1.getTokenName() + " - " + decimalFormat.format(p1.getBalance()) + "$");
-        player2Label.setText("  " + p2.getName() + " - " + p2.getTokenName() + " - " + decimalFormat.format(p2.getBalance()) + "$");
-
-        String player1Props = "";
-        player1Properties.setText("");
-        player2Properties.setText("");
-
-        setPropertyTable(p1, player1Properties);
-
-        setPropertyTable(p2, player2Properties);
+        // Labels and properties
+        int numberOfPlayers = game.getPlayerController().getPlayers().size();
+        for (int i = 0; i < numberOfPlayers; i++) {
+            Player p = game.getPlayerController().getPlayers().get(i);
+            playerLabels[i].setText("  " + p.getName() + " - " + p.getTokenName() + " - " + decimalFormat.format(p.getBalance()) + "$");
+            playerProperties[i].setText("");
+            setPropertyTable(p, playerProperties[i]);
+        }
 
         // Update Game Log
         updateGameLog();
-
-        int p1oldPos = p1.getPosition();
-        int p2oldPos = p2.getPosition();
 
         // Clear Tokens
         clearTokens();
 
         // Put Tokens
-        int p1Pos = p1.getPosition();
-        int p2Pos = p2.getPosition();
 
-        File file1 = new File("src/gui/models/tokens/" + p1.getTokenName() + ".png");
-        Image image1 = new Image(file1.toURI().toString());
-        ImageView token1 = new ImageView(image1);
+        for (int i = 0; i < numberOfPlayers; i++) {
+            Player p = game.getPlayerController().getPlayers().get(i);
+            int pPos = p.getPosition();
+            File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");
+            Image image = new Image(file.toURI().toString());
+            ImageView token = new ImageView(image);
+            token.setId("t" + Integer.toString(i));
+            token.setFitHeight(50);
+            token.setFitWidth(50);
 
-        File file2 = new File("src/gui/models/tokens/" + p2.getTokenName() + ".png");
-        Image image2 = new Image(file2.toURI().toString());
-        ImageView token2 = new ImageView(image2);
-
-        token1.setId("t1");
-        token2.setId("t2"); // set id to easily delete later
-
-        token1.setFitHeight(50);
-        token1.setFitWidth(50);
-        token2.setFitHeight(50);
-        token2.setFitWidth(50);
-
-        squares[p1Pos].getChildren().add(token1);
-        squares[p2Pos].getChildren().add(token2);
-
-        //anchorPane.getChildren().add(token1);
-        //token1.toFront();
-       // token2.toFront();
+            squares[pPos].getChildren().add(token);
+        }
     }
 
     private void updateGameLog() {
@@ -243,7 +223,8 @@ public class GameScreenController {
             ObservableList<Node> children = square.getChildren();
             for (Node n : children) {
                 if (!Objects.isNull(n.getId())) {
-                    if (n instanceof ImageView && (n.getId().equals("t1") || n.getId().equals("t2"))) {
+                    if (n instanceof ImageView && (n.getId().charAt(0) == 't' && n.getId().charAt(1) < 6 &&
+                            n.getId().charAt(1) >= 0 && n.getId().length() == 2)) {
                         ImageView token = (ImageView) n;
                         tokens.add(token);
                     }
