@@ -2,6 +2,7 @@ package control.action;
 
 import control.MonopolyGame;
 import entity.Player;
+import network.MonopolyClient;
 
 public class MoveAction implements Action{
 
@@ -22,6 +23,8 @@ public class MoveAction implements Action{
             boolean passedTheGoTile = player.move(moveAmount);
             MonopolyGame.getActionLog().addMessage(player.getName() + " moves " + moveAmount
                     + " squares (current position: " + player.getPosition() + ")\n");
+
+            MonopolyClient.getInstance().sendAction(this); // might cause recursion
 
             if (passedTheGoTile) {
                 new PassAction(player).act();

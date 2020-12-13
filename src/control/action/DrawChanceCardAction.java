@@ -4,6 +4,7 @@ import control.MonopolyGame;
 import entity.Board;
 import entity.Player;
 import entity.card.Card;
+import network.MonopolyClient;
 
 public class DrawChanceCardAction implements Action{
     Player player;
@@ -20,6 +21,8 @@ public class DrawChanceCardAction implements Action{
     @Override
     public void act() {
         MonopolyGame.getActionLog().addMessage(player.getName() + " draws the chance card: " + card + "\n" );
+
+        MonopolyClient.getInstance().sendAction(this);
     }
 }
 

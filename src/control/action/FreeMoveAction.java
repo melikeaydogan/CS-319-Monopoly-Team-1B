@@ -2,6 +2,7 @@ package control.action;
 
 import control.MonopolyGame;
 import entity.Player;
+import network.MonopolyClient;
 
 public class FreeMoveAction implements Action{
     private Player player;
@@ -27,7 +28,7 @@ public class FreeMoveAction implements Action{
                 moveAmount = position - player.getPosition();
             }
 
-            new MoveAction(player, moveAmount).act();
+            new MoveAction(player, moveAmount).act(); // causes recursion??
         }
     }
 }

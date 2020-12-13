@@ -2,6 +2,7 @@ package control.action;
 
 import control.MonopolyGame;
 import entity.Player;
+import network.MonopolyClient;
 
 public class TransferAction implements Action{
     private Player player;
@@ -24,6 +25,8 @@ public class TransferAction implements Action{
 
             MonopolyGame.getActionLog().addMessage(player.getName() + " gives " + amount + "$" + " to "
                     + player2.getName() + "\n");
+
+            MonopolyClient.getInstance().sendAction(this);
         }
     }
 }

@@ -2,6 +2,7 @@ package control.action;
 
 import control.MonopolyGame;
 import entity.Player;
+import network.MonopolyClient;
 
 public class GetOutOfJailAction implements Action{
     private Player player;
@@ -18,6 +19,8 @@ public class GetOutOfJailAction implements Action{
         if ( player.isInJail() ) {
             player.setInJail(false);
             MonopolyGame.getActionLog().addMessage(player.getName() + " gets out of jail! \n");
+
+            MonopolyClient.getInstance().sendAction(this);
         }
     }
 }

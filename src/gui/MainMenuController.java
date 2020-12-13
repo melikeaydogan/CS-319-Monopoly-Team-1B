@@ -10,6 +10,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import network.MonopolyClient;
+import network.MonopolyNetwork;
+import network.MonopolyServer;
 
 public class MainMenuController {
     @FXML public ImageView imageView;
@@ -26,22 +28,26 @@ public class MainMenuController {
             Parent root = (Parent) loader.load();
 
             //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
-            Scene scene = new Scene(root, 1920, 1080);
+            Scene scene = new Scene(root, 800, 600);
 
             Stage stage = (Stage) imageView.getScene().getWindow();
 
             // Create a new server and client
-            MonopolyClient monopolyClient = new MonopolyClient(username);
+            MonopolyServer monopolyServer = MonopolyServer.getInstance();
+            System.out.println(monopolyServer.toString());
+
+            MonopolyClient monopolyClient = MonopolyClient.getInstance();
             // TODO: create new server and associate it with this client
+            monopolyClient.connect(MonopolyNetwork.ipAddress, username);
 
             // Initialize lobby
             LobbyController lobbyController = loader.getController();
             lobbyController.setUpLobby(monopolyClient);
 
             // Switch scene to lobby
-            stage.setX(0);
-            stage.setY(0);
-            stage.setMaximized(true);
+            //stage.setX(0);
+            //stage.setY(0);
+            //stage.setMaximized(true);
             stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,8 +61,7 @@ public class MainMenuController {
         // TODO: ask for a pin
         String pin = "312312";
 
-
-        MonopolyClient monopolyClient = new MonopolyClient(username);
+        MonopolyClient monopolyClient = MonopolyClient.getInstance(); // call connect method after init with given ip address
         if (true) { // TODO: Check if the pin exists
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));

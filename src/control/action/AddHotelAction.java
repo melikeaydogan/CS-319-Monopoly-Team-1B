@@ -3,6 +3,7 @@ package control.action;
 import control.MonopolyGame;
 import entity.Player;
 import entity.property.Building;
+import network.MonopolyClient;
 
 public class AddHotelAction implements Action{
     private Building building;
@@ -24,6 +25,8 @@ public class AddHotelAction implements Action{
         }
 
         MonopolyGame.getActionLog().addMessage(player.getName() + "adds a hotel to " + building.getName() + "\n");
+
+        MonopolyClient.getInstance().sendAction(this);
     }
 
 }

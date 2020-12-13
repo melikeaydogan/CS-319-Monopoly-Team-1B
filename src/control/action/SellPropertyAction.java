@@ -3,6 +3,7 @@ package control.action;
 import control.MonopolyGame;
 import entity.Player;
 import entity.property.Property;
+import network.MonopolyClient;
 
 public class SellPropertyAction implements Action {
     private Player player;
@@ -26,5 +27,7 @@ public class SellPropertyAction implements Action {
         player.addMoney(property.getPrice());
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " sells the property " + property.getName() + "\n");
+
+        MonopolyClient.getInstance().sendAction(this);
     }
 }

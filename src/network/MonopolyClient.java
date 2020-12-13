@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 // create this when player joins to the lobby
 
@@ -26,6 +27,8 @@ import java.util.Objects;
 // 5. If a new player joins, server sends the array and MonopolyClient class updates the
 //    LobbyController
 public class MonopolyClient {
+    // Singleton
+    private static MonopolyClient instance = null;
 
     // Connection members
     boolean isConnected = false;
@@ -45,8 +48,8 @@ public class MonopolyClient {
     long seed;
     MonopolyGame monopolyGame;
 
-    public MonopolyClient(String name) {
-        this.name = name;
+    private MonopolyClient() {
+        name = "";
         client = new Client();
         new Thread(client).start(); // it keeps the client alive
         lobbyController = new LobbyController();
@@ -98,7 +101,7 @@ public class MonopolyClient {
                 else {
                     if (o instanceof ArrayList) {
                         players = (ArrayList<Player>) o;
-                        System.out.println(players);
+                        System.out.println("Current players in the server -->" + players);
                     }
                     else if (o instanceof Long) {
                         seed = (Long) o;
@@ -132,7 +135,8 @@ public class MonopolyClient {
         });
     }
 
-    public void connect(String ipAddress) {
+    public void connect(String ipAddress, String name) {
+        this.name = name;
         System.out.println("[CLIENT] Connecting to the server...");
         MonopolyNetwork.ipAddress = ipAddress;
         new Thread("Connect") {
@@ -149,12 +153,28 @@ public class MonopolyClient {
         }.start();
     }
 
+    public static MonopolyClient getInstance()
+    {
+        if (instance == null)
+            instance = new MonopolyClient();
+
+        return instance;
+    }
+
     public void sendStartGameCommand() {
         connection.sendTCP("start game");
     }
 
     public void sendAction(Action action) {
         connection.sendTCP(action);
+    }
+
+    public void sendChatMessage(ChatMessage chatMessage) {
+        connection.sendTCP(chatMessage);
+    }
+
+    public void sendString(String s) { // can be used for commands
+        connection.sendTCP(s);
     }
 
     public Client getClient() {
@@ -193,9 +213,17 @@ public class MonopolyClient {
         return -1;
     }
 
+    public MonopolyGame getMonopolyGame() {
+        return monopolyGame;
+    }
+
+    public void setMonopolyGame(MonopolyGame monopolyGame) {
+        this.monopolyGame = monopolyGame;
+    }
+
     public static void main(String[] args) {
-        MonopolyClient client = new MonopolyClient("Mehmet");
-        client.connect("127.0.0.1");
+        MonopolyClient client = new MonopolyClient();
+        client.connect("192.168.1.107", "Ahmet");
     }
 
 }

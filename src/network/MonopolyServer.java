@@ -1,14 +1,17 @@
 package network;
 
+import com.dosse.upnp.UPnP;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.google.gson.Gson;
 import control.MonopolyGame;
 import control.action.Action;
 import control.action.PassAction;
 import entity.Player;
 
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.util.*;
 
 // 1. Player clicks at create new game and MonopolyServer gets created.
@@ -16,6 +19,9 @@ import java.util.*;
 // 3. MonopolyServer class sends "buttons active" command to the client.
 // 4. Every time a player joins, MonopolyServer class adds this player and sends the list to the clients
 public class MonopolyServer {
+
+    // Singleton
+    private static MonopolyServer instance = null;
 
     Server server;
     private final Set<Connection> clients = new HashSet<>();
@@ -25,7 +31,7 @@ public class MonopolyServer {
     boolean gameStarted = false;
     // LobbyController lobbyController
 
-    public MonopolyServer() throws IOException {
+    private MonopolyServer() throws IOException {
 
         server = new Server();
         server.start();
@@ -33,6 +39,7 @@ public class MonopolyServer {
         server.bind(MonopolyNetwork.PORT);
 
         MonopolyNetwork.register(server);
+        System.out.println("IP Address: " + Inet4Address.getLocalHost().toString());
         System.out.println("[SERVER] Server initialized and ready for connections...");
 
         server.addListener(new Listener() {
@@ -45,8 +52,6 @@ public class MonopolyServer {
                 connection.sendTCP("Hi connection number " + connection.getID() + "! :)");
                 // lobbyController.update()
                 // activeConnection = connection;
-                ArrayList<Player> players = new ArrayList<>(registeredPlayer.keySet());
-                connection.sendTCP(players);
 //
 //                if (clients.size() >= 2) {
 //                    try {
@@ -106,9 +111,12 @@ public class MonopolyServer {
                     }
                     else if (o instanceof Player) {
                         Player player = (Player) o;
-                        player.setPlayerId(connection.getID()); // the most convenient way for ids
+                        player.setPlayerId(connection.getID() - 1); // the most convenient way for ids
                         System.out.println("[SERVER] Client sent the player -->" + player);
                         registeredPlayer.put(player, connection);
+
+                        ArrayList<Player> players = new ArrayList<>(registeredPlayer.keySet());
+                        connection.sendTCP(players);
 
                         if (registeredPlayer.size() >= 2) {
                             try {
@@ -124,6 +132,19 @@ public class MonopolyServer {
         });
     }
 
+    public static MonopolyServer getInstance()
+    {
+        if (instance == null) {
+            try {
+                instance = new MonopolyServer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return instance;
+    }
+
     public void startGame() throws IOException {
         // ToDo get players from clients
         ArrayList<Player> players = new ArrayList<>(registeredPlayer.keySet());
@@ -134,15 +155,25 @@ public class MonopolyServer {
         server.sendToAllTCP(players);
         server.sendToAllTCP(seed);
         // bind the ui to the game
-        // start the game, when start game??? create a command class for startgame or message as "start game"
+        // start the game and get the first player
         Player activePlayer = monopolyGame.startGame();
         // go to the game screen in clients
         server.sendToAllTCP("start game");
         server.sendToAllTCP("Game started with these players --> " + players);
         server.sendToAllTCP("Game started with this seed --> " + seed);
         gameStarted = true;
+
+        //System.out.println(new Gson().toJson(players));
+        //System.out.println(new Gson().toJson(monopolyGame.getBoard().getProperties()));
+
         activeConnection = registeredPlayer.get(activePlayer);
         activeConnection.sendTCP("activate buttons"); // continue this method, inactive for other connections
+
+        for (Connection c : clients) {
+            if (activeConnection != c) {
+                c.sendTCP("deactivate buttons");
+            }
+        }
 
     }
 
@@ -152,6 +183,10 @@ public class MonopolyServer {
 
     public static void main(String[] args) throws IOException {
         MonopolyServer monopolyServer = new MonopolyServer();
+
+        while (true) {
+            System.out.println(new Random().nextInt(3));
+        }
     }
 
 }

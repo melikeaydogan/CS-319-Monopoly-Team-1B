@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="320.0" prefWidth="343.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainMenuController">
    <children>
-      <Button fx:id="newGameButton" layoutX="181.0" layoutY="107.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="26.0" prefWidth="134.0" text="Create New Game" />
+      <Button fx:id="newGameButton" layoutX="181.0" layoutY="107.0" mnemonicParsing="false" onAction="#createGame" prefHeight="26.0" prefWidth="134.0" text="Create New Game" />
       <Label layoutX="202.0" layoutY="28.0" text="Lets Play Now!" />
       <TextArea fx:id="usernameField" layoutX="176.0" layoutY="49.0" prefHeight="18.0" prefWidth="142.0" promptText="Enter Username" />
       <Button layoutX="181.0" layoutY="144.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="26.0" prefWidth="134.0" text=" Join Game" />

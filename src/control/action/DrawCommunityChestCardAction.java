@@ -4,6 +4,7 @@ import control.MonopolyGame;
 import entity.Board;
 import entity.Player;
 import entity.card.Card;
+import network.MonopolyClient;
 
 public class DrawCommunityChestCardAction implements Action{
     private Player player;
@@ -24,6 +25,8 @@ public class DrawCommunityChestCardAction implements Action{
         //communityChestCard.processCard();
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " draws the community chance card: " + card + "\n");
+
+        MonopolyClient.getInstance().sendAction(this);
     }
 }
 

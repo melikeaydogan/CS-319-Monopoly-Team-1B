@@ -57,3 +57,6 @@ public class LobbyController {
     }
 
 }
+
+
+// TODO: replace house with classroom, hotel with lecture hall in the whole code

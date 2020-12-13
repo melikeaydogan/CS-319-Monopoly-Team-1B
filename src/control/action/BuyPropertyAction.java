@@ -6,6 +6,7 @@ import entity.property.Building;
 import entity.property.Dorm;
 import entity.property.Facility;
 import entity.property.Property;
+import network.MonopolyClient;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,8 @@ public class BuyPropertyAction implements Action{
             new RemoveMoneyAction(player, property.getPrice()).act();
 
             MonopolyGame.getActionLog().addMessage(player.getName() + " buys the property " + property.getName() + "\n");
+
+            MonopolyClient.getInstance().sendAction(this);
         }
     }
 

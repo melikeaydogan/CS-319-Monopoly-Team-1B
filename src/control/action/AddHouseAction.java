@@ -4,6 +4,7 @@ import control.MonopolyGame;
 import entity.Player;
 import entity.property.Building;
 import entity.property.Property;
+import network.MonopolyClient;
 
 public class AddHouseAction implements Action {
     private Building building;
@@ -26,6 +27,8 @@ public class AddHouseAction implements Action {
 
         MonopolyGame.getActionLog().addMessage(player.getName() + "adds a house to "
                 + building.getName() + "\n");
+
+        MonopolyClient.getInstance().sendAction(this);
     }
 
 }

@@ -81,19 +81,20 @@ public class MonopolyGame {
     public Player startGame() {
         ArrayList<Player> players = playerController.getPlayers();
         System.out.println("Size of players: " + players.size());
-        playerController.setActivePlayer(players.get(new Random().nextInt(players.size() - 1))); // randomize the process
+        playerController.setActivePlayer(players.get(new Random().nextInt(players.size()))); // randomize the process, it creates int with size, how??
         gameStarted = true;
 
         return playerController.getActivePlayer();
     }
 
     public DiceResult rollDice() {
+        diceResult = dice.roll(false);
 
         if ( diceResult.isDouble() ) {
             doubleCount++;
         }
 
-        new RollDiceAction(getActivePlayer(),false, dice, diceResult).act(); // false for not speedDie
+        new RollDiceAction(getActivePlayer(), diceResult).act(); // false for not speedDie
 
         moveCount = diceResult.getFirstDieResult() + diceResult.getSecondDieResult();
         return diceResult; // return because ui will show this result
