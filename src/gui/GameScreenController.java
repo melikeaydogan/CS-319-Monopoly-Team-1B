@@ -222,8 +222,8 @@ public class GameScreenController {
             ObservableList<Node> children = square.getChildren();
             for (Node n : children) {
                 if (!Objects.isNull(n.getId())) {
-                    if (n instanceof ImageView && (n.getId().charAt(0) == 't' && n.getId().charAt(1) < 6 &&
-                            n.getId().charAt(1) >= 0 && n.getId().length() == 2)) {
+                    if (n instanceof ImageView && (n.getId().charAt(0) == 't' && n.getId().charAt(1) < '6' &&
+                            n.getId().charAt(1) >= '0' && n.getId().length() == 2)) {
                         ImageView token = (ImageView) n;
                         tokens.add(token);
                     }
