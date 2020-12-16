@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LobbyController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LobbyController">
    <children>
       <ImageView fitHeight="79.0" fitWidth="424.0" layoutX="8.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -45,9 +41,9 @@
          </children>
       </AnchorPane>
       <Label layoutX="456.0" layoutY="165.0" text="Game Options:" />
-      <CheckBox fx:id="privateBox" layoutX="457.0" layoutY="242.0" mnemonicParsing="false" text="Private Lobby" />
-      <CheckBox fx:id="speedDieBox" layoutX="456.0" layoutY="215.0" mnemonicParsing="false" text="Speed Die" />
-      <CheckBox fx:id="allianceBox" layoutX="456.0" layoutY="191.0" mnemonicParsing="false" text="Alliance" />
+      <CheckBox fx:id="privateBox" layoutX="457.0" layoutY="242.0" mnemonicParsing="false" onAction="#checkBoxUsed" text="Private Lobby" />
+      <CheckBox fx:id="speedDieBox" layoutX="456.0" layoutY="215.0" mnemonicParsing="false" onAction="#checkBoxUsed" text="Speed Die" />
+      <CheckBox fx:id="allianceBox" layoutX="456.0" layoutY="191.0" mnemonicParsing="false" onAction="#checkBoxUsed" text="Alliance" />
       <Button fx:id="startButton" layoutX="488.0" layoutY="283.0" mnemonicParsing="false" onAction="#startButtonPressed" text="Start" />
    </children>
 </AnchorPane>

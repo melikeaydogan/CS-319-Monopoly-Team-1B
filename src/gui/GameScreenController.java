@@ -28,6 +28,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import network.MonopolyClient;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -40,8 +42,9 @@ public class GameScreenController {
 
     // Game object
     // TODO: replace game object with the client
-    MonopolyGame game;
-    // MonopolyClient monopolyClient;
+    // MonopolyGame game;
+
+    MonopolyClient monopolyClient;
 
     // Labels for die results
     @FXML Label die1, die2;
@@ -72,7 +75,7 @@ public class GameScreenController {
     @FXML
     protected void handleQuitButton(ActionEvent e) {
         try {
-            game.stopGame();
+            getGame().stopGame();
             Stage stage = (Stage) die1.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
             stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
@@ -83,18 +86,18 @@ public class GameScreenController {
     @FXML
     protected void handleDiceButton(ActionEvent e) {
         // when multiplayer, make a new ActionEvent class for this and compare active player with the player clicked
-        if (game != null) {
-            DiceResult result = game.rollDice();
+        if (getGame() != null) {
+            DiceResult result = getGame().rollDice();
             die1.setText(Integer.toString(result.getFirstDieResult()));
             die2.setText(Integer.toString(result.getSecondDieResult()));
 
-            game.processTurn();
+            getGame().processTurn();
         }
     }
 
     public void setupGame(ArrayList<Player> players) {
         try {
-            game = new MonopolyGame(players, this);
+            monopolyClient.setupMonopolyGame(this, players);
             setupBoard();
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,14 +120,14 @@ public class GameScreenController {
         this.logs = new Label[]{log0, log1, log2, log3, log4, log5, log6, log7};
 
         // Set up Tiles
-        ArrayList<Tile> tiles = game.getBoard().getTiles();
+        ArrayList<Tile> tiles = getGame().getBoard().getTiles();
 
         for (Tile tile : tiles) {
             int location = tile.getTileId();
 
             // get the type of the tile and put labels
             if (tile instanceof PropertyTile) {
-                Property property = game.getBoard().getPropertyById(((PropertyTile) tile).getPropertyId());
+                Property property = getGame().getBoard().getPropertyById(((PropertyTile) tile).getPropertyId());
                 String name = property.getName();
                 int price = property.getPrice();
                 String type;
@@ -161,14 +164,14 @@ public class GameScreenController {
 
     public void updateBoardState() {
         // Set playerTurn
-        playerTurn.setText(game.getActivePlayer().getName() + "'s Turn!");
+        playerTurn.setText(getGame().getActivePlayer().getName() + "'s Turn!");
 
         DecimalFormat decimalFormat = new DecimalFormat();
 
         // Labels and properties
-        int numberOfPlayers = game.getPlayerController().getPlayers().size();
+        int numberOfPlayers = getGame().getPlayerController().getPlayers().size();
         for (int i = 0; i < numberOfPlayers; i++) {
-            Player p = game.getPlayerController().getPlayers().get(i);
+            Player p = getGame().getPlayerController().getPlayers().get(i);
             playerLabels[i].setText("  " + p.getName() + " - " + p.getTokenName() + " - " + decimalFormat.format(p.getBalance()) + "$");
             playerProperties[i].setText("");
             setPropertyTable(p, playerProperties[i]);
@@ -183,7 +186,7 @@ public class GameScreenController {
         // Put Tokens
 
         for (int i = 0; i < numberOfPlayers; i++) {
-            Player p = game.getPlayerController().getPlayers().get(i);
+            Player p = getGame().getPlayerController().getPlayers().get(i);
             int pPos = p.getPosition();
             File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");
             Image image = new Image(file.toURI().toString());
@@ -271,13 +274,13 @@ public class GameScreenController {
                 title = "Buy Property?";
                 content = "Do you wish to buy " + b.getName() + "?\n\n" +
                         "Price: " + decimalFormat.format(b.getPrice()) + "$\n";
-            } else if (b.getHouseCount() < 4 && game.getActivePlayer().isComplete(b)) {
+            } else if (b.getHouseCount() < 4 && getGame().getActivePlayer().isComplete(b)) {
                 title = "Add House?";
                 content = "Do you wish to build a house to " + b.getName() + "?\n" +
                         "Price: " + decimalFormat.format(b.getHousePrice()) + "$\n" +
                         "Rent: " + decimalFormat.format(b.getRents().get(b.getHouseCount())) + " ==> " +
                         decimalFormat.format(b.getRents().get(b.getHouseCount() + 1));
-            } else if (b.getHotelCount() == 4 && game.getActivePlayer().isComplete(b)) {
+            } else if (b.getHotelCount() == 4 && getGame().getActivePlayer().isComplete(b)) {
                 title = "Add Hotel?";
                 content = "Do you wish to build a Hotel to " + b.getName() + "?\n" +
                         "Price: " + decimalFormat.format(b.getHotelPrice()) + "$\n" +
@@ -382,10 +385,6 @@ public class GameScreenController {
     }
 
     public MonopolyGame getGame() {
-        return game;
-    }
-
-    public void setGame(MonopolyGame game) {
-        this.game = game;
+        return monopolyClient.getMonopolyGame();
     }
 }
