@@ -1,6 +1,7 @@
 package gui;
 
 import entity.Player;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -8,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import network.MonopolyClient;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class LobbyController {
@@ -53,9 +53,29 @@ public class LobbyController {
     }
 
     public void updateLobbyState() {
-        // TODO: updates the labels from the players.
+        // updateCheckBoxes
+        boolean alliance = monopolyClient.getAlliance();
+        boolean speedDie = monopolyClient.getSpeedDie();
+        boolean privateLobby = monopolyClient.getPrivateLobby();
+
+        boolean isHost = monopolyClient.getId() == 0;
+        speedDieBox.setDisable(!isHost);
+        allianceBox.setDisable(!isHost);
+        privateBox.setDisable(!isHost);
+
+        speedDieBox.setSelected(speedDie);
+        allianceBox.setSelected(alliance);
+        privateBox.setSelected(privateLobby);
+
+        // TODO: Update Labels and others
     }
 
+    @FXML
+    protected void checkBoxUsed(ActionEvent e) {
+        monopolyClient.setAlliance(allianceBox.isSelected());
+        monopolyClient.setPrivateLobby(privateBox.isSelected());
+        monopolyClient.setSpeedDie(speedDieBox.isSelected());
+    }
 }
 
 

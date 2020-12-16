@@ -32,22 +32,20 @@ public class MainMenuController {
 
             Stage stage = (Stage) imageView.getScene().getWindow();
 
+            // Initialize lobby
+            LobbyController lobbyController = loader.getController();
+
             // Create a new server and client
             MonopolyServer monopolyServer = MonopolyServer.getInstance();
             System.out.println(monopolyServer.toString());
 
-            MonopolyClient monopolyClient = MonopolyClient.getInstance();
-            // TODO: create new server and associate it with this client
+            MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
             monopolyClient.connect(MonopolyNetwork.ipAddress, username);
 
-            // Initialize lobby
-            LobbyController lobbyController = loader.getController();
+            // Setup the lobby
             lobbyController.setUpLobby(monopolyClient);
 
             // Switch scene to lobby
-            //stage.setX(0);
-            //stage.setY(0);
-            //stage.setMaximized(true);
             stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,7 +59,6 @@ public class MainMenuController {
         // TODO: ask for a pin
         String pin = "312312";
 
-        MonopolyClient monopolyClient = MonopolyClient.getInstance(); // call connect method after init with given ip address
         if (true) { // TODO: Check if the pin exists
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
@@ -73,6 +70,10 @@ public class MainMenuController {
 
                 // Initialize lobby
                 LobbyController lobbyController = loader.getController();
+
+                MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
+                // TODO : call connect method after init with given ip address
+
                 lobbyController.setUpLobby(monopolyClient);
 
                 // Switch scene to lobby

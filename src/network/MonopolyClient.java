@@ -43,23 +43,25 @@ public class MonopolyClient {
     // Lobby members
     String name;
     ArrayList<Player> players;
+    boolean alliance ,speedDie, privateLobby;
 
     // Game members
     long seed;
     MonopolyGame monopolyGame;
 
-    private MonopolyClient() {
+    public MonopolyClient(LobbyController lobbyController) {
         name = "";
         client = new Client();
         new Thread(client).start(); // it keeps the client alive
-        lobbyController = new LobbyController();
-        gameScreenController = new GameScreenController();
+        this.lobbyController = lobbyController;
+        this.gameScreenController = null;
 
         MonopolyNetwork.register(client);
 
         client.addListener(new Listener() {
             @Override
             public void connected(Connection c) {
+                // TODO: this is wrong. This should
                 isConnected = true;
                 connection = c;
 
@@ -109,15 +111,7 @@ public class MonopolyClient {
                     else if (o instanceof String) {
                         String message = (String) o;
                         if (message.equals("start game")) {
-                            try {
-                                MonopolyGame monopolyGame = new MonopolyGame(players, seed); // what about ui?
-                                gameScreenController.setGame(monopolyGame);
-                                gameStarted = true;
-
-                                // switch ui to game screen
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                                lobbyController.startGame();
                         }
                         else if (message.equals("activate buttons")) {
                             // make the buttons active
@@ -153,11 +147,7 @@ public class MonopolyClient {
         }.start();
     }
 
-    public static MonopolyClient getInstance()
-    {
-        if (instance == null)
-            instance = new MonopolyClient();
-
+    public static MonopolyClient getInstance() {
         return instance;
     }
 
@@ -217,13 +207,46 @@ public class MonopolyClient {
         return monopolyGame;
     }
 
-    public void setMonopolyGame(MonopolyGame monopolyGame) {
-        this.monopolyGame = monopolyGame;
+    public void setupMonopolyGame(GameScreenController gsc, ArrayList<Player> players) {
+        try {
+            this.gameScreenController = gsc;
+            this.monopolyGame = new MonopolyGame(players, gsc);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
-    public static void main(String[] args) {
-        MonopolyClient client = new MonopolyClient();
-        client.connect("192.168.1.107", "Ahmet");
+    public void updateLobbyControllers() {
+        // TODO: his sends a message to all to update their lobbyController object
+        //  Do this using lobbyController.updateLobbyState() method
     }
 
+    public void updateGameScreenControllers() {
+        // TODO: his sends a message to all to update their lobbyController object
+        //  Do this using gameScreenController.updateBoardState() method
+    }
+
+    public boolean getSpeedDie() {
+        return speedDie;
+    }
+
+    public boolean getAlliance() {
+        return alliance;
+    }
+
+    public boolean getPrivateLobby() {
+        return privateLobby;
+    }
+
+    public void setAlliance(boolean alliance) {
+        this.alliance = alliance;
+    }
+
+    public void setPrivateLobby(boolean privateLobby) {
+        this.privateLobby = privateLobby;
+    }
+
+    public void setSpeedDie(boolean speedDie) {
+        this.speedDie = speedDie;
+    }
 }
