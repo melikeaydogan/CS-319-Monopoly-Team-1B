@@ -56,8 +56,8 @@ public class MainMenuController {
     protected void joinGame(ActionEvent event) {
         String username = usernameField.getText();
 
-        // TODO: ask for a pin
-        String pin = "312312";
+        // TODO: ask for an ip address
+        String ip = "139.179.200.153";
 
         if (true) { // TODO: Check if the pin exists
             try {
@@ -72,7 +72,7 @@ public class MainMenuController {
                 LobbyController lobbyController = loader.getController();
 
                 MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
-                // TODO : call connect method after init with given ip address
+                monopolyClient.connect(ip, username);
 
                 lobbyController.setUpLobby(monopolyClient);
 

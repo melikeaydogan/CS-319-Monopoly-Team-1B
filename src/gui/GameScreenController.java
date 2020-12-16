@@ -48,6 +48,7 @@ public class GameScreenController {
 
     // Labels for die results
     @FXML Label die1, die2;
+    @FXML Button diceButton;
 
     // The squares on board
     @FXML StackPane square0, square1, square2, square3, square4, square5, square6, square7, square8, square9, square10,
@@ -163,8 +164,9 @@ public class GameScreenController {
     }
 
     public void updateBoardState() {
-        // Set playerTurn
+        // Set playerTurn and enable dice button only for the player
         playerTurn.setText(getGame().getActivePlayer().getName() + "'s Turn!");
+        diceButton.setDisable(getGame().getActivePlayer().getPlayerId() != monopolyClient.getId());
 
         DecimalFormat decimalFormat = new DecimalFormat();
 
@@ -184,7 +186,6 @@ public class GameScreenController {
         clearTokens();
 
         // Put Tokens
-
         for (int i = 0; i < numberOfPlayers; i++) {
             Player p = getGame().getPlayerController().getPlayers().get(i);
             int pPos = p.getPosition();

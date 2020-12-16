@@ -8,6 +8,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import network.MonopolyClient;
+import network.MonopolyNetwork;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,7 @@ public class LobbyController {
     }
 
     public void updateLobbyState() {
-        // updateCheckBoxes
+        // Update CheckBoxes
         boolean alliance = monopolyClient.getAlliance();
         boolean speedDie = monopolyClient.getSpeedDie();
         boolean privateLobby = monopolyClient.getPrivateLobby();
@@ -62,12 +63,16 @@ public class LobbyController {
         speedDieBox.setDisable(!isHost);
         allianceBox.setDisable(!isHost);
         privateBox.setDisable(!isHost);
+        startButton.setDisable(!isHost);
 
         speedDieBox.setSelected(speedDie);
         allianceBox.setSelected(alliance);
         privateBox.setSelected(privateLobby);
 
-        // TODO: Update Labels and others
+        // Update pin label
+        pinLabel.setText(MonopolyNetwork.ipAddress); // TODO: get this ip address from the server.
+
+        // TODO: Update Other Labels
     }
 
     @FXML
@@ -75,6 +80,8 @@ public class LobbyController {
         monopolyClient.setAlliance(allianceBox.isSelected());
         monopolyClient.setPrivateLobby(privateBox.isSelected());
         monopolyClient.setSpeedDie(speedDieBox.isSelected());
+
+        monopolyClient.updateLobbyControllers();
     }
 }
 

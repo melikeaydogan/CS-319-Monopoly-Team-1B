@@ -61,7 +61,7 @@ public class MonopolyClient {
         client.addListener(new Listener() {
             @Override
             public void connected(Connection c) {
-                // TODO: this is wrong. This should
+                // TODO: give only the player name to the server. The server should add it as a new player.
                 isConnected = true;
                 connection = c;
 
@@ -76,6 +76,7 @@ public class MonopolyClient {
 
             @Override
             public void disconnected(Connection c) {
+                // TODO: How to remove the disconnected player?
                 isConnected = false;
                 connection = null;
             }
@@ -112,13 +113,7 @@ public class MonopolyClient {
                         String message = (String) o;
                         if (message.equals("start game")) {
                                 lobbyController.startGame();
-                        }
-                        else if (message.equals("activate buttons")) {
-                            // make the buttons active
-                        }
-                        else if (message.equals("deactivate buttons")) {
-                            // make the buttons inactive
-                        }
+                        } // Activate and deactivate buttons don't need to be here
                         else {
                             System.out.println("[SERVER] " + message);
                         }
