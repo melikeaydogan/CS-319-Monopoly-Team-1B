@@ -1,17 +1,19 @@
 package gui;
-
-import com.esotericsoftware.kryonet.Connection;
+//import com.esotericsoftware.kryonet.Connection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import network.MonopolyClient;
 import network.MonopolyNetwork;
 import network.MonopolyServer;
+import java.util.Optional;
+
+
 
 public class MainMenuController {
     @FXML public ImageView imageView;
@@ -55,43 +57,52 @@ public class MainMenuController {
     @FXML
     protected void joinGame(ActionEvent event) {
         String username = usernameField.getText();
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setTitle("Game Pin");
+        dialog.setContentText("Please enter your pin:");
+        //String ip = "127.0.0.1";
+// Traditional way to get the response value.
+        Optional<String> ip = dialog.showAndWait();
+        if (ip.isPresent()) {
 
-        // TODO: ask for an ip address
-        String ip = "127.0.0.1";
+            if (true) { // TODO: Check if the pin exists
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
+                    Parent root = (Parent) loader.load();
+                    //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+                    //Scene scene = new Scene(root, 1920, 1080);
+                    Scene scene = new Scene(root, 800, 600);
 
-        if (true) { // TODO: Check if the pin exists
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
-                Parent root = (Parent) loader.load();
-                //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
-                //Scene scene = new Scene(root, 1920, 1080);
-                Scene scene = new Scene(root, 800, 600);
+                    Stage stage = (Stage) imageView.getScene().getWindow();
 
-                Stage stage = (Stage) imageView.getScene().getWindow();
+                    // Initialize lobby
+                    LobbyController lobbyController = loader.getController();
 
-                // Initialize lobby
-                LobbyController lobbyController = loader.getController();
+                    MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
+                    monopolyClient.connect(ip.get(), username);
 
-                MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
-                monopolyClient.connect(ip, username);
+                    if (monopolyClient.isConnected()) {
+                        lobbyController.setUpLobby(monopolyClient);
 
-                if (monopolyClient.isConnected()) {
-                    lobbyController.setUpLobby(monopolyClient);
+                        // Switch scene to lobby
+                        //stage.setX(0);
+                        //stage.setY(0);
+                        //stage.setMaximized(true);
+                        stage.setScene(scene);
+                    }
 
-                    // Switch scene to lobby
-                    //stage.setX(0);
-                    //stage.setY(0);
-                    //stage.setMaximized(true);
-                    stage.setScene(scene);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Warning Dialog");
+                alert.setHeaderText("Server is not found");
+                alert.showAndWait();
             }
-        } else {
-            // TODO: Create an error dialog saying that server is not found
         }
-    }
+        }
+
 
     @FXML
     protected void optionsPressed(ActionEvent e) {
