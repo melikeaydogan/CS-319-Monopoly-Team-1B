@@ -100,6 +100,7 @@ public class LobbyController {
                     // tokens
                     tokenButtons[i].setDisable(monopolyClient.getId() != players.get(i).getPlayerId());
                     tokenButtons[i].setText(players.get(i).getTokenName());
+                    tokenButtons[i].setVisible(true);
 
                     // team numbers
                     if (monopolyClient.getAlliance()) {
