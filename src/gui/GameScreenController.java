@@ -168,11 +168,16 @@ public class GameScreenController {
 
         // Labels and properties
         int numberOfPlayers = getGame().getPlayerController().getPlayers().size();
-        for (int i = 0; i < numberOfPlayers; i++) {
+        int i;
+        for (i = 0; i < numberOfPlayers; i++) {
             Player p = getGame().getPlayerController().getPlayers().get(i);
             playerLabels[i].setText("  " + p.getName() + " - " + p.getTokenName() + " - " + decimalFormat.format(p.getBalance()) + "$");
             playerProperties[i].setText("");
             setPropertyTable(p, playerProperties[i]);
+        }
+        for (; i < 6 ; i++) {
+            playerLabels[i].setText("");
+            playerProperties[i].setText("");
         }
 
         // Update Game Log
@@ -182,7 +187,7 @@ public class GameScreenController {
         clearTokens();
 
         // Put Tokens
-        for (int i = 0; i < numberOfPlayers; i++) {
+        for (i = 0; i < numberOfPlayers; i++) {
             Player p = getGame().getPlayerController().getPlayers().get(i);
             int pPos = p.getPosition();
             File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");

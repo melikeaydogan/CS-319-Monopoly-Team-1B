@@ -62,7 +62,7 @@ public class MonopolyClient {
         client.addListener(new Listener() {
             @Override
             public void connected(Connection c) {
-                // TODO: give only the player name to the server. The server should add it as a new player.
+                // TODO: A default token and default team needs to be assigned.
                 isConnected = true;
                 connection = c;
 
