@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class Player {
+public class Player{
     public enum Token {
         SCOTTISH_TERRIER,
         SHOE,
@@ -260,7 +260,7 @@ public class Player {
     }
 
     public String toString() {
-        return "Player --> ID: " + playerId + ", Name: " + name;
+        return "Player --> ID: " + playerId + ", Name: " + name + ", Token: " + getTokenName();
     }
 
 }

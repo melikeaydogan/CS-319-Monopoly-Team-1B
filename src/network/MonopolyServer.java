@@ -26,7 +26,8 @@ public class MonopolyServer {
 
     Server server;
     private final Set<Connection> clients = new HashSet<>();
-    private final Map<Player, Connection> registeredPlayer = new HashMap<>();
+    private final Map<Connection, Player> registeredPlayer = new HashMap<>();
+    private ArrayList<Player> players = new ArrayList<>();
     private MonopolyGame monopolyGame;
     private Connection activeConnection = null;
     boolean gameStarted = false;
@@ -72,7 +73,7 @@ public class MonopolyServer {
                     clients.remove(connection);
                 }
                 System.out.println("[SERVER] Client disconnected --> " + connection.getID());
-                registeredPlayer.values().remove(connection); // not sure whether it works or not
+                registeredPlayer.remove(connection); // not sure whether it works or not
             }
 
             @Override
@@ -113,16 +114,16 @@ public class MonopolyServer {
                             }
                         }
                         else if(s.equals("get players")) {
-                            ArrayList<Player> players = new ArrayList<>(registeredPlayer.keySet());
+                            ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
                             connection.sendTCP(players);
                         }
                         else if(s.contains("player name")) {
                             String name = s.substring((s.indexOf(":") + 1));
                             System.out.println("name:" + name);
                             Player player = new Player(connection.getID(), name, Player.Token.BATTLESHIP, 1);
-                            registeredPlayer.put(player, connection);
+                            registeredPlayer.put(connection, player);
 
-                            ArrayList<Player> players = new ArrayList<>(registeredPlayer.keySet());
+                            ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
                             server.sendToAllTCP(players);
                             server.sendToAllTCP("update lobby");
                         }
@@ -131,6 +132,12 @@ public class MonopolyServer {
                         boolean[] checkboxes = (boolean[]) o;
                         server.sendToAllExceptTCP(connection.getID(), checkboxes);
                         server.sendToAllExceptTCP(connection.getID(), "update lobby");
+                    }
+                    else if (o instanceof Player) {
+                        Player player = (Player) o;
+                        registeredPlayer.put(connection, player);
+                        server.sendToAllExceptTCP(connection.getID(), new ArrayList<Player>(registeredPlayer.values()));
+                        server.sendToAllTCP("update lobby");
                     }
                 }
 
@@ -153,7 +160,7 @@ public class MonopolyServer {
 
     public void startGame() throws IOException {
         // ToDo get players from clients
-        ArrayList<Player> players = new ArrayList<>(registeredPlayer.keySet());
+        ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
         long seed = System.currentTimeMillis();
         monopolyGame = new MonopolyGame(players, seed);
 
@@ -172,7 +179,7 @@ public class MonopolyServer {
         //System.out.println(new Gson().toJson(players));
         //System.out.println(new Gson().toJson(monopolyGame.getBoard().getProperties()));
 
-        activeConnection = registeredPlayer.get(activePlayer);
+        //activeConnection = registeredPlayer.get(activePlayer);
         activeConnection.sendTCP("activate buttons"); // continue this method, inactive for other connections
 
         for (Connection c : clients) {

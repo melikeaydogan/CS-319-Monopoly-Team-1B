@@ -14,9 +14,7 @@ import gui.LobbyController;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 // create this when player joins to the lobby
 
@@ -105,7 +103,13 @@ public class MonopolyClient {
                 else {
                     if (o instanceof ArrayList) {
                         players = (ArrayList<Player>) o;
+                        players.sort(Comparator.comparing(Player::getPlayerId));
                         lobbyController.updateLobbyState(MonopolyClient.this);
+                    }
+                    else if (o instanceof Player[]) {
+                        Player[] playerArray = (Player[]) o;
+                        players = new ArrayList<Player>(Arrays.asList(playerArray));
+                        players.sort(Comparator.comparing(Player::getPlayerId));
                     }
                     else if (o instanceof Long) {
                         seed = (Long) o;
@@ -116,6 +120,7 @@ public class MonopolyClient {
                                 lobbyController.startGame();
                         } // Activate and deactivate buttons don't need to be here
                         else if (message.equals("update lobby")) {
+                            System.out.println(players);
                             lobbyController.updateLobbyState(MonopolyClient.this);
                         }
                         else {
@@ -229,7 +234,9 @@ public class MonopolyClient {
         // TODO: his sends a message to all to update their lobbyController object
         //  Do this using lobbyController.updateLobbyState() method
         boolean[] checkboxes = new boolean[]{alliance, speedDie, privateLobby};
+        Player player = players.get(getId() - 1);
         client.sendTCP(checkboxes);
+        client.sendTCP(player);
     }
 
     public void updateGameScreenControllers() {

@@ -51,7 +51,7 @@ public class LobbyController {
     }
 
     public void setUpLobby(MonopolyClient monopolyClient) {
-        updateLobbyState(monopolyClient);
+        //updateLobbyState(monopolyClient);
     }
 
     public boolean isFull() {
@@ -69,7 +69,7 @@ public class LobbyController {
         this.monopolyClient = monopolyClient;
         this.tokenButtons = new Button[]{tokenButton0, tokenButton1, tokenButton2, tokenButton3, tokenButton4, tokenButton5};
         this.teamButtons = new Button[]{teamButton0, teamButton1, teamButton2, teamButton3, teamButton4, teamButton5};
-        // ...
+        this.playerLabels = new Label[]{player0Label, player1Label, player2Label, player3Label, player4Label, player5Label};
         Platform.runLater(() -> {
             // Update CheckBoxes
             boolean alliance = monopolyClient.getAlliance();
@@ -103,7 +103,7 @@ public class LobbyController {
                     tokenButtons[i].setVisible(true);
 
                     // team numbers
-                    if (monopolyClient.getAlliance()) {
+                    if (!monopolyClient.getAlliance()) {
                         teamButtons[i].setVisible(false);
                     } else {
                         teamButtons[i].setVisible(true);
