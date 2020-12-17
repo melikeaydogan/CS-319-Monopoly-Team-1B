@@ -31,6 +31,8 @@ public class MonopolyServer {
     private MonopolyGame monopolyGame;
     private Connection activeConnection = null;
     boolean gameStarted = false;
+    boolean checkboxes[] = new boolean[3];
+
     // LobbyController lobbyController
 
     private MonopolyServer() throws IOException {
@@ -113,10 +115,6 @@ public class MonopolyServer {
                                 e.printStackTrace();
                             }
                         }
-                        else if(s.equals("get players")) {
-                            ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
-                            connection.sendTCP(players);
-                        }
                         else if(s.contains("player name")) {
                             String name = s.substring((s.indexOf(":") + 1));
                             System.out.println("name:" + name);
@@ -125,11 +123,13 @@ public class MonopolyServer {
 
                             ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
                             server.sendToAllTCP(players);
+                            server.sendToAllTCP(checkboxes);
                             server.sendToAllTCP("update lobby");
                         }
                     }
                     else if (o instanceof boolean[]) {
                         boolean[] checkboxes = (boolean[]) o;
+                        MonopolyServer.this.checkboxes = checkboxes;
                         server.sendToAllExceptTCP(connection.getID(), checkboxes);
                         server.sendToAllExceptTCP(connection.getID(), "update lobby");
                     }

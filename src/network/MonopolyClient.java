@@ -120,7 +120,6 @@ public class MonopolyClient {
                                 lobbyController.startGame();
                         } // Activate and deactivate buttons don't need to be here
                         else if (message.equals("update lobby")) {
-                            System.out.println(players);
                             lobbyController.updateLobbyState(MonopolyClient.this);
                         }
                         else {
