@@ -140,6 +140,7 @@
       <CheckBox fx:id="privateBox" layoutX="457.0" layoutY="242.0" mnemonicParsing="false" onAction="#checkBoxUsed" text="Private Lobby" />
       <CheckBox fx:id="speedDieBox" layoutX="456.0" layoutY="215.0" mnemonicParsing="false" onAction="#checkBoxUsed" text="Speed Die" />
       <CheckBox fx:id="allianceBox" layoutX="456.0" layoutY="191.0" mnemonicParsing="false" onAction="#checkBoxUsed" text="Alliance" />
-      <Button fx:id="startButton" layoutX="488.0" layoutY="283.0" mnemonicParsing="false" onAction="#startButtonPressed" text="Start" />
+      <Button fx:id="startButton" layoutX="488.0" layoutY="283.0" mnemonicParsing="false" onAction="#startButtonPressed" prefHeight="26.0" prefWidth="46.0" text="Start" />
+      <Button fx:id="leaveButton" layoutX="488.0" layoutY="317.0" mnemonicParsing="false" onAction="#leaveButtonPressed" text="Leave" />
    </children>
 </AnchorPane>

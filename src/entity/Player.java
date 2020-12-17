@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 public class Player{
     public enum Token {
+        NONE,
         SCOTTISH_TERRIER,
         SHOE,
         BATTLESHIP,
@@ -160,6 +161,8 @@ public class Player{
     }
 
     public String getTokenName() {
+        if (token == Token.NONE)
+            return "-";
         if (token == Token.BATTLESHIP)
             return "Battleship";
         else if (token == Token.CAR)

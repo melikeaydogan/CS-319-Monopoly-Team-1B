@@ -34,7 +34,7 @@ public class LobbyController {
 
     private MonopolyClient monopolyClient;
 
-    static final Player.Token[] tokenList = {Player.Token.CAR, Player.Token.BATTLESHIP, Player.Token.TOP_HAT,
+    static final Player.Token[] tokenList = {Player.Token.NONE, Player.Token.CAR, Player.Token.BATTLESHIP, Player.Token.TOP_HAT,
             Player.Token.SHOE, Player.Token.IRON, Player.Token.SCOTTISH_TERRIER, Player.Token.THIMBLE,
             Player.Token.WHEELBARROW};
     int tokenNow;
@@ -48,6 +48,9 @@ public class LobbyController {
 
     @FXML
     protected void startButtonPressed(ActionEvent e) {
+        // TODO:  if ((alliance is on && one players has team 0) || (one player has token NONE))
+        //              Dont allow starting the game.
+
         monopolyClient.sendStartGameCommand();
     }
 
@@ -70,6 +73,8 @@ public class LobbyController {
     }
 
     public void setUpLobby(MonopolyClient monopolyClient) {
+        tokenNow = 0;
+        teamNow = 0;
         //updateLobbyState(monopolyClient);
     }
 
@@ -78,11 +83,31 @@ public class LobbyController {
     }
 
     @FXML
-    protected void leaveButtonPressed(String name) {
-        // TODO: Terminate the client,
-        //  if the player is host stop the server
-        //  else, the server is still on but remove
-        //  that player from the player list.
+    protected void leaveButtonPressed(ActionEvent e) {
+        if (monopolyClient.getId() == 0) {
+            monopolyClient.sendEndLobby();
+        } else {
+            monopolyClient.sendLeftLobby(monopolyClient.getId());
+            monopolyClient.disconnect();
+            leaveLobby();
+        }
+    }
+
+    public void leaveLobby() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("main_menu.fxml"));
+            Parent root = (Parent) loader.load();
+            Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+            Stage stage = (Stage) pinLabel.getScene().getWindow();
+
+            GameScreenController gameScreenController = loader.getController();
+            monopolyClient.setupMonopolyGame(gameScreenController);
+
+            // Switch Scene
+            stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void updateLobbyState(MonopolyClient monopolyClient) {
@@ -157,8 +182,6 @@ public class LobbyController {
 
     @FXML
     protected void tokenButtonUsed(ActionEvent e) {
-        // TODO: How to give new player a default token?
-
         for (int i = 0; i < monopolyClient.getPlayers().size(); i++) {
             if (e.getSource().equals(tokenButtons[i]))
                 monopolyClient.getPlayers().get(i).setToken(nextToken());
@@ -169,9 +192,6 @@ public class LobbyController {
 
     @FXML
     protected void teamBoxUsed(ActionEvent e) {
-        // TODO: Give all players to team 0 by default.
-        // TODO: Also, dont allow starting the game if alliance is on but one of the players are in team 0
-
         // 0 : no team selected
         // 1, 2, 3: team numbers
         for (int i = 0; i < monopolyClient.getPlayers().size(); i++) {
@@ -184,7 +204,7 @@ public class LobbyController {
 
     private Player.Token nextToken() {
         tokenNow = (tokenNow + 1) % tokenList.length;
-        while (tokenExists(tokenList[tokenNow])) {
+        while (tokenNow == 0 || tokenExists(tokenList[tokenNow])) {
             tokenNow = (tokenNow + 1) % tokenList.length;
         }
         return tokenList[tokenNow];
@@ -204,6 +224,3 @@ public class LobbyController {
         return teamNow;
     }
 }
-
-
-// TODO: replace house with classroom, hotel with lecture hall in the whole code

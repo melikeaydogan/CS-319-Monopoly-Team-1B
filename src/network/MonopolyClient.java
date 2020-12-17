@@ -11,6 +11,7 @@ import entity.card.Card;
 import entity.property.Building;
 import gui.GameScreenController;
 import gui.LobbyController;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -60,11 +61,9 @@ public class MonopolyClient {
         client.addListener(new Listener() {
             @Override
             public void connected(Connection c) {
-                // TODO: A default token and default team needs to be assigned.
                 isConnected = true;
                 connection = c;
 
-                //Player player = new Player(name, Player.Token.BATTLESHIP, 1);
                 connection.sendTCP("player name: " + name);
             }
 
@@ -75,7 +74,6 @@ public class MonopolyClient {
 
             @Override
             public void disconnected(Connection c) {
-                // TODO: How to remove the disconnected player?
                 isConnected = false;
                 connection = null;
             }
@@ -170,6 +168,19 @@ public class MonopolyClient {
         connection.sendTCP(action);
     }
 
+    public void sendLeftLobby(int playerId) {
+        connection.sendTCP("leave lobby: " + playerId);
+    }
+
+    public void sendEndLobby() {
+        // TODO: ends the lobby for all and terminates the server
+        // lobbyController.leaveLobby() for all players
+    }
+
+    public void disconnect() {
+        // TODO: ends connection.
+    }
+
     public void sendChatMessage(ChatMessage chatMessage) {
         connection.sendTCP(chatMessage);
     }
@@ -232,8 +243,6 @@ public class MonopolyClient {
     }
 
     public void updateLobbyControllers() {
-        // TODO: his sends a message to all to update their lobbyController object
-        //  Do this using lobbyController.updateLobbyState() method
         boolean[] checkboxes = new boolean[]{alliance, speedDie, privateLobby};
         Player player = players.get(getId());
         client.sendTCP(checkboxes);
@@ -241,7 +250,7 @@ public class MonopolyClient {
     }
 
     public void updateGameScreenControllers() {
-        // TODO: his sends a message to all to update their lobbyController object
+        // TODO: his sends a message to all to update their gameScreenController object
         //  Do this using gameScreenController.updateBoardState() method
 
     }

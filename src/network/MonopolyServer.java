@@ -118,10 +118,23 @@ public class MonopolyServer {
                         else if(s.contains("player name")) {
                             String name = s.substring((s.indexOf(":") + 1));
                             System.out.println("name:" + name);
-                            Player player = new Player(connection.getID() - 1, name, Player.Token.BATTLESHIP, 1);
+                            Player player = new Player(connection.getID() - 1, name, Player.Token.NONE, 0);
                             registeredPlayer.put(connection, player);
 
                             ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
+                            server.sendToAllTCP(players);
+                            server.sendToAllTCP(checkboxes);
+                            server.sendToAllTCP("update lobby");
+                        } else if (s.contains("leave lobby")) {
+                            int id = Integer.getInteger(s.substring(s.indexOf(":") + 1));
+                            System.out.println("player with id: " + id + " left the lobby");
+                            for (Map.Entry<Connection, Player> entry : registeredPlayer.entrySet()) {
+                                if (entry.getValue().getPlayerId() == id) {
+                                    registeredPlayer.remove(entry.getKey());
+                                    break;
+                                }
+                            }
+                            ArrayList<Player> player = new ArrayList<>(registeredPlayer.values());
                             server.sendToAllTCP(players);
                             server.sendToAllTCP(checkboxes);
                             server.sendToAllTCP("update lobby");
