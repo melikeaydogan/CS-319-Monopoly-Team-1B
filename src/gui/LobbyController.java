@@ -4,10 +4,14 @@ import entity.Player;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import network.MonopolyClient;
 import network.MonopolyNetwork;
 
@@ -26,6 +30,7 @@ public class LobbyController {
     Button[] tokenButtons, teamButtons;
 
     private final int CAPACITY = 6;
+    private final int TEAM_MAX = 3;
 
     private MonopolyClient monopolyClient;
 
@@ -47,7 +52,21 @@ public class LobbyController {
     }
 
     public void startGame() {
-        System.out.println("Switch to the game screen!");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("game_screen.fxml"));
+            Parent root = (Parent) loader.load();
+            Scene scene = new Scene(root, 1920, 1080);
+            Stage stage = (Stage) pinLabel.getScene().getWindow();
+
+            // Initialize Game
+            GameScreenController gameScreenController = loader.getController();
+            monopolyClient.setupMonopolyGame(gameScreenController);
+
+            // Switch Scene
+            stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setUpLobby(MonopolyClient monopolyClient) {
@@ -62,7 +81,8 @@ public class LobbyController {
     protected void leaveButtonPressed(String name) {
         // TODO: Terminate the client,
         //  if the player is host stop the server
-        //  else, the server is still on.
+        //  else, the server is still on but remove
+        //  that player from the player list.
     }
 
     public void updateLobbyState(MonopolyClient monopolyClient) {
@@ -180,7 +200,7 @@ public class LobbyController {
     }
 
     private int nextTeam() {
-        teamNow = (teamNow + 1) % 4;
+        teamNow = (teamNow + 1) % (TEAM_MAX + 1);
         return teamNow;
     }
 }

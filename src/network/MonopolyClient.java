@@ -220,10 +220,12 @@ public class MonopolyClient {
         return monopolyGame;
     }
 
-    public void setupMonopolyGame(GameScreenController gsc, ArrayList<Player> players) {
+    public void setupMonopolyGame(GameScreenController gsc) {
         try {
             this.gameScreenController = gsc;
             this.monopolyGame = new MonopolyGame(players, gsc);
+            this.seed = monopolyGame.getDice().getGameSeed();
+            gsc.setMonopolyClient(this);
         } catch (Exception exception) {
             exception.printStackTrace();
         }

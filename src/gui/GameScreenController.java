@@ -92,13 +92,9 @@ public class GameScreenController {
         }
     }
 
-    public void setupGame(ArrayList<Player> players) {
-        try {
-            monopolyClient.setupMonopolyGame(this, players);
-            setupBoard();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void setMonopolyClient(MonopolyClient monopolyClient) {
+        this.monopolyClient = monopolyClient;
+        setupBoard();
     }
 
     private void setupBoard() {
