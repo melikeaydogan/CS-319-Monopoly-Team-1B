@@ -43,11 +43,11 @@ public class LobbyController {
 
     @FXML
     protected void startButtonPressed(ActionEvent e) {
-        // monopolyClient.startGame()
+        monopolyClient.sendStartGameCommand();
     }
 
     public void startGame() {
-        // switch to game screen
+        System.out.println("Switch to the game screen!");
     }
 
     public void setUpLobby(MonopolyClient monopolyClient) {
@@ -76,7 +76,7 @@ public class LobbyController {
             boolean speedDie = monopolyClient.getSpeedDie();
             boolean privateLobby = monopolyClient.getPrivateLobby();
 
-            boolean isHost = monopolyClient.getId() == 1;
+            boolean isHost = monopolyClient.getId() == 0;
             speedDieBox.setDisable(!isHost);
             allianceBox.setDisable(!isHost);
             privateBox.setDisable(!isHost);

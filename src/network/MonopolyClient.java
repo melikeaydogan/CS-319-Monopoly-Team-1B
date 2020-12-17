@@ -116,7 +116,7 @@ public class MonopolyClient {
                     }
                     else if (o instanceof String) {
                         String message = (String) o;
-                        if (message.equals("start game")) {
+                        if (message.equals("game started")) {
                                 lobbyController.startGame();
                         } // Activate and deactivate buttons don't need to be here
                         else if (message.equals("update lobby")) {
@@ -213,7 +213,7 @@ public class MonopolyClient {
         //}
         //return -1;
 
-        return connection.getID();
+        return connection.getID() - 1;
     }
 
     public MonopolyGame getMonopolyGame() {
@@ -233,7 +233,7 @@ public class MonopolyClient {
         // TODO: his sends a message to all to update their lobbyController object
         //  Do this using lobbyController.updateLobbyState() method
         boolean[] checkboxes = new boolean[]{alliance, speedDie, privateLobby};
-        Player player = players.get(getId() - 1);
+        Player player = players.get(getId());
         client.sendTCP(checkboxes);
         client.sendTCP(player);
     }

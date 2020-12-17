@@ -118,7 +118,7 @@ public class MonopolyServer {
                         else if(s.contains("player name")) {
                             String name = s.substring((s.indexOf(":") + 1));
                             System.out.println("name:" + name);
-                            Player player = new Player(connection.getID(), name, Player.Token.BATTLESHIP, 1);
+                            Player player = new Player(connection.getID() - 1, name, Player.Token.BATTLESHIP, 1);
                             registeredPlayer.put(connection, player);
 
                             ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
@@ -160,8 +160,9 @@ public class MonopolyServer {
 
     public void startGame() throws IOException {
         // ToDo get players from clients
-        ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
         long seed = System.currentTimeMillis();
+        ArrayList<Player> players = new ArrayList<Player>(registeredPlayer.values());
+        System.out.println("Game starts with players --> " + players);
         monopolyGame = new MonopolyGame(players, seed);
 
         // send this game to clients, or send the players and seed (more efficient)
@@ -171,16 +172,16 @@ public class MonopolyServer {
         // start the game and get the first player
         Player activePlayer = monopolyGame.startGame();
         // go to the game screen in clients
-        server.sendToAllTCP("start game");
-        server.sendToAllTCP("Game started with these players --> " + players);
-        server.sendToAllTCP("Game started with this seed --> " + seed);
+        server.sendToAllTCP("game started");
+        //server.sendToAllTCP("Game started with these players --> " + players);
+        //server.sendToAllTCP("Game started with this seed --> " + seed);
         gameStarted = true;
 
         //System.out.println(new Gson().toJson(players));
         //System.out.println(new Gson().toJson(monopolyGame.getBoard().getProperties()));
 
         //activeConnection = registeredPlayer.get(activePlayer);
-        activeConnection.sendTCP("activate buttons"); // continue this method, inactive for other connections
+        //activeConnection.sendTCP("activate buttons"); // continue this method, inactive for other connections
 
         for (Connection c : clients) {
             if (activeConnection != c) {
