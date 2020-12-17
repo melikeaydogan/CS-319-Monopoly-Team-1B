@@ -37,16 +37,16 @@ public class MainMenuController {
 
             // Create a new server and client
             MonopolyServer monopolyServer = MonopolyServer.getInstance();
-            System.out.println(monopolyServer.toString());
+            //System.out.println(monopolyServer.toString());
 
             MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
             monopolyClient.connect(MonopolyNetwork.ipAddress, username);
 
-            // Setup the lobby
             lobbyController.setUpLobby(monopolyClient);
 
             // Switch scene to lobby
             stage.setScene(scene);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,14 +57,15 @@ public class MainMenuController {
         String username = usernameField.getText();
 
         // TODO: ask for an ip address
-        String ip = "139.179.200.153";
+        String ip = "127.0.0.1";
 
         if (true) { // TODO: Check if the pin exists
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
                 Parent root = (Parent) loader.load();
                 //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
-                Scene scene = new Scene(root, 1920, 1080);
+                //Scene scene = new Scene(root, 1920, 1080);
+                Scene scene = new Scene(root, 800, 600);
 
                 Stage stage = (Stage) imageView.getScene().getWindow();
 
@@ -74,13 +75,16 @@ public class MainMenuController {
                 MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
                 monopolyClient.connect(ip, username);
 
-                lobbyController.setUpLobby(monopolyClient);
+                if (monopolyClient.isConnected()) {
+                    lobbyController.setUpLobby(monopolyClient);
 
-                // Switch scene to lobby
-                stage.setX(0);
-                stage.setY(0);
-                stage.setMaximized(true);
-                stage.setScene(scene);
+                    // Switch scene to lobby
+                    //stage.setX(0);
+                    //stage.setY(0);
+                    //stage.setMaximized(true);
+                    stage.setScene(scene);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

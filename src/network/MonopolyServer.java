@@ -12,6 +12,7 @@ import entity.Player;
 
 import java.io.IOException;
 import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.util.*;
 
 // 1. Player clicks at create new game and MonopolyServer gets created.
@@ -39,7 +40,8 @@ public class MonopolyServer {
         server.bind(MonopolyNetwork.PORT);
 
         MonopolyNetwork.register(server);
-        System.out.println("IP Address: " + Inet4Address.getLocalHost().toString());
+        System.out.println("IP Address: " + InetAddress.getLocalHost().getHostAddress());
+        MonopolyNetwork.ipAddress = InetAddress.getLocalHost().getHostAddress();
         System.out.println("[SERVER] Server initialized and ready for connections...");
 
         server.addListener(new Listener() {
@@ -49,7 +51,9 @@ public class MonopolyServer {
                     clients.add(connection);
                 }
                 System.out.println("[SERVER] New client connected --> " + connection.getID());
-                connection.sendTCP("Hi connection number " + connection.getID() + "! :)");
+
+                //server.sendToAllTCP("update lobby");
+
                 // lobbyController.update()
                 // activeConnection = connection;
 //
@@ -108,23 +112,25 @@ public class MonopolyServer {
                                 e.printStackTrace();
                             }
                         }
-                    }
-                    else if (o instanceof Player) {
-                        Player player = (Player) o;
-                        player.setPlayerId(connection.getID() - 1); // the most convenient way for ids
-                        System.out.println("[SERVER] Client sent the player -->" + player);
-                        registeredPlayer.put(player, connection);
-
-                        ArrayList<Player> players = new ArrayList<>(registeredPlayer.keySet());
-                        connection.sendTCP(players);
-
-                        if (registeredPlayer.size() >= 2) {
-                            try {
-                                startGame(); // temporary, it needs ui confirmation
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                        else if(s.equals("get players")) {
+                            ArrayList<Player> players = new ArrayList<>(registeredPlayer.keySet());
+                            connection.sendTCP(players);
                         }
+                        else if(s.contains("player name")) {
+                            String name = s.substring((s.indexOf(":") + 1));
+                            System.out.println("name:" + name);
+                            Player player = new Player(connection.getID(), name, Player.Token.BATTLESHIP, 1);
+                            registeredPlayer.put(player, connection);
+
+                            ArrayList<Player> players = new ArrayList<>(registeredPlayer.keySet());
+                            server.sendToAllTCP(players);
+                            server.sendToAllTCP("update lobby");
+                        }
+                    }
+                    else if (o instanceof boolean[]) {
+                        boolean[] checkboxes = (boolean[]) o;
+                        server.sendToAllExceptTCP(connection.getID(), checkboxes);
+                        server.sendToAllExceptTCP(connection.getID(), "update lobby");
                     }
                 }
 
@@ -183,10 +189,6 @@ public class MonopolyServer {
 
     public static void main(String[] args) throws IOException {
         MonopolyServer monopolyServer = new MonopolyServer();
-
-        while (true) {
-            System.out.println(new Random().nextInt(3));
-        }
     }
 
 }

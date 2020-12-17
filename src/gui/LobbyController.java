@@ -1,6 +1,7 @@
 package gui;
 
 import entity.Player;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,6 +18,8 @@ public class LobbyController {
     @FXML CheckBox allianceBox, speedDieBox, privateBox;
     @FXML Button startButton;
     @FXML GridPane playersPane;
+    @FXML Label player1Label, player2Label, player3Label, player4Label, player5Label, player6Label;
+    Label[] playerLabels;
 
     private final int CAPACITY = 6;
 
@@ -39,7 +42,8 @@ public class LobbyController {
 
     public void setUpLobby(MonopolyClient monopolyClient) {
         this.monopolyClient = monopolyClient;
-        updateLobbyState();
+
+        //updateLobbyState();
     }
 
     public boolean isFull() {
@@ -53,26 +57,42 @@ public class LobbyController {
         //  else, the server is still on.
     }
 
-    public void updateLobbyState() {
-        // Update CheckBoxes
-        boolean alliance = monopolyClient.getAlliance();
-        boolean speedDie = monopolyClient.getSpeedDie();
-        boolean privateLobby = monopolyClient.getPrivateLobby();
+    public void updateLobbyState(MonopolyClient monopolyClient) {
+        this.monopolyClient = monopolyClient;
+        this.playerLabels = new Label[]{player1Label, player2Label, player3Label, player4Label, player5Label, player6Label};
+        Platform.runLater(new Runnable(){
+            @Override
+            public void run() {
+                // Update CheckBoxes
+                boolean alliance = monopolyClient.getAlliance();
+                boolean speedDie = monopolyClient.getSpeedDie();
+                boolean privateLobby = monopolyClient.getPrivateLobby();
 
-        boolean isHost = monopolyClient.getId() == 0;
-        speedDieBox.setDisable(!isHost);
-        allianceBox.setDisable(!isHost);
-        privateBox.setDisable(!isHost);
-        startButton.setDisable(!isHost);
+                boolean isHost = monopolyClient.getId() == 1;
+                speedDieBox.setDisable(!isHost);
+                allianceBox.setDisable(!isHost);
+                privateBox.setDisable(!isHost);
+                startButton.setDisable(!isHost);
 
-        speedDieBox.setSelected(speedDie);
-        allianceBox.setSelected(alliance);
-        privateBox.setSelected(privateLobby);
+                speedDieBox.setSelected(speedDie);
+                allianceBox.setSelected(alliance);
+                privateBox.setSelected(privateLobby);
 
-        // Update pin label
-        pinLabel.setText(MonopolyNetwork.ipAddress); // TODO: get this ip address from the server.
+                // Update pin label
+                pinLabel.setText(MonopolyNetwork.ipAddress); // TODO: get this ip address from the server.
 
-        // TODO: Update Other Labels
+                // TODO: Update Other Labels
+                ArrayList<Player> players = monopolyClient.getPlayers();
+                for (int i = 0; i < 6; i++) {
+                    if (i < players.size() && players.get(i) != null) {
+                        playerLabels[i].setText(players.get(i).getName());
+                    }
+                }
+            }
+// ...
+        });
+
+
     }
 
     @FXML

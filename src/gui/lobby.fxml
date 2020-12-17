@@ -31,6 +31,12 @@
             <Label text="  Username:" />
             <Label text="  Token:" GridPane.columnIndex="1" />
             <Label text="  Team:" GridPane.columnIndex="2" />
+            <Label fx:id="player1Label" layoutX="10.0" layoutY="21.0" text="Player1" GridPane.rowIndex="1" />
+            <Label fx:id="player2Label" layoutX="10.0" layoutY="62.0" text="Player2" GridPane.rowIndex="2" />
+            <Label fx:id="player3Label" layoutX="10.0" layoutY="102.0" text="Player3" GridPane.rowIndex="3" />
+            <Label fx:id="player4Label" layoutX="10.0" layoutY="143.0" text="Player4" GridPane.rowIndex="4" />
+            <Label fx:id="player5Label" layoutX="10.0" layoutY="183.0" text="Player5" GridPane.rowIndex="5" />
+            <Label layoutX="10.0" layoutY="224.0" text="Player6" GridPane.rowIndex="6" />
          </children>
       </GridPane>
       <AnchorPane layoutX="432.0" layoutY="14.0" prefHeight="135.0" prefWidth="159.0">

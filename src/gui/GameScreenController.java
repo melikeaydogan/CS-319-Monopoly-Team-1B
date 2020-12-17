@@ -40,10 +40,6 @@ import java.util.Optional;
 public class GameScreenController {
     private final int LOG_CAPACITY = 8;
 
-    // Game object
-    // TODO: replace game object with the client
-    // MonopolyGame game;
-
     MonopolyClient monopolyClient;
 
     // Labels for die results

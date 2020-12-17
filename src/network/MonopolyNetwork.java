@@ -62,6 +62,7 @@ public class MonopolyNetwork {
         kyro.register(java.util.ArrayList.class);
         kyro.register(entity.Player.Token.class);
         kyro.register(java.util.LinkedList.class);
+        kyro.register(boolean[].class);
     }
 
 }

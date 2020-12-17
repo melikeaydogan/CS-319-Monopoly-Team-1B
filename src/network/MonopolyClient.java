@@ -55,6 +55,7 @@ public class MonopolyClient {
         new Thread(client).start(); // it keeps the client alive
         this.lobbyController = lobbyController;
         this.gameScreenController = null;
+        instance = this;
 
         MonopolyNetwork.register(client);
 
@@ -65,8 +66,8 @@ public class MonopolyClient {
                 isConnected = true;
                 connection = c;
 
-                Player player = new Player(name, Player.Token.BATTLESHIP, 1);
-                connection.sendTCP(player);
+                //Player player = new Player(name, Player.Token.BATTLESHIP, 1);
+                connection.sendTCP("player name: " + name);
             }
 
             @Override
@@ -104,7 +105,7 @@ public class MonopolyClient {
                 else {
                     if (o instanceof ArrayList) {
                         players = (ArrayList<Player>) o;
-                        System.out.println("Current players in the server -->" + players);
+                        lobbyController.updateLobbyState(MonopolyClient.this);
                     }
                     else if (o instanceof Long) {
                         seed = (Long) o;
@@ -114,9 +115,19 @@ public class MonopolyClient {
                         if (message.equals("start game")) {
                                 lobbyController.startGame();
                         } // Activate and deactivate buttons don't need to be here
+                        else if (message.equals("update lobby")) {
+                            lobbyController.updateLobbyState(MonopolyClient.this);
+                        }
                         else {
                             System.out.println("[SERVER] " + message);
                         }
+                    }
+                    else if (o instanceof boolean[]) {
+                        boolean[] checkboxes = (boolean[]) o;
+
+                        alliance = checkboxes[0];
+                        speedDie = checkboxes[1];
+                        privateLobby = checkboxes[2];
                     }
                 }
 
@@ -128,8 +139,8 @@ public class MonopolyClient {
         this.name = name;
         System.out.println("[CLIENT] Connecting to the server...");
         MonopolyNetwork.ipAddress = ipAddress;
-        new Thread("Connect") {
-            public void run () {
+        //new Thread("Connect") {
+        //    public void run () {
                 try {
                     client.connect(5000, MonopolyNetwork.ipAddress, MonopolyNetwork.PORT);
                     // Server communication after connection can go here, or in Listener#connected().
@@ -138,8 +149,9 @@ public class MonopolyClient {
                     ex.printStackTrace();
                     System.exit(1);
                 }
-            }
-        }.start();
+        //    }
+        //}.start();
+
     }
 
     public static MonopolyClient getInstance() {
@@ -191,11 +203,13 @@ public class MonopolyClient {
     }
 
     public int getId() {
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getName().equals(name))
-                return i;
-        }
-        return -1;
+        //for (int i = 0; i < players.size(); i++) {
+        //    if (players.get(i).getName().equals(name))
+        //        return i;
+        //}
+        //return -1;
+
+        return connection.getID();
     }
 
     public MonopolyGame getMonopolyGame() {
@@ -214,11 +228,14 @@ public class MonopolyClient {
     public void updateLobbyControllers() {
         // TODO: his sends a message to all to update their lobbyController object
         //  Do this using lobbyController.updateLobbyState() method
+        boolean[] checkboxes = new boolean[]{alliance, speedDie, privateLobby};
+        client.sendTCP(checkboxes);
     }
 
     public void updateGameScreenControllers() {
         // TODO: his sends a message to all to update their lobbyController object
         //  Do this using gameScreenController.updateBoardState() method
+
     }
 
     public boolean getSpeedDie() {
