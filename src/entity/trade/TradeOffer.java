@@ -49,6 +49,10 @@ public class TradeOffer {
                 offer.status);
     }
 
+    public TradeOffer() {
+
+    }
+
     /**
      * Sets the status of this trade to COUNTER_OFFERED
      * and creates a counter offer for this offer

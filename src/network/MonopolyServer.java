@@ -33,14 +33,13 @@ public class MonopolyServer {
     private Connection activeConnection = null;
     boolean gameStarted = false;
     boolean checkboxes[] = new boolean[3];
-
-    // LobbyController lobbyController
+    ChatMessage chatLog;
 
     private MonopolyServer() throws IOException {
+        chatLog = new ChatMessage();
 
         server = new Server();
         server.start();
-
         server.bind(MonopolyNetwork.PORT);
 
         MonopolyNetwork.register(server);
@@ -116,15 +115,20 @@ public class MonopolyServer {
                                         }
                                     }
                                 }
+                                else if (s.equals("get chat")) {
+                                    connection.sendTCP(chatLog);
+                                }
                                 System.out.println("[SERVER] Message from " + connection.getID() + " --> " + s);
                             }
                             else if (o instanceof DiceResult) {
                                 server.sendToAllTCP(o);
                             }
-                        }
-                        else {
-                            if (o instanceof ChatMessage) {
-                                server.sendToAllExceptTCP(connection.getID(), o);
+                            else if (o instanceof ChatMessage) {
+                                ChatMessage chatMessage = (ChatMessage) o;
+                                ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
+                                chatLog.setMessage(chatLog.getMessage() + players.get(connection.getID() - 1).getName()
+                                        + ": " +  chatMessage.getMessage() + "\n");
+                                server.sendToAllTCP(chatLog);
                             }
                         }
                     }

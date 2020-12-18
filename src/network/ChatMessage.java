@@ -8,6 +8,7 @@ public class ChatMessage {
     }
 
     public ChatMessage() {
+        message = "";
     }
 
     public String getMessage() {

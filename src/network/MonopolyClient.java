@@ -44,7 +44,11 @@ public class MonopolyClient {
     long seed;
     MonopolyGame monopolyGame;
 
+    // Chat
+    ChatMessage chatLog;
+
     public MonopolyClient(LobbyController lobbyController) {
+        chatLog = new ChatMessage();
         name = "";
         client = new Client();
         new Thread(client).start(); // it keeps the client alive
@@ -89,7 +93,7 @@ public class MonopolyClient {
                     }
                     else if (o instanceof ChatMessage) {
                         ChatMessage message = (ChatMessage) o;
-                        // gameScreenController.addChatMessage(message);
+                        Platform.runLater(() -> gameScreenController.updateChat(message));
                     }
                     else if (o instanceof ArrayList) {
                         players = (ArrayList<Player>) o;
@@ -252,6 +256,14 @@ public class MonopolyClient {
         //return -1;
 
         return connection.getID() - 1;
+    }
+
+    public ChatMessage getChatLog() {
+        return chatLog;
+    }
+
+    public void setChatLog(ChatMessage chatLog) {
+        this.chatLog = chatLog;
     }
 
     public MonopolyGame getMonopolyGame() {

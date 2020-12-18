@@ -28,6 +28,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import network.ChatMessage;
 import network.MonopolyClient;
 
 import java.io.File;
@@ -41,6 +42,7 @@ public class GameScreenController {
     private final int LOG_CAPACITY = 8;
 
     MonopolyClient monopolyClient;
+    String chatLog;
 
     // Labels for die results
     @FXML Label die1, die2;
@@ -67,6 +69,8 @@ public class GameScreenController {
     // Text that shows whose turn is it
     @FXML Text playerTurn;
 
+    ChatController chatController;
+
 
     // Stop the game and go to main menu when quit button is pressed
     @FXML
@@ -90,6 +94,33 @@ public class GameScreenController {
             //die2.setText(Integer.toString(result.getSecondDieResult()));
 
             //getGame().processTurn();
+        }
+    }
+
+    @FXML
+    protected void openChatPanel(ActionEvent e) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("chat.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            chatController = fxmlLoader.getController();
+            chatController.setMonopolyClient(monopolyClient);
+            monopolyClient.sendString("get chat");
+
+            chatController.getTextArea().setText(monopolyClient.getChatLog().getMessage());
+            chatController.getTextArea().setScrollTop(Double.MAX_VALUE);
+            Stage stage = new Stage();
+            stage.setTitle("Chat");
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch(Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public void updateChat(ChatMessage chatMessage) {
+        if (chatController != null) {
+            chatController.getTextArea().setText(chatMessage.getMessage());
+            chatController.getTextArea().setScrollTop(Double.MAX_VALUE);
         }
     }
 

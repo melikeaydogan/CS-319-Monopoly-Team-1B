@@ -75,7 +75,7 @@ public class Board {
         builder.registerTypeAdapter(Tile.class, new Tile.CustomDeserializer());
         Gson customGson = builder.create();
 
-        Reader reader = Files.newBufferedReader(Paths.get(fileName));
+        Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + fileName));
 
         // convert JSON array to list of users
         tiles = customGson.fromJson(reader, new TypeToken<List<Tile>>() {}.getType());
@@ -89,7 +89,7 @@ public class Board {
         builder.registerTypeAdapter(Property.class, new Property.CustomDeserializer());
         Gson customGson = builder.create();
 
-        Reader reader = Files.newBufferedReader(Paths.get(fileName));
+        Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + fileName));
 
         // convert JSON array to list of users
         properties = customGson.fromJson(reader, new TypeToken<List<Property>>() {}.getType());
