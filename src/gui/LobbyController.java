@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -48,10 +49,41 @@ public class LobbyController {
 
     @FXML
     protected void startButtonPressed(ActionEvent e) {
-        // TODO:  if ((alliance is on && one players has team 0) || (one player has token NONE))
-        //              Dont allow starting the game.
+        //        if ((there are 2 or more players) and (alliance is off or no player has team 0) and (no player has token NONE))
+        //              start the game.
+        //        else
+        //              show alert dialog.
+        if (monopolyClient.getPlayers().size() <= 1) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Cannot Start the Game");
+            alert.setHeaderText("Please wait for more players");
+            alert.showAndWait();
+            return;
+        }
 
-        monopolyClient.sendStartGameCommand();
+
+        boolean fullTokens = true;
+        boolean fullTeams = true;
+        for (Player p : monopolyClient.getPlayers()) {
+            if (p.getToken() == Player.Token.NONE) {
+                fullTokens = false;
+            }
+            if (p.getTeamNumber() == 0) {
+                fullTeams = false;
+            }
+        }
+
+        if ((!monopolyClient.getAlliance() || fullTeams) && fullTokens)
+            monopolyClient.sendStartGameCommand();
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Cannot Start the Game");
+            alert.setHeaderText("One or more players have not selected their tokens or teams");
+            alert.showAndWait();
+        }
+
+
+
     }
 
     public void startGame() {
@@ -135,7 +167,7 @@ public class LobbyController {
             privateBox.setSelected(privateLobby);
 
             // Update pin label
-            pinLabel.setText(MonopolyNetwork.ipAddress); // TODO: get this ip address from the server.
+            pinLabel.setText(MonopolyNetwork.ipAddress);
 
             // Update player names, teams, and tokens
             ArrayList<Player> players = monopolyClient.getPlayers();
