@@ -108,6 +108,13 @@ public class PlayerController {
         new SellPropertyAction(player.getPlayerId(), property.getId()).act();
     }
 
+    public void mortgageProperty(Player player, Property property) {
+        new MortgagePropertyAction(player.getPlayerId(), property.getId()).act();
+    }
+
+    public void unmortgageProperty(Player player, Property property) {
+        new UnmortgagePropertyAction(player.getPlayerId(), property.getId()).act();
+    }
     @Override
     public String toString() {
         return "Players in the controller: " + players;
