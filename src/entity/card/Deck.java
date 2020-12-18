@@ -19,7 +19,7 @@ public class Deck {
             Gson gson = new Gson();
 
             // create a reader
-            Reader reader = Files.newBufferedReader(Paths.get(filename));
+            Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + filename));
 
             // convert JSON array to list of users
             cardlist = new Gson().fromJson(reader, new TypeToken<List<Card>>() {}.getType());

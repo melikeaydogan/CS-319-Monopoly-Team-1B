@@ -59,6 +59,8 @@ public class MonopolyNetwork {
         kyro.register(control.action.SellPropertyAction.class);
         kyro.register(control.action.TransferAction.class);
 
+        kyro.register(network.ChatMessage.class);
+
         kyro.register(java.util.HashMap.class);
         kyro.register(java.util.ArrayList.class);
         kyro.register(entity.Player.Token.class);

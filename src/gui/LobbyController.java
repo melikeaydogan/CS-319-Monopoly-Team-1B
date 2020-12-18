@@ -99,6 +99,9 @@ public class LobbyController {
 
             // Switch Scene
             Platform.runLater(() -> {
+                stage.setX(0);
+                stage.setY(0);
+                stage.setMaximized(true);
                 stage.setScene(scene);
             });
 
