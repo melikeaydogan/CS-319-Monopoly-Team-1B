@@ -24,9 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -290,16 +288,16 @@ public class GameScreenController {
                 title = "Buy Property?";
                 content = "Do you wish to buy " + b.getName() + "?\n\n" +
                         "Price: " + decimalFormat.format(b.getPrice()) + "$\n";
-            } else if (b.getHouseCount() < 4 && getGame().getActivePlayer().isComplete(b)) {
+            } else if (b.getClassroomCount() < 4 && getGame().getActivePlayer().isComplete(b)) {
                 title = "Add House?";
                 content = "Do you wish to build a house to " + b.getName() + "?\n" +
-                        "Price: " + decimalFormat.format(b.getHousePrice()) + "$\n" +
-                        "Rent: " + decimalFormat.format(b.getRents().get(b.getHouseCount())) + " ==> " +
-                        decimalFormat.format(b.getRents().get(b.getHouseCount() + 1));
-            } else if (b.getHotelCount() == 4 && getGame().getActivePlayer().isComplete(b)) {
+                        "Price: " + decimalFormat.format(b.getClassroomPrice()) + "$\n" +
+                        "Rent: " + decimalFormat.format(b.getRents().get(b.getClassroomCount())) + " ==> " +
+                        decimalFormat.format(b.getRents().get(b.getClassroomCount() + 1));
+            } else if (b.getLectureHallCount() == 4 && getGame().getActivePlayer().isComplete(b)) {
                 title = "Add Hotel?";
                 content = "Do you wish to build a Hotel to " + b.getName() + "?\n" +
-                        "Price: " + decimalFormat.format(b.getHotelPrice()) + "$\n" +
+                        "Price: " + decimalFormat.format(b.getLectureHallPrice()) + "$\n" +
                         "Rent: " + decimalFormat.format(b.getRents().get(4)) + " ==> " +
                         decimalFormat.format(b.getRents().get(5));
             }
@@ -351,9 +349,9 @@ public class GameScreenController {
 
         title = "Add House?";
         content = "Do you wish to build a house to " + building.getName() + "?\n" +
-                "Price: " + decimalFormat.format(building.getHousePrice()) + "$\n" +
-                "Rent: " + decimalFormat.format(building.getRents().get(building.getHouseCount())) + " ==> " +
-                decimalFormat.format(building.getRents().get(building.getHouseCount() + 1));
+                "Price: " + decimalFormat.format(building.getClassroomPrice()) + "$\n" +
+                "Rent: " + decimalFormat.format(building.getRents().get(building.getClassroomCount())) + " ==> " +
+                decimalFormat.format(building.getRents().get(building.getClassroomCount() + 1));
 
         dialog.setTitle(title);
         dialog.setContentText(content);
@@ -381,7 +379,7 @@ public class GameScreenController {
 
         title = "Add Hotel?";
         content = "Do you wish to build a Hotel to " + building.getName() + "?\n" +
-        "Price: " + decimalFormat.format(building.getHotelPrice()) + "$\n" +
+        "Price: " + decimalFormat.format(building.getLectureHallPrice()) + "$\n" +
         "Rent: " + decimalFormat.format(building.getRents().get(4)) + " ==> " +
         decimalFormat.format(building.getRents().get(5));
 

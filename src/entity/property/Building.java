@@ -3,64 +3,64 @@ package entity.property;
 import java.util.ArrayList;
 
 public class Building extends Property{
-    int housePrice;
-    int hotelPrice;
+    int classroomPrice;
+    int lectureHallPrice;
     String color;
-    int houseCount;
-    int hotelCount;
+    int classroomCount;
+    int lectureHallCount;
 
     public Building(String name, int id, int price, ArrayList<Integer> rents, int mortgagePrice,
-                    int housePrice, int hotelPrice, String color) {
+                    int classroomPrice, int lectureHallPrice, String color) {
         super(name, id, price, rents, mortgagePrice);
-        this.housePrice = housePrice;
-        this.hotelPrice = hotelPrice;
+        this.classroomPrice = this.classroomPrice;
+        this.lectureHallPrice = lectureHallPrice;
         this.color = color;
-        houseCount = 0;
-        hotelCount = 0;
+        classroomCount = 0;
+        lectureHallCount = 0;
     }
 
     public Building() {
         super();
     }
 
-    public void addHouse() {
-        houseCount++;
+    public void addClassroom() {
+        classroomCount++;
     }
 
-    public void addHotel() {
-        hotelCount++;
+    public void addLectureHall() {
+        lectureHallCount++;
     }
 
-    public int getHouseCount() {
-        return houseCount;
+    public int getClassroomCount() {
+        return classroomCount;
     }
 
-    public void setHouseCount(int houseCount) {
-        this.houseCount = houseCount;
+    public void setClassroomCount(int classroomCount) {
+        this.classroomCount = classroomCount;
     }
 
-    public int getHotelCount() {
-        return hotelCount;
+    public int getLectureHallCount() {
+        return lectureHallCount;
     }
 
-    public void setHotelCount(int hotelCount) {
-        this.hotelCount = hotelCount;
+    public void setLectureHallCount(int lectureHallCount) {
+        this.lectureHallCount = lectureHallCount;
     }
 
-    public int getHousePrice() {
-        return housePrice;
+    public int getClassroomPrice() {
+        return classroomPrice;
     }
 
-    public void setHousePrice(int housePrice) {
-        this.housePrice = housePrice;
+    public void setClassroomPrice(int classroomPrice) {
+        this.classroomPrice = classroomPrice;
     }
 
-    public int getHotelPrice() {
-        return hotelPrice;
+    public int getLectureHallPrice() {
+        return lectureHallPrice;
     }
 
-    public void setHotelPrice(int hotelPrice) {
-        this.hotelPrice = hotelPrice;
+    public void setLectureHallPrice(int lectureHallPrice) {
+        this.lectureHallPrice = lectureHallPrice;
     }
 
     public String getColor() {
@@ -74,6 +74,6 @@ public class Building extends Property{
     @Override
     public String toString() {
         return "ID: " + id + " Name: " + name + " Price: " + price + " Color: " + color +
-                " House price: " + housePrice + " Hotel price: " + hotelPrice;
+                " Classroom price: " + classroomPrice + " Lecture Hall price: " + lectureHallPrice;
     }
 }

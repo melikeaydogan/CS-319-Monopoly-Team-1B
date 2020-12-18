@@ -12,7 +12,6 @@ import entity.property.Facility;
 import entity.property.Property;
 import entity.tile.*;
 import gui.GameScreenController;
-import network.MonopolyClient;
 // import javafx.beans.property.Property;
 
 // how does ui and this communicate?
@@ -227,25 +226,25 @@ public class MonopolyGame {
                 Building building = (Building) property;
                 boolean isComplete = propertyOwner.isComplete(building);
 
-                if ( building.getHouseCount() == 0 && !isComplete ) {
+                if ( building.getClassroomCount() == 0 && !isComplete ) {
                     transferAmount = building.getRents().get(0);
                 }
-                else if ( building.getHouseCount() == 0 && isComplete ) {
+                else if ( building.getClassroomCount() == 0 && isComplete ) {
                     transferAmount = building.getRents().get(0) * 2;
                 }
-                else if ( building.getHotelCount() == 1 ) {
+                else if ( building.getLectureHallCount() == 1 ) {
                     transferAmount = building.getRents().get(5);
                 }
-                else if ( building.getHouseCount() == 1 ) {
+                else if ( building.getClassroomCount() == 1 ) {
                     transferAmount = building.getRents().get(1);
                 }
-                else if ( building.getHouseCount() == 2 ) {
+                else if ( building.getClassroomCount() == 2 ) {
                     transferAmount = building.getRents().get(2);
                 }
-                else if ( building.getHouseCount() == 3 ) {
+                else if ( building.getClassroomCount() == 3 ) {
                     transferAmount = building.getRents().get(3);
                 }
-                else if ( building.getHouseCount() == 4 ) {
+                else if ( building.getClassroomCount() == 4 ) {
                     transferAmount = building.getRents().get(4);
                 }
             }
@@ -256,17 +255,17 @@ public class MonopolyGame {
                  property instanceof Building && getActivePlayer().isComplete((Building) property))  {
             Building building = (Building) property;
 
-            if (building.getHouseCount() != 4) {
+            if (building.getClassroomCount() != 4) {
                 boolean boughtHouse = ui.showAddHouseDialog(building);
 
                 if (boughtHouse)
-                    new AddHouseAction(building, getActivePlayer()).act();
+                    new AddClassroomAction(building, getActivePlayer()).act();
             }
             else {
                 boolean boughtHotel = ui.showAddHotelDialog(building);
 
                 if (boughtHotel)
-                    new AddHouseAction(building, getActivePlayer()).act();
+                    new AddClassroomAction(building, getActivePlayer()).act();
             }
         }
     }
@@ -380,8 +379,8 @@ public class MonopolyGame {
                 int repairAmount = 0;
                 ArrayList<Property> properties = activePlayer.getProperties().get("BUILDING");
                 for (Property p : properties ) {
-                    houseCount = houseCount + ((Building) p).getHouseCount();
-                    hotelCount = hotelCount + ((Building) p).getHotelCount();
+                    houseCount = houseCount + ((Building) p).getClassroomCount();
+                    hotelCount = hotelCount + ((Building) p).getLectureHallCount();
                 }
                 repairAmount = (4_000 * houseCount) + (11_500 * hotelCount);
                 RemoveMoneyAction removeMoneyAction2 = new RemoveMoneyAction(activePlayer, repairAmount);

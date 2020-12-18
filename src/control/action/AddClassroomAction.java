@@ -3,26 +3,24 @@ package control.action;
 import control.MonopolyGame;
 import entity.Player;
 import entity.property.Building;
-import entity.property.Property;
-import network.MonopolyClient;
 
-public class AddHouseAction implements Action {
+public class AddClassroomAction implements Action {
     private Building building;
     private Player player;
 
-    public AddHouseAction(Building building, Player player) {
+    public AddClassroomAction(Building building, Player player) {
         this.building = building;
         this.player = player;
     }
 
-    public AddHouseAction() {
+    public AddClassroomAction() {
     }
 
     @Override
     public void act() { // color check?
-        if ( player.getBalance() > building.getHousePrice() ) {
-                new RemoveMoneyAction(player, building.getHousePrice()).act();
-                building.addHouse(); // ???
+        if ( player.getBalance() > building.getClassroomPrice() ) {
+                new RemoveMoneyAction(player, building.getClassroomPrice()).act();
+                building.addClassroom(); // ???
         }
 
         MonopolyGame.getActionLog().addMessage(player.getName() + "adds a house to "
