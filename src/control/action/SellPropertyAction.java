@@ -1,17 +1,19 @@
 package control.action;
 
 import control.MonopolyGame;
+import control.PlayerController;
+import entity.Board;
 import entity.Player;
 import entity.property.Property;
 import network.MonopolyClient;
 
 public class SellPropertyAction implements Action {
-    private Player player;
-    private Property property;
+    private int playerId;
+    private int propertyId;
 
-    public SellPropertyAction(Player player, Property property) {
-        this.player = player;
-        this.property = property;
+    public SellPropertyAction(int playerId, int propertyId) {
+        this.playerId = playerId;
+        this.propertyId = propertyId;
     }
 
     public SellPropertyAction() {
@@ -19,6 +21,9 @@ public class SellPropertyAction implements Action {
 
     @Override
     public void act() {
+        Property property = Board.getPropertyById(propertyId);
+        Player player = PlayerController.getById(playerId);
+
         property.setOwned(false);
         property.setOwnerId(-1);
 

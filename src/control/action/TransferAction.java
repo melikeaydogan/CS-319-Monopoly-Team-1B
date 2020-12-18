@@ -1,17 +1,18 @@
 package control.action;
 
 import control.MonopolyGame;
+import control.PlayerController;
 import entity.Player;
 import network.MonopolyClient;
 
 public class TransferAction implements Action{
-    private Player player;
-    private Player player2;
+    private int playerId;
+    private int playerId2;
     private int amount;
 
-    public TransferAction(Player player, Player player2, int amount) {
-        this.player = player;
-        this.player2 = player2;
+    public TransferAction(int playerId, int playerId2, int amount) {
+        this.playerId = playerId;
+        this.playerId2 = playerId2;
         this.amount = amount;
     }
 
@@ -20,6 +21,9 @@ public class TransferAction implements Action{
 
     @Override
     public void act() {
+        Player player = PlayerController.getById(playerId);
+        Player player2 = PlayerController.getById(playerId2);
+
         if ( player.getBalance() >= amount ) {
             player.transferMoney(player2, amount);
 

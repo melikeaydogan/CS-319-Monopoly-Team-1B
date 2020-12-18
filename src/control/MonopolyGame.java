@@ -113,13 +113,12 @@ public class MonopolyGame {
             ui.sendAction(action);
             doubleCount = 0;
         }
-        else if ((diceResult.isDouble() && player.isInJail()) || (player.getJailTurnCount() == 3)) {
+        else if ((diceResult.isDouble() && player.isInJail()) || (player.getJailTurnCount() == 2)) {
             GetOutOfJailAction action = new GetOutOfJailAction(player.getPlayerId());
             action.act();
             ui.sendAction(action);
             player.setJailTurnCount(0);
         }
-        else {
             if (!player.isInJail()) {
                 MoveAction action = new MoveAction(player.getPlayerId(), moveCount); // try catch? PlayerIsInJailException
                 action.act();
@@ -160,7 +159,6 @@ public class MonopolyGame {
             else {
                 player.setJailTurnCount(player.getJailTurnCount() + 1);
             }
-        }
         nextTurn();
         ui.updateBoardState();
 
@@ -180,7 +178,7 @@ public class MonopolyGame {
     public void processPropertyTile(PropertyTile tile) {
         Property property = board.getPropertyById(tile.getPropertyId());
 
-        actionLog.addMessage(getActivePlayer().getName() + " lands on " + property.getName() + "\n");
+        // actionLog.addMessage(getActivePlayer().getName() + " lands on " + property.getName() + "\n");
         if (!property.isOwned() && getActivePlayer().getBalance() >= property.getPrice()) {
             boolean playerBoughtProperty = ui.showPropertyDialog(property); // separate the house and hotel dialog
 
@@ -249,7 +247,9 @@ public class MonopolyGame {
                 }
             }
 
-            new TransferAction(getActivePlayer(), propertyOwner, transferAmount).act();
+            TransferAction transferAction = new TransferAction(getActivePlayer().getPlayerId(), propertyOwner.getPlayerId(), transferAmount);
+            transferAction.act();
+            ui.sendAction(transferAction);
         }
         else if (property.isOwned() && getActivePlayer().getPlayerId() == property.getOwnerId() &&
                  property instanceof Building && getActivePlayer().isComplete((Building) property))  {
@@ -258,20 +258,24 @@ public class MonopolyGame {
             if (building.getClassroomCount() != 4) {
                 boolean boughtHouse = ui.showAddHouseDialog(building);
 
-                if (boughtHouse)
-                    new AddClassroomAction(building.getId(), getActivePlayer().getPlayerId()).act();
+                if (boughtHouse) {
+                    AddClassroomAction addClassroomAction = new AddClassroomAction(building.getId(), getActivePlayer().getPlayerId());
+                    addClassroomAction.act();
+                    ui.sendAction(addClassroomAction);
+                }
+
             }
             else {
                 boolean boughtHotel = ui.showAddHotelDialog(building);
 
-                if (boughtHotel)
-                    new AddLectureHallAction(building.getId(), getActivePlayer().getPlayerId()).act();
+                if (boughtHotel) {
+                    AddLectureHallAction addLectureHallAction = new AddLectureHallAction(building.getId(), getActivePlayer().getPlayerId());
+                    addLectureHallAction.act();
+                    ui.sendAction(addLectureHallAction);
+                }
+
             }
         }
-    }
-
-    public void buyProperty(PropertyTile tile) {
-        new BuyPropertyAction(board.getProperties().get(tile.getPropertyId()).getId(), getActivePlayer().getPlayerId()).act();
     }
 
     public Card processChanceCardTile() {
@@ -320,14 +324,15 @@ public class MonopolyGame {
                 ui.sendAction(removeMoneyAction);
                 break;
             case 4:
-                FreeMoveAction freeMoveAction = new FreeMoveAction(activePlayer.getPlayerId(), 0); // ToDo convert freemoveactions to move
+            case 8: // duplicate card with 4
+                FreeMoveAction freeMoveAction = new FreeMoveAction(activePlayer.getPlayerId(), 0);
                 freeMoveAction.act();
                 ui.sendAction(freeMoveAction);
                 break;
             case 5:
                 for (Player p : getPlayerController().getPlayers() )
                     if ( p.getPlayerId() != activePlayer.getPlayerId() ) {
-                        TransferAction transferAction = new TransferAction(p, activePlayer, 1_000);
+                        TransferAction transferAction = new TransferAction(p.getPlayerId(), activePlayer.getPlayerId(), 1_000);
                         transferAction.act();
                         ui.sendAction(transferAction);
                     }
@@ -342,8 +347,6 @@ public class MonopolyGame {
                 GetOutOfJailAction getOutOfJailAction = new GetOutOfJailAction(activePlayer.getPlayerId()); // ToDo store the card??
                 getOutOfJailAction.act();
                 ui.sendAction(getOutOfJailAction);
-                break;
-            case 8: // duplicate card with 4
                 break;
             case 9:
                 MoveAction moveAction = new MoveAction(activePlayer.getPlayerId(), -3);

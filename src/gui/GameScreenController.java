@@ -261,7 +261,8 @@ public class GameScreenController {
                 });
                 properties.forEach(property -> {
                     Building building = (Building) property;
-                    player1Properties.setText(player1Properties.getText() + "\n " + building.getColor() + " - " + building.getName());
+                    player1Properties.setText(player1Properties.getText() + "\n " + building.getColor() + " - "
+                            + building.getName() + " - " + building.getClassroomCount() + ", " + building.getLectureHallCount());
                 });
             }
             else {
@@ -326,11 +327,6 @@ public class GameScreenController {
         dialog.setTitle(title);
         dialog.setContentText(content);
 
-        File file = new File("src/gui/models/properties/" + property.getName() +".jpg");
-        Image image = new Image(file.toURI().toString());
-        ImageView imageView = new ImageView(image);
-        dialog.setGraphic(imageView);
-
         dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
         Optional<ButtonType> result = dialog.showAndWait();
@@ -348,18 +344,13 @@ public class GameScreenController {
         String name = building.getName();
 
         title = "Add House?";
-        content = "Do you wish to build a house to " + building.getName() + "?\n" +
+        content = "Do you wish to build a classroom to " + building.getName() + "?\n" +
                 "Price: " + decimalFormat.format(building.getClassroomPrice()) + "$\n" +
                 "Rent: " + decimalFormat.format(building.getRents().get(building.getClassroomCount())) + " ==> " +
                 decimalFormat.format(building.getRents().get(building.getClassroomCount() + 1));
 
         dialog.setTitle(title);
         dialog.setContentText(content);
-
-        File file = new File("src/gui/models/build_house.jpg");
-        Image image = new Image(file.toURI().toString());
-        ImageView imageView = new ImageView(image);
-        dialog.setGraphic(imageView);
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
@@ -378,18 +369,13 @@ public class GameScreenController {
         String name = building.getName();
 
         title = "Add Hotel?";
-        content = "Do you wish to build a Hotel to " + building.getName() + "?\n" +
+        content = "Do you wish to build a lecture hall to " + building.getName() + "?\n" +
         "Price: " + decimalFormat.format(building.getLectureHallPrice()) + "$\n" +
         "Rent: " + decimalFormat.format(building.getRents().get(4)) + " ==> " +
         decimalFormat.format(building.getRents().get(5));
 
         dialog.setTitle(title);
         dialog.setContentText(content);
-
-        File file = new File("src/gui/models/build_hotel.jpg");
-        Image image = new Image(file.toURI().toString());
-        ImageView imageView = new ImageView(image);
-        dialog.setGraphic(imageView);
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);

@@ -105,7 +105,7 @@ public class PlayerController {
     }
 
     public void sellProperty(Player player, Property property) {
-        new SellPropertyAction(player, property).act();
+        new SellPropertyAction(player.getPlayerId(), property.getId()).act();
     }
 
     @Override

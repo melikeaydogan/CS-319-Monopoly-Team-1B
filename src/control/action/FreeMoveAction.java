@@ -1,9 +1,7 @@
 package control.action;
 
-import control.MonopolyGame;
 import control.PlayerController;
 import entity.Player;
-import network.MonopolyClient;
 
 public class FreeMoveAction implements Action{
     private int playerId;

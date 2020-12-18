@@ -27,7 +27,7 @@ public class AddLectureHallAction implements Action{
             building.addLectureHall(); // ???
         }
 
-        MonopolyGame.getActionLog().addMessage(player.getName() + "adds a hotel to " + building.getName() + "\n");
+        MonopolyGame.getActionLog().addMessage(player.getName() + " adds a lecture hall to " + building.getName() + "\n");
 
     }
 

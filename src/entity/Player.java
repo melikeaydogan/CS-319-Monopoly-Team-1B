@@ -149,7 +149,7 @@ public class Player{
         if ( sameColorCount == 2 ) {
             return true;
         }
-        else return building.getColor().equals("BROWN") && sameColorCount == 1;
+        else return ((building.getColor().equals("BROWN") || building.getColor().equals("NAVY")) && sameColorCount == 1);
     }
 
     public HashMap<String, ArrayList<Property>> getProperties() {
