@@ -1,14 +1,15 @@
 package control.action;
 
 import control.MonopolyGame;
+import control.PlayerController;
 import entity.Player;
 import network.MonopolyClient;
 
 public class GoToJailAction implements Action{
-    private Player player; // Does Board need a Jail class???
+    private int playerId;
 
-    public GoToJailAction(Player player) {
-        this.player = player;
+    public GoToJailAction(int playerId) {
+        this.playerId = playerId;
     }
 
     public GoToJailAction() {
@@ -16,6 +17,7 @@ public class GoToJailAction implements Action{
 
     @Override
     public void act() {
+        Player player = PlayerController.getById(playerId);
         player.setInJail(true);
         player.setPosition(10);
         MonopolyGame.getActionLog().addMessage(player.getName() + " goes to jail \n");

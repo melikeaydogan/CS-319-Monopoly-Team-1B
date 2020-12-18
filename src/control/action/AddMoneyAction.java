@@ -1,15 +1,16 @@
 package control.action;
 
 import control.MonopolyGame;
+import control.PlayerController;
 import entity.Player;
 import network.MonopolyClient;
 
 public class AddMoneyAction implements Action{
-    private Player player;
+    private int playerId;
     private int amount;
 
-    public AddMoneyAction(Player player, int amount) {
-        this.player = player;
+    public AddMoneyAction(int playerId, int amount) {
+        this.playerId = playerId;
         this.amount = amount;
     }
 
@@ -18,6 +19,7 @@ public class AddMoneyAction implements Action{
 
     @Override
     public void act() {
+        Player player = PlayerController.getById(playerId);
         player.addMoney(amount);
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " gets " + amount + "$ \n");

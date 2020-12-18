@@ -2,6 +2,7 @@ package control.action;
 
 import control.MonopolyGame;
 import control.PlayerController;
+import entity.Board;
 import entity.Player;
 import entity.property.Building;
 import entity.property.Dorm;
@@ -12,11 +13,11 @@ import network.MonopolyClient;
 import java.util.ArrayList;
 
 public class BuyPropertyAction implements Action{
-    private Property property;
+    private int propertyId;
     private int playerId;
 
-    public BuyPropertyAction(Property property, int playerId) { // it should be by ID
-        this.property = property;
+    public BuyPropertyAction(int propertyId, int playerId) {
+        this.propertyId = propertyId;
         this.playerId = playerId;
     }
 
@@ -26,6 +27,7 @@ public class BuyPropertyAction implements Action{
     @Override
     public void act() { // else throw exception
         Player player = PlayerController.getById(playerId);
+        Property property = Board.getPropertyById(propertyId);
         if ( player.getBalance() >= property.getPrice() ) {
             property.setOwned(true);
             property.setOwnerId(player.getPlayerId());
@@ -45,7 +47,7 @@ public class BuyPropertyAction implements Action{
                 System.out.println("[BuyPropertyAction] It is a Building");
             }
 
-            new RemoveMoneyAction(player, property.getPrice()).act();
+            new RemoveMoneyAction(player.getPlayerId(), property.getPrice()).act();
 
             MonopolyGame.getActionLog().addMessage(player.getName() + " buys the property " + property.getName() + "\n");
         }

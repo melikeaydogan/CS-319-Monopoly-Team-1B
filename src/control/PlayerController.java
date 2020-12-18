@@ -85,15 +85,15 @@ public class PlayerController {
     }
 
     public void sendToJail(Player player) {
-        new GoToJailAction(player).act();
+        new GoToJailAction(player.getPlayerId()).act();
     }
 
     public void getOutFromJail(Player player) {
-        new GetOutOfJailAction(player).act();
+        new GetOutOfJailAction(player.getPlayerId()).act();
     }
 
     public void freeMovePlayer(Player player, int position) {
-        new FreeMoveAction(player, position).act();
+        new FreeMoveAction(player.getPlayerId(), position).act();
     }
 
     public void movePlayer(Player player, int moveAmount) {
@@ -101,7 +101,7 @@ public class PlayerController {
     }
 
     public void buyProperty(Player player, Property property) {
-        new BuyPropertyAction(property, player.getPlayerId()).act();
+        new BuyPropertyAction(property.getId(), player.getPlayerId()).act();
     }
 
     public void sellProperty(Player player, Property property) {

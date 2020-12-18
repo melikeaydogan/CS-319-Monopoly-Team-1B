@@ -2,8 +2,7 @@ package network;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
-import control.action.AddClassroomAction;
-import control.action.AddLectureHall;
+import control.action.AddLectureHallAction;
 
 public class MonopolyNetwork {
 
@@ -45,7 +44,7 @@ public class MonopolyNetwork {
 
         kyro.register(control.action.Action.class);
         kyro.register(control.action.AddClassroomAction.class);
-        kyro.register(control.action.AddLectureHall.class);
+        kyro.register(AddLectureHallAction.class);
         kyro.register(control.action.AddMoneyAction.class);
         kyro.register(control.action.BuyPropertyAction.class);
         kyro.register(control.action.DrawChanceCardAction.class);

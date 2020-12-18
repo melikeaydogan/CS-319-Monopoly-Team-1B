@@ -20,7 +20,7 @@ import java.util.List;
 
 public class Board {
     ArrayList<Tile> tiles; // convert to arraylist
-    ArrayList<Property> properties; // convert to arraylist
+    static ArrayList<Property> properties; // convert to arraylist
     //GameMode gameMode;
     Deck chanceDeck;
     Deck communityChestDeck;
@@ -103,7 +103,7 @@ public class Board {
 
     }
 
-    public Property getPropertyById(int id) {
+    public static Property getPropertyById(int id) {
         for (Property p : properties)
             if (p.getId() == id)
                 return p;

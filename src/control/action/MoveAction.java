@@ -27,7 +27,7 @@ public class MoveAction implements Action{
                     + " squares (current position: " + player.getPosition() + ")\n");
 
             if (passedTheGoTile) {
-                new PassAction(player).act();
+                new PassAction(player.getPlayerId()).act();
             }
         }
 

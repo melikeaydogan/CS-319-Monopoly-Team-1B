@@ -1,15 +1,16 @@
 package control.action;
 
 import control.MonopolyGame;
+import control.PlayerController;
 import entity.Player;
 import network.MonopolyClient;
 
 public class RemoveMoneyAction implements Action {
-    private Player player;
+    private int playerId;
     private int amount;
 
-    public RemoveMoneyAction(Player player, int amount) {
-        this.player = player;
+    public RemoveMoneyAction(int playerId, int amount) {
+        this.playerId = playerId;
         this.amount = amount;
     }
 
@@ -18,6 +19,7 @@ public class RemoveMoneyAction implements Action {
 
     @Override
     public void act() {
+        Player player = PlayerController.getById(playerId);
         if (player.getBalance() >= amount)
             player.removeMoney(amount);
 

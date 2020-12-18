@@ -108,13 +108,13 @@ public class MonopolyGame {
         Player player = playerController.getActivePlayer();
 
         if (doubleCount == 3) { // if this is the third double, put player into the jail
-            GoToJailAction action = new GoToJailAction(player);
+            GoToJailAction action = new GoToJailAction(player.getPlayerId());
             action.act();
             ui.sendAction(action);
             doubleCount = 0;
         }
         else if ((diceResult.isDouble() && player.isInJail()) || (player.getJailTurnCount() == 3)) {
-            GetOutOfJailAction action = new GetOutOfJailAction(player);
+            GetOutOfJailAction action = new GetOutOfJailAction(player.getPlayerId());
             action.act();
             ui.sendAction(action);
             player.setJailTurnCount(0);
@@ -140,14 +140,14 @@ public class MonopolyGame {
                 }
                 else if (tile instanceof TaxTile) {
                     TaxTile taxTile = (TaxTile) tile;
-                    RemoveMoneyAction action2 = new RemoveMoneyAction(player, taxTile.getAmount());
+                    RemoveMoneyAction action2 = new RemoveMoneyAction(player.getPlayerId(), taxTile.getAmount());
                     action2.act();
-                    ui.sendAction(action);
+                    ui.sendAction(action2);
                 }
                 else if (tile instanceof GoToJailTile) {
-                    GoToJailAction action2 = new GoToJailAction(player);
+                    GoToJailAction action2 = new GoToJailAction(player.getPlayerId());
                     action2.act();
-                    ui.sendAction(action);
+                    ui.sendAction(action2);
                 }
                 else if (tile instanceof CardTile) {
                     CardTile cardTile = (CardTile) tile;
@@ -185,7 +185,7 @@ public class MonopolyGame {
             boolean playerBoughtProperty = ui.showPropertyDialog(property); // separate the house and hotel dialog
 
             if (playerBoughtProperty) {
-                BuyPropertyAction action = new BuyPropertyAction(property, getActivePlayer().getPlayerId());
+                BuyPropertyAction action = new BuyPropertyAction(property.getId(), getActivePlayer().getPlayerId());
                 action.act();
                 ui.sendAction(action);
             }
@@ -259,19 +259,19 @@ public class MonopolyGame {
                 boolean boughtHouse = ui.showAddHouseDialog(building);
 
                 if (boughtHouse)
-                    new AddClassroomAction(building, getActivePlayer()).act();
+                    new AddClassroomAction(building.getId(), getActivePlayer().getPlayerId()).act();
             }
             else {
                 boolean boughtHotel = ui.showAddHotelDialog(building);
 
                 if (boughtHotel)
-                    new AddClassroomAction(building, getActivePlayer()).act();
+                    new AddLectureHallAction(building.getId(), getActivePlayer().getPlayerId()).act();
             }
         }
     }
 
     public void buyProperty(PropertyTile tile) {
-        new BuyPropertyAction(board.getProperties().get(tile.getPropertyId()), getActivePlayer().getPlayerId()).act();
+        new BuyPropertyAction(board.getProperties().get(tile.getPropertyId()).getId(), getActivePlayer().getPlayerId()).act();
     }
 
     public Card processChanceCardTile() {
@@ -301,13 +301,13 @@ public class MonopolyGame {
         Player activePlayer = getActivePlayer();
         switch (card.getId()) {
             case 0:
-                FreeMoveAction freeMoveAction2 = new FreeMoveAction(activePlayer, 1); // L Building --> position = 1
+                FreeMoveAction freeMoveAction2 = new FreeMoveAction(activePlayer.getPlayerId(), 1); // L Building --> position = 1
                 freeMoveAction2.act();
                 ui.sendAction(freeMoveAction2);
                 //monopolyGame.processTurn();
                 break;
             case 1:
-                AddMoneyAction addMoneyAction = new AddMoneyAction(activePlayer, 1_000);
+                AddMoneyAction addMoneyAction = new AddMoneyAction(activePlayer.getPlayerId(), 1_000);
                 addMoneyAction.act();
                 ui.sendAction(addMoneyAction);
                 break;
@@ -315,12 +315,12 @@ public class MonopolyGame {
                 // requires ui confirmation
                 break;
             case 3:
-                RemoveMoneyAction removeMoneyAction = new RemoveMoneyAction(activePlayer, 10_000);
+                RemoveMoneyAction removeMoneyAction = new RemoveMoneyAction(activePlayer.getPlayerId(), 10_000);
                 removeMoneyAction.act();
                 ui.sendAction(removeMoneyAction);
                 break;
             case 4:
-                FreeMoveAction freeMoveAction = new FreeMoveAction(activePlayer, 0); // ToDo convert freemoveactions to move
+                FreeMoveAction freeMoveAction = new FreeMoveAction(activePlayer.getPlayerId(), 0); // ToDo convert freemoveactions to move
                 freeMoveAction.act();
                 ui.sendAction(freeMoveAction);
                 break;
@@ -334,12 +334,12 @@ public class MonopolyGame {
                 break;
             case 6:
             case 11:
-                GoToJailAction goToJailAction = new GoToJailAction(activePlayer); // player moves again if he threw double before this
+                GoToJailAction goToJailAction = new GoToJailAction(activePlayer.getPlayerId()); // player moves again if he threw double before this
                 goToJailAction.act();
                 ui.sendAction(goToJailAction);
                 break;
             case 7:
-                GetOutOfJailAction getOutOfJailAction = new GetOutOfJailAction(activePlayer); // ToDo store the card??
+                GetOutOfJailAction getOutOfJailAction = new GetOutOfJailAction(activePlayer.getPlayerId()); // ToDo store the card??
                 getOutOfJailAction.act();
                 ui.sendAction(getOutOfJailAction);
                 break;
@@ -352,24 +352,24 @@ public class MonopolyGame {
                 //monopolyGame.processTurn();
                 break;
             case 10:
-                FreeMoveAction freeMoveAction1 = new FreeMoveAction(activePlayer, 23); // Kirac is in 23th tile
+                FreeMoveAction freeMoveAction1 = new FreeMoveAction(activePlayer.getPlayerId(), 23); // Kirac is in 23th tile
                 freeMoveAction1.act();
                 ui.sendAction(freeMoveAction1);
                 //monopolyGame.processTurn(); // ToDo seperate processturn and processtile
                 break;
             case 12:
-                FreeMoveAction freeMoveAction3 = new FreeMoveAction(activePlayer,39); // Library is the last tile (39th)
+                FreeMoveAction freeMoveAction3 = new FreeMoveAction(activePlayer.getPlayerId(),39); // Library is the last tile (39th)
                 freeMoveAction3.act();
                 ui.sendAction(freeMoveAction3);
                 //monopolyGame.processTurn();
                 break;
             case 13:
-                AddMoneyAction addMoneyAction1 = new AddMoneyAction(activePlayer, 10_000);
+                AddMoneyAction addMoneyAction1 = new AddMoneyAction(activePlayer.getPlayerId(), 10_000);
                 addMoneyAction1.act();
                 ui.sendAction(addMoneyAction1);
                 break;
             case 14:
-                RemoveMoneyAction removeMoneyAction1 = new RemoveMoneyAction(activePlayer, 2_000);
+                RemoveMoneyAction removeMoneyAction1 = new RemoveMoneyAction(activePlayer.getPlayerId(), 2_000);
                 removeMoneyAction1.act();
                 ui.sendAction(removeMoneyAction1);
                 break;
@@ -383,7 +383,7 @@ public class MonopolyGame {
                     hotelCount = hotelCount + ((Building) p).getLectureHallCount();
                 }
                 repairAmount = (4_000 * houseCount) + (11_500 * hotelCount);
-                RemoveMoneyAction removeMoneyAction2 = new RemoveMoneyAction(activePlayer, repairAmount);
+                RemoveMoneyAction removeMoneyAction2 = new RemoveMoneyAction(activePlayer.getPlayerId(), repairAmount);
                 removeMoneyAction2.act();
                 ui.sendAction(removeMoneyAction2);
                 break;

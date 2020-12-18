@@ -1,15 +1,16 @@
 package control.action;
 
 import control.MonopolyGame;
+import control.PlayerController;
 import entity.Player;
 import network.MonopolyClient;
 
 public class FreeMoveAction implements Action{
-    private Player player;
+    private int playerId;
     private int position;
 
-    public FreeMoveAction(Player player, int position) {
-        this.player = player;
+    public FreeMoveAction(int playerId, int position) {
+        this.playerId = playerId;
         this.position = position;
     }
 
@@ -18,6 +19,7 @@ public class FreeMoveAction implements Action{
 
     @Override
     public void act() {
+        Player player = PlayerController.getById(playerId);
         if ( !player.isInJail() ) {
             int moveAmount = 0;
             if ( position < player.getPosition() ) {
