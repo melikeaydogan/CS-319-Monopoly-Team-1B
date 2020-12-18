@@ -1,5 +1,5 @@
 package gui;
-//import com.esotericsoftware.kryonet.Connection;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,32 +23,38 @@ public class MainMenuController {
     // Creates a new lobby as a host
     @FXML
     protected void createGame(ActionEvent event) {
-        try {
-            String username = usernameField.getText();
+        String username = usernameField.getText();
+        if (!username.isEmpty() && !username.contains("\n")) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
+                Parent root = (Parent) loader.load();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
-            Parent root = (Parent) loader.load();
+                //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+                Scene scene = new Scene(root, 800, 600);
 
-            //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
-            Scene scene = new Scene(root, 800, 600);
+                Stage stage = (Stage) imageView.getScene().getWindow();
 
-            Stage stage = (Stage) imageView.getScene().getWindow();
+                // Initialize lobby
+                LobbyController lobbyController = loader.getController();
 
-            // Initialize lobby
-            LobbyController lobbyController = loader.getController();
+                // Create a new server and client
+                MonopolyServer monopolyServer = MonopolyServer.getInstance();
+                //System.out.println(monopolyServer.toString());
 
-            // Create a new server and client
-            MonopolyServer monopolyServer = MonopolyServer.getInstance();
-            //System.out.println(monopolyServer.toString());
+                MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
+                monopolyClient.connect(MonopolyNetwork.ipAddress, username);
 
-            MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
-            monopolyClient.connect(MonopolyNetwork.ipAddress, username);
+                // Switch scene to lobby
+                stage.setScene(scene);
 
-            // Switch scene to lobby
-            stage.setScene(scene);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Cannot Create New Game");
+            alert.setHeaderText("Please enter a valid username");
+            alert.showAndWait();
         }
     }
 
@@ -58,48 +64,45 @@ public class MainMenuController {
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("Game Pin");
         dialog.setContentText("Please enter your pin:");
-        //String ip = "127.0.0.1";
-// Traditional way to get the response value.
         Optional<String> ip = dialog.showAndWait();
-        if (ip.isPresent()) {
 
-            if (true) { // TODO: Check if the pin exists
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
-                    Parent root = (Parent) loader.load();
-                    //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
-                    //Scene scene = new Scene(root, 1920, 1080);
-                    Scene scene = new Scene(root, 800, 600);
+        if (ip.isPresent() && username != null && !username.isEmpty() && !username.contains("\n")) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
+                Parent root = (Parent) loader.load();
+                //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
+                //Scene scene = new Scene(root, 1920, 1080);
+                Scene scene = new Scene(root, 800, 600);
 
-                    Stage stage = (Stage) imageView.getScene().getWindow();
+                Stage stage = (Stage) imageView.getScene().getWindow();
 
-                    // Initialize lobby
-                    LobbyController lobbyController = loader.getController();
+                // Initialize lobby
+                LobbyController lobbyController = loader.getController();
 
-                    MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
-                    monopolyClient.connect(ip.get(), username);
+                MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
+                monopolyClient.connect(ip.get(), username);
 
-                    if (monopolyClient.isConnected()) {
-                        //lobbyController.setUpLobby(monopolyClient);
-
-                        // Switch scene to lobby
-                        //stage.setX(0);
-                        //stage.setY(0);
-                        //stage.setMaximized(true);
-                        stage.setScene(scene);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                // Check if pin exists
+                if (monopolyClient.isConnected()) {
+                    stage.setScene(scene);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Cannot Join Game");
+                    alert.setHeaderText("Server is not found");
+                    alert.showAndWait();
                 }
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning Dialog");
-                alert.setHeaderText("Server is not found");
-                alert.showAndWait();
+
+            } catch (Exception e) {
+                    e.printStackTrace();
             }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Cannot Join Game");
+            alert.setHeaderText("Please enter a valid username and ip");
+            alert.showAndWait();
         }
-        }
+    }
+
 
 
     @FXML

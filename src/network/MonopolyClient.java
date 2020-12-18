@@ -6,18 +6,13 @@ import com.esotericsoftware.kryonet.Listener;
 import control.ActionLog;
 import control.MonopolyGame;
 import control.action.Action;
-import control.action.GoToJailAction;
 import entity.Player;
-import entity.card.Card;
 import entity.dice.DiceResult;
-import entity.property.Building;
 import gui.GameScreenController;
 import gui.LobbyController;
 import javafx.application.Platform;
-import javafx.util.Pair;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 // create this when player joins to the lobby
@@ -282,9 +277,8 @@ public class MonopolyClient {
     }
 
     public void updateGameScreenControllers() {
-        // TODO: his sends a message to all to update their gameScreenController object
+        // TODO: This sends a message to all to update their gameScreenController object
         //  Do this using gameScreenController.updateBoardState() method
-
     }
 
     public boolean getSpeedDie() {
