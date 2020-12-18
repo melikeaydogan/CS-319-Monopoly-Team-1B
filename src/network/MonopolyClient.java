@@ -180,7 +180,7 @@ public class MonopolyClient {
         //new Thread("Connect") {
         //    public void run () {
                 try {
-                    client.connect(10000, MonopolyNetwork.ipAddress, MonopolyNetwork.PORT);
+                    client.connect(5000, MonopolyNetwork.ipAddress, MonopolyNetwork.PORT);
                     // Server communication after connection can go here, or in Listener#connected().
                     System.out.println("[CLIENT] Connection successful to " + MonopolyNetwork.ipAddress + "!");
                 } catch (IOException ex) {
