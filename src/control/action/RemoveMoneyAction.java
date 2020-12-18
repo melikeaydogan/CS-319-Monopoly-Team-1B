@@ -22,7 +22,5 @@ public class RemoveMoneyAction implements Action {
             player.removeMoney(amount);
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " pays " + amount + "$ \n");
-
-        MonopolyClient.getInstance().sendAction(this);
     }
 }

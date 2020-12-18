@@ -66,7 +66,10 @@ public class LobbyController {
             monopolyClient.setupMonopolyGame(gameScreenController);
 
             // Switch Scene
-            stage.setScene(scene);
+            Platform.runLater(() -> {
+                stage.setScene(scene);
+            });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -224,3 +227,6 @@ public class LobbyController {
         return teamNow;
     }
 }
+
+
+// TODO: replace house with classroom, hotel with lecture hall in the whole code

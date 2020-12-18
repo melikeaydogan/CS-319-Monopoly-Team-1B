@@ -27,9 +27,9 @@ public class Deck {
             // print users
             //cardlist.forEach(System.out::println); this line prints object ids
 
-            for(int i = 0; i<cardlist.size(); i++){
-                System.out.println("Added a new card --> id: " + cardlist.get(i).id+" "+ " - instructions: " + cardlist.get(i).instructions);
-            }
+            //for(int i = 0; i<cardlist.size(); i++){
+            //    System.out.println("Added a new card --> id: " + cardlist.get(i).id+" "+ " - instructions: " + cardlist.get(i).instructions);
+            //}
             // close reader
             reader.close();
 

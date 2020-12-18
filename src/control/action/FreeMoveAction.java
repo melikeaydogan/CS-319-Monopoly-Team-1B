@@ -28,7 +28,7 @@ public class FreeMoveAction implements Action{
                 moveAmount = position - player.getPosition();
             }
 
-            new MoveAction(player, moveAmount).act(); // causes recursion??
+            new MoveAction(player.getPlayerId(), moveAmount).act(); // causes recursion??
         }
     }
 }

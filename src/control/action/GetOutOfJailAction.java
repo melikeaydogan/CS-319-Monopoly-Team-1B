@@ -20,7 +20,6 @@ public class GetOutOfJailAction implements Action{
             player.setInJail(false);
             MonopolyGame.getActionLog().addMessage(player.getName() + " gets out of jail! \n");
 
-            MonopolyClient.getInstance().sendAction(this);
         }
     }
 }

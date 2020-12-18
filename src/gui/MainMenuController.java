@@ -42,8 +42,6 @@ public class MainMenuController {
             MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
             monopolyClient.connect(MonopolyNetwork.ipAddress, username);
 
-            lobbyController.setUpLobby(monopolyClient);
-
             // Switch scene to lobby
             stage.setScene(scene);
 
@@ -76,8 +74,6 @@ public class MainMenuController {
                 monopolyClient.connect(ip, username);
 
                 if (monopolyClient.isConnected()) {
-                    lobbyController.setUpLobby(monopolyClient);
-
                     // Switch scene to lobby
                     //stage.setX(0);
                     //stage.setY(0);

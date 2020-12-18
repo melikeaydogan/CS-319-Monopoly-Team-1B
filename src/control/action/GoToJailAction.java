@@ -20,6 +20,5 @@ public class GoToJailAction implements Action{
         player.setPosition(10);
         MonopolyGame.getActionLog().addMessage(player.getName() + " goes to jail \n");
 
-        MonopolyClient.getInstance().sendAction(this);
     }
 }

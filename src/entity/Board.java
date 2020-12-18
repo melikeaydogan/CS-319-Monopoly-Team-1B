@@ -51,6 +51,7 @@ public class Board {
         initializeProperties("properties.json");
         initializeCommunityChestCardDeck("communityChestCard.json");
         initializeChanceCardDeck("chanceCard.json");
+        System.out.println("Board initialization complete!");
     }
 
     public Board(Board savedBoard){
@@ -79,8 +80,8 @@ public class Board {
         // convert JSON array to list of users
         tiles = customGson.fromJson(reader, new TypeToken<List<Tile>>() {}.getType());
 
-        for (Tile t : tiles)
-            System.out.println("Added a new Tile --> " + t);
+        //for (Tile t : tiles)
+        //    System.out.println("Added a new Tile --> " + t);
     }
 
     public void initializeProperties(String fileName) throws IOException {
@@ -93,8 +94,8 @@ public class Board {
         // convert JSON array to list of users
         properties = customGson.fromJson(reader, new TypeToken<List<Property>>() {}.getType());
 
-        for (Property p : properties)
-            System.out.println("Added a new property --> " + p);
+        //for (Property p : properties)
+        //    System.out.println("Added a new property --> " + p);
     }
 
     public void initializeChanceCardDeck(String filename) {
@@ -178,7 +179,7 @@ public class Board {
         System.out.println("Balance: " + player.getBalance());
         System.out.println(board.getProperties().get(7));
 
-        new BuyPropertyAction(board.getProperties().get(7), player).act();
+        //new BuyPropertyAction(board.getProperties().get(7), player).act();
 
         System.out.println("Balance: " + player.getBalance());
         System.out.println("Properties: " + player.getProperties());

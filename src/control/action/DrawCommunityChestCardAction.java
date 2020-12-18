@@ -26,7 +26,6 @@ public class DrawCommunityChestCardAction implements Action{
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " draws the community chance card: " + card + "\n");
 
-        MonopolyClient.getInstance().sendAction(this);
     }
 }
 

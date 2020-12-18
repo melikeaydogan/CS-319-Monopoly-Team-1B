@@ -4,11 +4,13 @@ import com.dosse.upnp.UPnP;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+import com.esotericsoftware.minlog.Log;
 import com.google.gson.Gson;
 import control.MonopolyGame;
 import control.action.Action;
 import control.action.PassAction;
 import entity.Player;
+import entity.dice.DiceResult;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -89,13 +91,36 @@ public class MonopolyServer {
                         System.out.println("[SERVER] ERROR:Active connection is null!");
                     }
                     else {
-                        if (connection.equals(activeConnection)) {
+                        if (/*connection.equals(activeConnection)*/ true) {
                             if (o instanceof Action) {
-                                server.sendToAllExceptTCP(activeConnection.getID(), o);
+                                System.out.println("[SERVER] got action");
+                                // server.sendToAllExceptTCP(activeConnection.getID(), o);
+                                server.sendToAllExceptTCP(connection.getID(), o);
                             }
                             else if (o instanceof String) {
                                 String s = (String) o;
+                                if (s.contains("next player:")) {
+                                    int charPos = s.indexOf(":");
+                                    int activePlayerIndex = Integer.parseInt(s.substring(charPos + 1));
+
+                                    registeredPlayer.forEach( (c,player) -> {
+                                        if (player.getPlayerId() == activePlayerIndex) {
+                                            activeConnection = c;
+                                        }
+                                    });
+                                    activeConnection.sendTCP("activate buttons"); // continue this method, inactive for other connections
+
+                                    for (Connection c : clients) {
+                                        if (activeConnection != c) {
+                                            c.sendTCP("deactivate buttons");
+                                            c.sendTCP("active player:" + activePlayerIndex);
+                                        }
+                                    }
+                                }
                                 System.out.println("[SERVER] Message from " + connection.getID() + " --> " + s);
+                            }
+                            else if (o instanceof DiceResult) {
+                                server.sendToAllTCP(o);
                             }
                         }
                         else {
@@ -176,14 +201,13 @@ public class MonopolyServer {
         long seed = System.currentTimeMillis();
         ArrayList<Player> players = new ArrayList<Player>(registeredPlayer.values());
         System.out.println("Game starts with players --> " + players);
-        monopolyGame = new MonopolyGame(players, seed);
 
         // send this game to clients, or send the players and seed (more efficient)
         server.sendToAllTCP(players);
         server.sendToAllTCP(seed);
         // bind the ui to the game
         // start the game and get the first player
-        Player activePlayer = monopolyGame.startGame();
+        //Player activePlayer = monopolyGame.startGame();
         // go to the game screen in clients
         server.sendToAllTCP("game started");
         //server.sendToAllTCP("Game started with these players --> " + players);
@@ -193,12 +217,19 @@ public class MonopolyServer {
         //System.out.println(new Gson().toJson(players));
         //System.out.println(new Gson().toJson(monopolyGame.getBoard().getProperties()));
 
-        //activeConnection = registeredPlayer.get(activePlayer);
-        //activeConnection.sendTCP("activate buttons"); // continue this method, inactive for other connections
+        int activePlayerIndex = new Random().nextInt(players.size());
+
+        registeredPlayer.forEach( (connection,player) -> {
+            if (player.getPlayerId() == activePlayerIndex) {
+                activeConnection = connection;
+            }
+        });
+        activeConnection.sendTCP("activate buttons"); // continue this method, inactive for other connections
 
         for (Connection c : clients) {
             if (activeConnection != c) {
                 c.sendTCP("deactivate buttons");
+                c.sendTCP("active player:" + activePlayerIndex);
             }
         }
 

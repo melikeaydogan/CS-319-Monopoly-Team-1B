@@ -2,6 +2,7 @@ package gui;
 
 import control.ActionLog;
 import control.MonopolyGame;
+import control.action.Action;
 import entity.Player;
 import entity.dice.DiceResult;
 import entity.property.Building;
@@ -10,6 +11,7 @@ import entity.property.Facility;
 import entity.property.Property;
 import entity.tile.*;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -84,12 +86,26 @@ public class GameScreenController {
     protected void handleDiceButton(ActionEvent e) {
         // when multiplayer, make a new ActionEvent class for this and compare active player with the player clicked
         if (getGame() != null) {
-            DiceResult result = getGame().rollDice();
+            //DiceResult result = getGame().rollDice();
+            getGame().rollDice();
+            //die1.setText(Integer.toString(result.getFirstDieResult()));
+            //die2.setText(Integer.toString(result.getSecondDieResult()));
+
+            //getGame().processTurn();
+        }
+    }
+
+    public void setDiceLabel(DiceResult result) {
+        Platform.runLater(() -> {
             die1.setText(Integer.toString(result.getFirstDieResult()));
             die2.setText(Integer.toString(result.getSecondDieResult()));
 
-            getGame().processTurn();
-        }
+            if (!diceButton.isDisabled()) {
+                getGame().processTurn();
+            }
+
+        });
+
     }
 
     public void setMonopolyClient(MonopolyClient monopolyClient) {
@@ -98,120 +114,122 @@ public class GameScreenController {
     }
 
     private void setupBoard() {
-        this.squares = new StackPane[]{square0, square1, square2, square3, square4, square5, square6, square7,
-                square8, square9, square10, square11, square12, square13, square14, square15, square16, square17,
-                square18,square19, square20, square21, square22, square23, square24, square25, square26,
-                square27, square28, square29, square30, square31, square32, square33, square34, square35,
-                square36, square37, square38, square39};
+            this.squares = new StackPane[]{square0, square1, square2, square3, square4, square5, square6, square7,
+                    square8, square9, square10, square11, square12, square13, square14, square15, square16, square17,
+                    square18,square19, square20, square21, square22, square23, square24, square25, square26,
+                    square27, square28, square29, square30, square31, square32, square33, square34, square35,
+                    square36, square37, square38, square39};
 
-        this.playerLabels = new Label[]{player0Label, player1Label, player2Label, player3Label,
-                player4Label, player5Label};
+            this.playerLabels = new Label[]{player0Label, player1Label, player2Label, player3Label,
+                    player4Label, player5Label};
 
-        this.playerProperties = new Label[]{player0Properties, player1Properties, player2Properties,
-                player3Properties, player4Properties, player5Properties};
+            this.playerProperties = new Label[]{player0Properties, player1Properties, player2Properties,
+                    player3Properties, player4Properties, player5Properties};
 
-        this.logs = new Label[]{log0, log1, log2, log3, log4, log5, log6, log7};
+            this.logs = new Label[]{log0, log1, log2, log3, log4, log5, log6, log7};
 
-        // Set up Tiles
-        ArrayList<Tile> tiles = getGame().getBoard().getTiles();
+            // Set up Tiles
+            ArrayList<Tile> tiles = getGame().getBoard().getTiles();
 
-        for (Tile tile : tiles) {
-            int location = tile.getTileId();
+            for (Tile tile : tiles) {
+                int location = tile.getTileId();
 
-            // get the type of the tile and put labels
-            if (tile instanceof PropertyTile) {
-                Property property = getGame().getBoard().getPropertyById(((PropertyTile) tile).getPropertyId());
-                String name = property.getName();
-                int price = property.getPrice();
-                String type;
-                if (property instanceof Building) {
-                    type = "Building";
-                } else  if (property instanceof Dorm) {
-                    type = "Dorm";
-                } else { // property instanceof Facility
-                    type = "Facility";
+                // get the type of the tile and put labels
+                if (tile instanceof PropertyTile) {
+                    Property property = getGame().getBoard().getPropertyById(((PropertyTile) tile).getPropertyId());
+                    String name = property.getName();
+                    int price = property.getPrice();
+                    String type;
+                    if (property instanceof Building) {
+                        type = "Building";
+                    } else  if (property instanceof Dorm) {
+                        type = "Dorm";
+                    } else { // property instanceof Facility
+                        type = "Facility";
+                    }
+
+                    DecimalFormat decimalFormat = new DecimalFormat();
+
+                    BorderPane propertyPane = new BorderPane();
+                    propertyPane.setTop(new Label("     " + type));
+                    propertyPane.setCenter(new Label(name));
+                    propertyPane.setBottom(new Label("     " + decimalFormat.format(price) + "$"));
+
+                    this.squares[location].getChildren().add(propertyPane);
+                } else if (tile instanceof TaxTile) {
+                    DecimalFormat decimalFormat = new DecimalFormat();
+                    int amount = ((TaxTile) tile).getAmount();
+                    BorderPane taxPane = new BorderPane();
+                    taxPane.setCenter(new Label("Tax"));
+                    taxPane.setBottom(new Label("     " + decimalFormat.format(amount) + "$"));
+
+                    this.squares[location].getChildren().add(taxPane);
                 }
-
-                DecimalFormat decimalFormat = new DecimalFormat();
-
-                BorderPane propertyPane = new BorderPane();
-                propertyPane.setTop(new Label("     " + type));
-                propertyPane.setCenter(new Label(name));
-                propertyPane.setBottom(new Label("     " + decimalFormat.format(price) + "$"));
-
-                this.squares[location].getChildren().add(propertyPane);
-            } else if (tile instanceof TaxTile) {
-                DecimalFormat decimalFormat = new DecimalFormat();
-                int amount = ((TaxTile) tile).getAmount();
-                BorderPane taxPane = new BorderPane();
-                taxPane.setCenter(new Label("Tax"));
-                taxPane.setBottom(new Label("     " + decimalFormat.format(amount) + "$"));
-
-                this.squares[location].getChildren().add(taxPane);
             }
-        }
 
-        // Setup others
-        updateBoardState();
+            // Setup others
+            updateBoardState();
     }
 
     public void updateBoardState() {
-        // Set playerTurn and enable dice button only for the player
-        playerTurn.setText(getGame().getActivePlayer().getName() + "'s Turn!");
-        diceButton.setDisable(getGame().getActivePlayer().getPlayerId() != monopolyClient.getId());
+            // Set playerTurn and enable dice button only for the player
+            playerTurn.setText(getGame().getActivePlayer().getName() + "'s Turn!");
+            diceButton.setDisable(getGame().getActivePlayer().getPlayerId() != monopolyClient.getId());
 
-        DecimalFormat decimalFormat = new DecimalFormat();
+            DecimalFormat decimalFormat = new DecimalFormat();
 
-        // Labels and properties
-        int numberOfPlayers = getGame().getPlayerController().getPlayers().size();
-        int i;
-        for (i = 0; i < numberOfPlayers; i++) {
-            Player p = getGame().getPlayerController().getPlayers().get(i);
-            playerLabels[i].setText("  " + p.getName() + " - " + p.getTokenName() + " - " + decimalFormat.format(p.getBalance()) + "$");
-            playerProperties[i].setText("");
-            setPropertyTable(p, playerProperties[i]);
-        }
-        for (; i < 6 ; i++) {
-            playerLabels[i].setText("");
-            playerProperties[i].setText("");
-        }
+            // Labels and properties
+            int numberOfPlayers = getGame().getPlayerController().getPlayers().size();
+            int i;
+            for (i = 0; i < numberOfPlayers; i++) {
+                Player p = getGame().getPlayerController().getPlayers().get(i);
+                playerLabels[i].setText("  " + p.getName() + " - " + p.getTokenName() + " - " + decimalFormat.format(p.getBalance()) + "$");
+                playerProperties[i].setText("");
+                setPropertyTable(p, playerProperties[i]);
+            }
+            for (; i < 6 ; i++) {
+                playerLabels[i].setText("");
+                playerProperties[i].setText("");
+            }
 
-        // Update Game Log
-        updateGameLog();
+            // Update Game Log
+            updateGameLog();
 
-        // Clear Tokens
-        clearTokens();
+            // Clear Tokens
+            clearTokens();
 
-        // Put Tokens
-        for (i = 0; i < numberOfPlayers; i++) {
-            Player p = getGame().getPlayerController().getPlayers().get(i);
-            int pPos = p.getPosition();
-            File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");
-            Image image = new Image(file.toURI().toString());
-            ImageView token = new ImageView(image);
-            token.setId("t" + Integer.toString(i));
-            token.setFitHeight(50);
-            token.setFitWidth(50);
+            // Put Tokens
+            for (i = 0; i < numberOfPlayers; i++) {
+                Player p = getGame().getPlayerController().getPlayers().get(i);
+                int pPos = p.getPosition();
+                File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");
+                Image image = new Image(file.toURI().toString());
+                ImageView token = new ImageView(image);
+                token.setId("t" + Integer.toString(i));
+                token.setFitHeight(50);
+                token.setFitWidth(50);
 
-            squares[pPos].getChildren().add(token);
-        }
+                squares[pPos].getChildren().add(token);
+            }
     }
 
     private void updateGameLog() {
-        ActionLog actionLog = MonopolyGame.getActionLog();
-        int logSize = actionLog.getNumActions();
-        if (logSize > LOG_CAPACITY) {
-            for (int i = logSize - 1, j = LOG_CAPACITY - 1; j >= 0; i--, j--) {
-                logs[j].setText(actionLog.getLog().get(i));
-            }
-        } else {
-            int i = 0;
-            for ( ; i < logSize; i++)
-                logs[i].setText(actionLog.getLog().get(i));
+        Platform.runLater(() -> {
+            ActionLog actionLog = MonopolyGame.getActionLog();
+            int logSize = actionLog.getNumActions();
+            if (logSize > LOG_CAPACITY) {
+                for (int i = logSize - 1, j = LOG_CAPACITY - 1; j >= 0; i--, j--) {
+                    logs[j].setText(actionLog.getLog().get(i));
+                }
+            } else {
+                int i = 0;
+                for ( ; i < logSize; i++)
+                    logs[i].setText(actionLog.getLog().get(i));
 
-            for ( ; i < LOG_CAPACITY; i++)
-                logs[i].setText(" ");
-        }
+                for ( ; i < LOG_CAPACITY; i++)
+                    logs[i].setText(" ");
+            }
+        });
     }
 
     private void clearTokens() {
@@ -384,5 +402,27 @@ public class GameScreenController {
 
     public MonopolyGame getGame() {
         return monopolyClient.getMonopolyGame();
+    }
+
+    public void sendAction(Action action) {
+        monopolyClient.sendAction(action);
+    }
+
+    public void sendString(String s) {
+        monopolyClient.sendString(s);
+    }
+
+    public void activateButtons() {
+        diceButton.setDisable(false);
+        getGame().getPlayerController().setActivePlayerIndex(monopolyClient.getId());
+        updateBoardState();
+    }
+
+    public void deactivateButtons() {
+        diceButton.setDisable(true);
+    }
+
+    public void sendObject(Object o) {
+        monopolyClient.sendObject(o);
     }
 }

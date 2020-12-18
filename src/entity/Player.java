@@ -266,6 +266,13 @@ public class Player{
         return "Player --> ID: " + playerId + ", Name: " + name + ", Token: " + getTokenName();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        Player p = (Player) o;
+
+        return getPlayerId() == p.getPlayerId();
+    }
+
 }
 
 // Starting balance??

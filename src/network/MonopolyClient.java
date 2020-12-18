@@ -6,11 +6,14 @@ import com.esotericsoftware.kryonet.Listener;
 import control.ActionLog;
 import control.MonopolyGame;
 import control.action.Action;
+import control.action.GoToJailAction;
 import entity.Player;
 import entity.card.Card;
+import entity.dice.DiceResult;
 import entity.property.Building;
 import gui.GameScreenController;
 import gui.LobbyController;
+import javafx.application.Platform;
 import javafx.util.Pair;
 
 import java.io.IOException;
@@ -26,8 +29,6 @@ import java.util.*;
 // 5. If a new player joins, server sends the array and MonopolyClient class updates the
 //    LobbyController
 public class MonopolyClient {
-    // Singleton
-    private static MonopolyClient instance = null;
 
     // Connection members
     boolean isConnected = false;
@@ -54,7 +55,6 @@ public class MonopolyClient {
         new Thread(client).start(); // it keeps the client alive
         this.lobbyController = lobbyController;
         this.gameScreenController = null;
-        instance = this;
 
         MonopolyNetwork.register(client);
 
@@ -86,16 +86,47 @@ public class MonopolyClient {
                         if (Objects.isNull(MonopolyGame.getActionLog())) {
                             MonopolyGame.actionLog = ActionLog.getInstance();
                         }
+                        System.out.println("[CLIENT] Got action");
                         action.act(); // how is it connected to the MonopolyGame class?
-                        System.out.println(action);
+                        Platform.runLater(() -> {
+                            gameScreenController.updateBoardState();
+                        });
                     }
                     else if (o instanceof ChatMessage) {
                         ChatMessage message = (ChatMessage) o;
                         // gameScreenController.addChatMessage(message);
                     }
+                    else if (o instanceof ArrayList) {
+                        players = (ArrayList<Player>) o;
+                        monopolyGame.getPlayerController().setPlayers(players);
+                        gameScreenController.updateBoardState();
+                    }
+                    else if (o instanceof DiceResult) {
+                        DiceResult result = (DiceResult) o;
+                        gameScreenController.setDiceLabel(result);
+                    }
                     else if (o instanceof String) {
                         String s = (String) o;
-                        System.out.println("[SERVER] " + s);
+                        if (s.equals("activate buttons")) {
+                            Platform.runLater(() -> {
+                                gameScreenController.activateButtons();
+                            });
+                            System.out.println("[SERVER] Activate buttons");
+                        }
+                        else if (s.equals("deactivate buttons")) {
+                            gameScreenController.deactivateButtons();
+                            System.out.println("[SERVER] Deactivate buttons");
+                        }
+                        else if (s.contains("active player:")) {
+                            int charPos = s.indexOf(":");
+                            int activePlayerIndex = Integer.parseInt(s.substring(charPos + 1));
+                            gameScreenController.getGame().getPlayerController().setActivePlayerIndex(activePlayerIndex);
+                            System.out.println("new active player: " + activePlayerIndex);
+                            Platform.runLater(() -> gameScreenController.updateBoardState());
+                        }
+                        else {
+                            System.out.println("[SERVER] " + s);
+                        }
                     }
                 }
                 else {
@@ -116,9 +147,14 @@ public class MonopolyClient {
                         String message = (String) o;
                         if (message.equals("game started")) {
                                 lobbyController.startGame();
+                                gameStarted = true;
                         } // Activate and deactivate buttons don't need to be here
                         else if (message.equals("update lobby")) {
                             lobbyController.updateLobbyState(MonopolyClient.this);
+                        }
+                        else if (message.contains("active player:")) {
+                            int id = Integer.parseInt(message.substring(message.indexOf(":") + 1));
+                            gameScreenController.getGame().getPlayerController().setActivePlayerIndex(id);
                         }
                         else {
                             System.out.println("[SERVER] " + message);
@@ -154,10 +190,6 @@ public class MonopolyClient {
         //    }
         //}.start();
 
-    }
-
-    public static MonopolyClient getInstance() {
-        return instance;
     }
 
     public void sendStartGameCommand() {
@@ -277,5 +309,9 @@ public class MonopolyClient {
 
     public void setSpeedDie(boolean speedDie) {
         this.speedDie = speedDie;
+    }
+
+    public void sendObject(Object o) {
+        connection.sendTCP(o);
     }
 }

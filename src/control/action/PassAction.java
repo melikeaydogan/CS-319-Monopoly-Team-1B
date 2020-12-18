@@ -19,8 +19,6 @@ public class PassAction implements Action {
         new AddMoneyAction(player, 20_000).act();
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " passes from the starting point \n" );
-
-        MonopolyClient.getInstance().sendAction(this); // might cause recursion with MoveAction
     }
 
 }

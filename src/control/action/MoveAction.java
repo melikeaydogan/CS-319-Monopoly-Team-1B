@@ -1,16 +1,17 @@
 package control.action;
 
 import control.MonopolyGame;
+import control.PlayerController;
 import entity.Player;
 import network.MonopolyClient;
 
 public class MoveAction implements Action{
 
-    private Player player;
+    private int playerId;
     private int moveAmount;
 
-    public MoveAction(Player player, int moveAmount) {
-        this.player = player;
+    public MoveAction(int playerId, int moveAmount) {
+        this.playerId = playerId;
         this.moveAmount = moveAmount;
     }
 
@@ -19,12 +20,11 @@ public class MoveAction implements Action{
 
     @Override
     public void act() {
+        Player player = PlayerController.getById(playerId);
         if ( !player.isInJail() ) {
             boolean passedTheGoTile = player.move(moveAmount);
             MonopolyGame.getActionLog().addMessage(player.getName() + " moves " + moveAmount
                     + " squares (current position: " + player.getPosition() + ")\n");
-
-            MonopolyClient.getInstance().sendAction(this); // might cause recursion
 
             if (passedTheGoTile) {
                 new PassAction(player).act();

@@ -6,6 +6,12 @@ public class DiceResult {
     private final int secondDieResult;
     private final SpeedDieResult speedDieResult;
 
+    public DiceResult() { // without this, program disconnects!!!!
+        firstDieResult = -1;
+        secondDieResult = -1;
+        speedDieResult = SpeedDieResult.NONE;
+    }
+
     // Use this constructor for the speed die mode
     public DiceResult(int firstDieResult, int secondDieResult, SpeedDieResult speedDieResult) {
         this.firstDieResult = firstDieResult;

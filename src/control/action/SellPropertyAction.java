@@ -28,6 +28,5 @@ public class SellPropertyAction implements Action {
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " sells the property " + property.getName() + "\n");
 
-        MonopolyClient.getInstance().sendAction(this);
     }
 }

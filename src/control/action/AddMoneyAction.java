@@ -22,6 +22,5 @@ public class AddMoneyAction implements Action{
 
         MonopolyGame.getActionLog().addMessage(player.getName() + " gets " + amount + "$ \n");
 
-        MonopolyClient.getInstance().sendAction(this);
     }
 }

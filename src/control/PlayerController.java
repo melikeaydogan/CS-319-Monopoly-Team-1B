@@ -10,7 +10,7 @@ import java.util.ArrayList;
 // First initialize players in the model, then pass the ArrayList to the controller
 public class PlayerController {
 
-    private ArrayList<Player> players; // Initial capacity of the ArrayList --> 6
+    private static ArrayList<Player> players; // Initial capacity of the ArrayList --> 6
     private Player activePlayer = null;
     private int activePlayerIndex = 0;
 
@@ -24,13 +24,17 @@ public class PlayerController {
         activePlayerIndex = playerController.getActivePlayerIndex();
     }
 
+    public PlayerController() {
+
+    }
+
     public Player getActivePlayer() {
         if ( players.size() > 0)
             return players.get(activePlayerIndex);
         return null;
     }
 
-    public Player getById(int id) {
+    public static Player getById(int id) {
         for (Player p : players)
             if (p.getPlayerId() == id)
                 return p;
@@ -56,6 +60,7 @@ public class PlayerController {
 
     public void setActivePlayerIndex(int activePlayerIndex) {
         this.activePlayerIndex = activePlayerIndex;
+        activePlayer = players.get(activePlayerIndex);
     }
 
     public Player switchToNextPlayer() {
@@ -92,11 +97,11 @@ public class PlayerController {
     }
 
     public void movePlayer(Player player, int moveAmount) {
-        new MoveAction(player, moveAmount).act();
+        new MoveAction(player.getPlayerId(), moveAmount).act();
     }
 
     public void buyProperty(Player player, Property property) {
-        new BuyPropertyAction(property, player).act();
+        new BuyPropertyAction(property, player.getPlayerId()).act();
     }
 
     public void sellProperty(Player player, Property property) {
