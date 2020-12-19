@@ -25,9 +25,12 @@ public class AddLectureHallAction implements Action{
         if ( player.getBalance() > building.getLectureHallPrice() ) {
             new RemoveMoneyAction(player.getPlayerId(),building.getLectureHallPrice()).act();
             building.addLectureHall(); // ???
+
+            MonopolyGame.getActionLog().addMessage(player.getName() + " adds a lecture hall to "
+                    + building.getName() + "\n");
         }
 
-        MonopolyGame.getActionLog().addMessage(player.getName() + " adds a lecture hall to " + building.getName() + "\n");
+
 
     }
 
