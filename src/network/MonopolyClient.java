@@ -93,7 +93,9 @@ public class MonopolyClient {
                     }
                     else if (o instanceof ChatMessage) {
                         ChatMessage message = (ChatMessage) o;
-                        Platform.runLater(() -> gameScreenController.updateChat(message));
+                        Platform.runLater(() -> {
+                            gameScreenController.updateChat(message);
+                        });
                     }
                     else if (o instanceof ArrayList) {
                         players = (ArrayList<Player>) o;

@@ -96,7 +96,7 @@ public class MonopolyGame {
 
         Player player = getActivePlayer();
         Action action = new RollDiceAction(player, diceResult); // false for not speedDie
-        //action.act();
+        action.act();
         ui.sendAction(action); // this line causes disconnection, why??
         ui.sendObject(diceResult);
 

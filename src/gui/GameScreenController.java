@@ -33,10 +33,7 @@ import network.MonopolyClient;
 
 import java.io.File;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class GameScreenController {
     MonopolyClient monopolyClient;
@@ -242,8 +239,10 @@ public class GameScreenController {
     private void updateGameLog() {
         Platform.runLater(() -> {
             logTxt.setText("");
-            for (String s : MonopolyGame.getActionLog().getLog()) {
-                logTxt.setText(logTxt.getText() + "  " + s + "\n");
+            // fix the ConcurrentModificationException
+            Iterator<String> strings = MonopolyGame.getActionLog().getLog().iterator();
+            while (strings.hasNext()) {
+                logTxt.setText(logTxt.getText() + "  " + strings.next() + "\n");
             }
             logScrollPane.setVvalue(1);
         });
