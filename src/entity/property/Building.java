@@ -12,7 +12,7 @@ public class Building extends Property{
     public Building(String name, int id, int price, ArrayList<Integer> rents, int mortgagePrice,
                     int classroomPrice, int lectureHallPrice, String color) {
         super(name, id, price, rents, mortgagePrice);
-        this.classroomPrice = this.classroomPrice;
+        this.classroomPrice = classroomPrice;
         this.lectureHallPrice = lectureHallPrice;
         this.color = color;
         classroomCount = 0;

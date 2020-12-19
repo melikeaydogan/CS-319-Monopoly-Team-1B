@@ -19,17 +19,17 @@ public class AddClassroomAction implements Action {
     }
 
     @Override
-    public void act() { // color check?
+    public void act() {
         Player player = PlayerController.getById(playerId);
         Building building = (Building) Board.getPropertyById(buildingId);
 
         if ( player.getBalance() > building.getClassroomPrice() ) {
                 new RemoveMoneyAction(player.getPlayerId(), building.getClassroomPrice()).act();
                 building.addClassroom(); // ???
-        }
 
-        MonopolyGame.getActionLog().addMessage(player.getName() + " adds a classroom to "
-                + building.getName() + "\n");
+                MonopolyGame.getActionLog().addMessage(player.getName() + " adds a classroom to "
+                    + building.getName() + "\n");
+        }
 
     }
 
