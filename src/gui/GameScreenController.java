@@ -39,8 +39,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class GameScreenController {
-    private final int LOG_CAPACITY = 8;
-
     MonopolyClient monopolyClient;
     String chatLog;
 
@@ -58,19 +56,20 @@ public class GameScreenController {
     @FXML AnchorPane anchorPane;
 
     // Activity Log
-    @FXML Label log0, log1, log2, log3, log4, log5, log6, log7;
-    Label [] logs;
+    @FXML ScrollPane logScrollPane;
+    @FXML Text logTxt;
 
     // Player information and property labels
-    @FXML Label player0Label, player1Label, player2Label, player3Label,player4Label, player5Label,
-            player0Properties, player1Properties, player2Properties, player3Properties, player4Properties, player5Properties;
-    Label[] playerLabels, playerProperties;
+    @FXML Label player0Label, player1Label, player2Label, player3Label,player4Label, player5Label;
+    Label[] playerLabels;
+
+    @FXML Text player0Properties, player1Properties, player2Properties, player3Properties, player4Properties, player5Properties;
+    Text[] playerProperties;
 
     // Text that shows whose turn is it
     @FXML Text playerTurn;
 
     ChatController chatController;
-
 
     // Stop the game and go to main menu when quit button is pressed
     @FXML
@@ -152,10 +151,8 @@ public class GameScreenController {
             this.playerLabels = new Label[]{player0Label, player1Label, player2Label, player3Label,
                     player4Label, player5Label};
 
-            this.playerProperties = new Label[]{player0Properties, player1Properties, player2Properties,
+            this.playerProperties = new Text[]{player0Properties, player1Properties, player2Properties,
                     player3Properties, player4Properties, player5Properties};
-
-            this.logs = new Label[]{log0, log1, log2, log3, log4, log5, log6, log7};
 
             // Set up Tiles
             ArrayList<Tile> tiles = getGame().getBoard().getTiles();
@@ -244,20 +241,11 @@ public class GameScreenController {
 
     private void updateGameLog() {
         Platform.runLater(() -> {
-            ActionLog actionLog = MonopolyGame.getActionLog();
-            int logSize = actionLog.getNumActions();
-            if (logSize > LOG_CAPACITY) {
-                for (int i = logSize - 1, j = LOG_CAPACITY - 1; j >= 0; i--, j--) {
-                    logs[j].setText(actionLog.getLog().get(i));
-                }
-            } else {
-                int i = 0;
-                for ( ; i < logSize; i++)
-                    logs[i].setText(actionLog.getLog().get(i));
-
-                for ( ; i < LOG_CAPACITY; i++)
-                    logs[i].setText(" ");
+            logTxt.setText("");
+            for (String s : MonopolyGame.getActionLog().getLog()) {
+                logTxt.setText(logTxt.getText() + "  " + s + "\n");
             }
+            logScrollPane.setVvalue(1);
         });
     }
 
@@ -280,7 +268,7 @@ public class GameScreenController {
         }
     }
 
-    private void setPropertyTable(Player p1, Label player1Properties) {
+    private void setPropertyTable(Player p1, Text player1Properties) {
         for (Map.Entry<String, ArrayList<Property>> entry : p1.getProperties().entrySet()) {
             String key = entry.getKey();
             ArrayList<Property> properties = entry.getValue();
