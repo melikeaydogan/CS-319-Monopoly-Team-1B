@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="221.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PropertyMenuController">
+   <children>
+      <Button fx:id="addClassroomButton" layoutX="176.0" layoutY="60.0" mnemonicParsing="false" onAction="#addClassroomUsed" prefHeight="26.0" prefWidth="224.0" text="Add Classroom" />
+      <Button fx:id="addLectureHallButton" layoutX="176.0" layoutY="98.0" mnemonicParsing="false" onAction="#addLectureHallUsed" prefHeight="26.0" prefWidth="224.0" text="Add Lecture Hall" />
+      <Button fx:id="mortgageButton" layoutX="176.0" layoutY="132.0" mnemonicParsing="false" onAction="#mortgageUsed" prefHeight="26.0" prefWidth="224.0" text="Mortgage" />
+      <Text fx:id="text" layoutX="14.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="165.2978515625" />
+   </children>
+</AnchorPane>

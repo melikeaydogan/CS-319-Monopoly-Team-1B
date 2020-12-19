@@ -380,56 +380,6 @@ public class GameScreenController {
         // TODO: Open new panel. Which shows actions available for the property.
     }
 
-    public boolean showAddHouseDialog(Building building) {
-        Dialog<ButtonType> dialog = new Dialog<>();
-
-        String title = "";
-        String content = "";
-        DecimalFormat decimalFormat = new DecimalFormat();
-
-        String name = building.getName();
-
-        title = "Add House?";
-        content = "Do you wish to build a classroom to " + building.getName() + "?\n" +
-                "Price: " + decimalFormat.format(building.getClassroomPrice()) + "$\n" +
-                "Rent: " + decimalFormat.format(building.getRents().get(building.getClassroomCount())) + " ==> " +
-                decimalFormat.format(building.getRents().get(building.getClassroomCount() + 1));
-
-        dialog.setTitle(title);
-        dialog.setContentText(content);
-
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
-        Optional<ButtonType> result = dialog.showAndWait();
-
-        return result.isPresent() && (result.get().equals(ButtonType.YES));
-    }
-
-    public boolean showAddHotelDialog(Building building) {
-        Dialog<ButtonType> dialog = new Dialog<>();
-
-        String title = "";
-        String content = "";
-        DecimalFormat decimalFormat = new DecimalFormat();
-
-        String name = building.getName();
-
-        title = "Add Hotel?";
-        content = "Do you wish to build a lecture hall to " + building.getName() + "?\n" +
-        "Price: " + decimalFormat.format(building.getLectureHallPrice()) + "$\n" +
-        "Rent: " + decimalFormat.format(building.getRents().get(4)) + " ==> " +
-        decimalFormat.format(building.getRents().get(5));
-
-        dialog.setTitle(title);
-        dialog.setContentText(content);
-
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
-        Optional<ButtonType> result = dialog.showAndWait();
-
-        return result.isPresent() && (result.get().equals(ButtonType.YES));
-    }
-
     public MonopolyGame getGame() {
         return monopolyClient.getMonopolyGame();
     }

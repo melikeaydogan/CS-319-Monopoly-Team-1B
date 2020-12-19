@@ -251,31 +251,6 @@ public class MonopolyGame {
             transferAction.act();
             ui.sendAction(transferAction);
         }
-        else if (property.isOwned() && getActivePlayer().getPlayerId() == property.getOwnerId() &&
-                 property instanceof Building && getActivePlayer().isComplete((Building) property))  {
-            Building building = (Building) property;
-
-            if (building.getClassroomCount() != 4) {
-                boolean boughtHouse = ui.showAddHouseDialog(building);
-
-                if (boughtHouse) {
-                    AddClassroomAction addClassroomAction = new AddClassroomAction(building.getId(), getActivePlayer().getPlayerId());
-                    addClassroomAction.act();
-                    ui.sendAction(addClassroomAction);
-                }
-
-            }
-            else {
-                boolean boughtHotel = ui.showAddHotelDialog(building);
-
-                if (boughtHotel) {
-                    AddLectureHallAction addLectureHallAction = new AddLectureHallAction(building.getId(), getActivePlayer().getPlayerId());
-                    addLectureHallAction.act();
-                    ui.sendAction(addLectureHallAction);
-                }
-
-            }
-        }
     }
 
     public Card processChanceCardTile() {
