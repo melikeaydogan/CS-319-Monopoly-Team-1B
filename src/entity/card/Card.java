@@ -9,10 +9,6 @@ import entity.property.Property;
 import java.util.ArrayList;
 
 public /*abstract*/ class Card {
-    //public enum CardType {
-    //    CHANCE_CARD,
-    //    COMMUNITY_CHEST_CARD
-    //}
     int id;
     String instructions;
     //CardType cardType;

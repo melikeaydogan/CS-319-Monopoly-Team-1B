@@ -232,7 +232,7 @@ public class GameScreenController {
                 File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");
                 Image image = new Image(file.toURI().toString());
                 ImageView token = new ImageView(image);
-                token.setId("t" + Integer.toString(i));
+                token.setId("t" + i);
                 token.setFitHeight(50);
                 token.setFitWidth(50);
 

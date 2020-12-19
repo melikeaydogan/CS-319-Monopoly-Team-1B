@@ -62,14 +62,6 @@ public class Board {
         this.communityChestDeck = savedBoard.communityChestDeck;
     }
 
-    //public GameMode getGameMode(){
-        //return gameMode;
-    //}
-    //public boolean purchaseProperty( int playerID){}
-    //public boolean canPurchaseProperty( int playerID){}
-    //public boolean addBuilding( int playerID){}
-    //public boolean canAddBuilding( int playerID){}
-    //public boolean sellProperty( int PlayerID ){}
     public void initializeTiles(String fileName) throws IOException {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Tile.class, new Tile.CustomDeserializer());
@@ -80,8 +72,6 @@ public class Board {
         // convert JSON array to list of users
         tiles = customGson.fromJson(reader, new TypeToken<List<Tile>>() {}.getType());
 
-        //for (Tile t : tiles)
-        //    System.out.println("Added a new Tile --> " + t);
     }
 
     public void initializeProperties(String fileName) throws IOException {
@@ -94,8 +84,6 @@ public class Board {
         // convert JSON array to list of users
         properties = customGson.fromJson(reader, new TypeToken<List<Property>>() {}.getType());
 
-        //for (Property p : properties)
-        //    System.out.println("Added a new property --> " + p);
     }
 
     public void initializeChanceCardDeck(String filename) {
@@ -163,12 +151,6 @@ public class Board {
 
     public static void main(String[] args) throws IOException { // works!!!
         Board board = new Board();
-
-        //board.initializeProperties("properties.json");
-
-        //board.initializeCommunityChestCardDeck("communityChestCard.json");
-        //board.initializeChanceCardDeck("chanceCard.json");
-        //board.initializeTiles("tiles.json");
 
         for (Property p : board.getProperties()) {
             System.out.println("Property type: " + p.getClass().getSimpleName() + " / Details: " + p);

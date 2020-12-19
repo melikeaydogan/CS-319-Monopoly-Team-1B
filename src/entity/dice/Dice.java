@@ -36,24 +36,4 @@ public class Dice {
             return new DiceResult(firstDieResult, secondDieResult);
     }
 
-    /*
-    // Remove the starred comments to test the dice roll mechanism
-    public static void main(String[] args) {
-        Dice dice = new Dice(System.currentTimeMillis());
-        for ( int i = 0; i < 12; i++ ) {
-            DiceResult diceResult = dice.roll(false);
-            System.out.println("Dice 1: "
-                    + diceResult.getFirstDieResult()
-                    + " - Dice 2: " + diceResult.getSecondDieResult());
-        }
-
-        for ( int i = 0; i < 36; i++ ) {
-            DiceResult diceResult = dice.roll(true);
-            System.out.println("Dice 1: "
-                    + diceResult.getFirstDieResult()
-                    + " - Dice 2: " + diceResult.getSecondDieResult()
-                    + " - Speed Die: " + diceResult.getSpeedDieResult());
-        }
-    }*/
-
 }

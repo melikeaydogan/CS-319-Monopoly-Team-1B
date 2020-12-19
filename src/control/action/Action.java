@@ -2,7 +2,7 @@ package control.action;
 
 public interface Action {
 
-    public void act();
+    void act();
 
 }
 

@@ -25,7 +25,7 @@ public class AddClassroomAction implements Action {
 
         if ( player.getBalance() > building.getClassroomPrice() ) {
                 new RemoveMoneyAction(player.getPlayerId(), building.getClassroomPrice()).act();
-                building.addClassroom(); // ???
+                building.addClassroom();
 
                 MonopolyGame.getActionLog().addMessage(player.getName() + " adds a classroom to "
                     + building.getName() + "\n");

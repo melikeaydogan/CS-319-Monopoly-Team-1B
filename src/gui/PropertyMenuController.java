@@ -39,6 +39,7 @@ public class PropertyMenuController {
                         client.getMonopolyGame().getActivePlayer().getPlayerId());
                 addClassroomAction.act();
                 gameScreenController.sendAction(addClassroomAction);
+                gameScreenController.updateBoardState();
             }
         }
         updateMenu();
@@ -54,6 +55,7 @@ public class PropertyMenuController {
                         client.getMonopolyGame().getActivePlayer().getPlayerId());
                 addLectureHallAction.act();
                 gameScreenController.sendAction(addLectureHallAction);
+                gameScreenController.updateBoardState();
             }
         }
         updateMenu();

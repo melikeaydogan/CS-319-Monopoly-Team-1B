@@ -32,7 +32,7 @@ public class MonopolyServer {
     private MonopolyGame monopolyGame;
     private Connection activeConnection = null;
     boolean gameStarted = false;
-    boolean checkboxes[] = new boolean[3];
+    boolean[] checkboxes = new boolean[3];
     ChatMessage chatLog;
 
     private MonopolyServer() throws IOException {
