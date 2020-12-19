@@ -36,7 +36,9 @@ public class MonopolyGame {
     int turn;
     public static ActionLog actionLog;
     PlayerController playerController;
-    boolean speedDieMode;
+    GameMode mode;
+//    boolean speedDieMode;
+//    boolean alliance;
     boolean gameStarted = false;
     boolean gamePaused = false;
     int doubleCount = 0;
@@ -46,14 +48,14 @@ public class MonopolyGame {
     GameScreenController ui;
 
 
-    public MonopolyGame(ArrayList<Player> players, GameScreenController ui, boolean speedDieMode) throws IOException {
+    public MonopolyGame(ArrayList<Player> players, GameScreenController ui, GameMode mode) throws IOException {
         board = new Board();
         turn = 0;
         actionLog = ActionLog.getInstance();
         playerController = new PlayerController(players);
         dice = new Dice(System.currentTimeMillis());
         this.ui = ui;
-        this.speedDieMode = speedDieMode; // set the game mode accordingly
+        this.mode = mode; // set the game mode accordingly
     }
 
     public MonopolyGame() throws IOException {
@@ -72,7 +74,7 @@ public class MonopolyGame {
         actionLog = ActionLog.getInstance();
         playerController = new PlayerController(players);
         dice = new Dice(seed);
-        this.speedDieMode = speedDieMode; // set the game mode accordingly
+        this.mode = mode; // set the game mode accordingly
     }
 
     public void addPlayer(Player player) {
@@ -93,7 +95,7 @@ public class MonopolyGame {
     }
 
     public void rollDice() {
-        diceResult = dice.roll(speedDieMode);
+        diceResult = dice.roll(mode.isSpeedDie());
         //diceResult = dice.roll(false);
 
         if ( diceResult.isDouble() ) {
@@ -230,7 +232,9 @@ public class MonopolyGame {
             int transferAmount = 0;
             Player propertyOwner = playerController.getById(property.getOwnerId());
             System.out.println("Property owner: " + propertyOwner.getName());
-            boolean diffTeams = propertyOwner.getTeamNumber() != getActivePlayer().getTeamNumber();
+            int ownerTeamNo = propertyOwner.getTeamNumber();
+            int activeTeamNo = getActivePlayer().getTeamNumber();
+            boolean diffTeams = mode.isAlliance() && (ownerTeamNo != activeTeamNo);
             if (diffTeams) {
                 if (property instanceof Dorm) {
                     System.out.println("Dorm count: " + propertyOwner.getProperties().get("DORM").size());
