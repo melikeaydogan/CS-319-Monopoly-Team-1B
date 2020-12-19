@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -14,14 +20,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GameScreenController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GameScreenController">
    <children>
       <Button fx:id="diceButton" layoutX="1344.0" layoutY="889.0" mnemonicParsing="false" onAction="#handleDiceButton" prefHeight="48.0" prefWidth="126.0" text="Roll Dice" />
       <Label fx:id="die1" alignment="CENTER" layoutX="1352.0" layoutY="947.0" text="Dice1" textFill="#902f2f">
          <font>
             <Font size="17.0" />
          </font></Label>
-      <Label fx:id="die2" alignment="CENTER" layoutX="1419.0" layoutY="947.0" prefHeight="26.0" prefWidth="46.0" text="Dice2" textFill="#902f2f">
+      <Label fx:id="die2" alignment="CENTER" layoutX="1404.0" layoutY="945.0" prefHeight="26.0" prefWidth="75.0" text="Dice2" textFill="#902f2f">
          <font>
             <Font size="17.0" />
          </font></Label>
@@ -47,32 +53,32 @@
             <Label fx:id="player5Label" prefHeight="51.0" prefWidth="290.0" text=" Player6- Token6 - Money6" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <ScrollPane prefHeight="219.0" prefWidth="264.0" GridPane.rowIndex="4">
                <content>
-                  <Text fx:id="player3Properties" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties" wrappingWidth="273.336669921875" />
+                  <TextFlow fx:id="player3Properties" prefHeight="214.0" prefWidth="263.0" />
                </content>
             </ScrollPane>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                <content>
-                  <Text fx:id="player0Properties" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties" wrappingWidth="265.336669921875" />
+                  <TextFlow fx:id="player0Properties" prefHeight="171.0" prefWidth="266.0" />
                </content>
             </ScrollPane>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <content>
-                  <Text fx:id="player1Properties" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties" wrappingWidth="266.9367790222168" />
+                  <TextFlow fx:id="player1Properties" prefHeight="170.0" prefWidth="270.0" />
                </content>
             </ScrollPane>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <content>
-                  <Text fx:id="player4Properties" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties" wrappingWidth="262.9366569519043" />
+                  <TextFlow fx:id="player4Properties" prefHeight="215.0" prefWidth="263.0" />
                </content>
             </ScrollPane>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <content>
-                  <Text fx:id="player2Properties" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties" wrappingWidth="286.1365909576416" />
+                  <TextFlow fx:id="player2Properties" prefHeight="177.0" prefWidth="281.0" />
                </content>
             </ScrollPane>
             <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <content>
-                  <Text fx:id="player5Properties" strokeType="OUTSIDE" strokeWidth="0.0" text="Properties" wrappingWidth="289.3366641998291" />
+                  <TextFlow fx:id="player5Properties" prefHeight="214.0" prefWidth="281.0" />
                </content>
             </ScrollPane>
          </children>
