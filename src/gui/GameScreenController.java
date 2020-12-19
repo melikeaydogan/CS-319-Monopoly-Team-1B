@@ -287,15 +287,16 @@ public class GameScreenController {
                 });
                 properties.forEach(property -> {
                     Building building = (Building) property;
-                    playerProperties.getChildren().add(new Text(building.getColor() + " - "
-                            + building.getName() + " - " + building.getClassroomCount() + ", " + building.getLectureHallCount() + "  "));
+                    playerProperties.getChildren().add(new Text(" " + building.getColor() + " - "
+                            + building.getName() + " - " + building.getClassroomCount() + ", " +
+                            building.getLectureHallCount() + " "));
 
-                    Hyperlink actionsLink = new Hyperlink("Actions");
-                    actionsLink.setOnAction(e -> {
-                        showPropertyMenu(property);
-                    });
+                    if (monopolyClient.getId() == player.getPlayerId()) {
+                        Hyperlink actionsLink = new Hyperlink("Menu");
+                        actionsLink.setOnAction(e -> showPropertyMenu(property));
+                        playerProperties.getChildren().add(actionsLink);
+                    }
 
-                    playerProperties.getChildren().add(new Hyperlink("Actions"));
                     playerProperties.getChildren().add(new Text("\n"));
                 });
             }
@@ -303,12 +304,12 @@ public class GameScreenController {
                 properties.forEach(property -> {
                     playerProperties.getChildren().add(new Text("\n " + key + " - " + property.getName()));
 
-                    Hyperlink actionsLink = new Hyperlink("Actions");
-                    actionsLink.setOnAction(e -> {
-                        showPropertyMenu(property);
-                    });
+                    if (monopolyClient.getId() == player.getPlayerId()) {
+                        Hyperlink actionsLink = new Hyperlink("Menu");
+                        actionsLink.setOnAction(e -> showPropertyMenu(property));
+                        playerProperties.getChildren().add(actionsLink);
+                    }
 
-                    playerProperties.getChildren().add(new Hyperlink("Actions"));
                     playerProperties.getChildren().add(new Text("\n"));
                 });
             }
@@ -377,7 +378,19 @@ public class GameScreenController {
     }
 
     public void showPropertyMenu(Property property) {
-        // TODO: Open new panel. Which shows actions available for the property.
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("property_menu.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
+            PropertyMenuController propertyMenu = fxmlLoader.getController();
+            propertyMenu.setupPropertyMenu(monopolyClient, property, this);
+
+            Stage stage = new Stage();
+            stage.setTitle(property.getName());
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public MonopolyGame getGame() {

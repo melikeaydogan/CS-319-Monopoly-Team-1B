@@ -29,7 +29,8 @@ public class PropertyMenuController {
     @FXML Button mortgageButton;
     @FXML Text text;
 
-    @FXML void addClassroomUsed(ActionEvent e) {
+    @FXML
+    protected void addClassroomUsed(ActionEvent e) {
         if (client.getMonopolyGame().getActivePlayer().getPlayerId() == player.getPlayerId()) {
             boolean classRoomPurchased = showAddClassroomDialog((Building) property);
 
@@ -43,7 +44,8 @@ public class PropertyMenuController {
         updateMenu();
     }
 
-    @FXML void addLectureHallUsed(ActionEvent e) {
+    @FXML
+    protected void addLectureHallUsed(ActionEvent e) {
         if (client.getMonopolyGame().getActivePlayer().getPlayerId() == player.getPlayerId()) {
             boolean lectureHallPurchased = showAddHotelDialog((Building) property);
 
@@ -87,14 +89,14 @@ public class PropertyMenuController {
                     (client.getMonopolyGame().getActivePlayer().getPlayerId() == player.getPlayerId()) &&
                     (building.getClassroomPrice() <= playerBalance);
             addClassroomButton.setDisable(!classroomEnabled);
-            addLectureHallButton.setText("Add Classroom (" + building.getClassroomPrice() + ")");
+            addClassroomButton.setText("Add Classroom (" + building.getClassroomPrice() + "$)");
 
         } else {
             addClassroomButton.setDisable(true);
         }
 
         // Enable/disable Lecture Hall Button
-        if(property instanceof Building ){
+        if(property instanceof Building) {
             Building building = (Building) property;
             boolean lectureHallEnabled = ( building.getClassroomCount() == 4) &&
                     (building.getLectureHallCount() == 0) &&
@@ -102,7 +104,7 @@ public class PropertyMenuController {
                     (client.getMonopolyGame().getActivePlayer().getPlayerId() == player.getPlayerId()) &&
                     (building.getLectureHallPrice() <= playerBalance);
             addLectureHallButton.setDisable(!lectureHallEnabled);
-            addLectureHallButton.setText("Add Lecture Hall (" + building.getLectureHallPrice() + ")");
+            addLectureHallButton.setText("Add Lecture Hall (" + building.getLectureHallPrice() + "$)");
         } else {
             addLectureHallButton.setDisable(true);
         }
@@ -127,7 +129,7 @@ public class PropertyMenuController {
                 rent = building.getRents().get(building.getClassroomCount());
             }
 
-            textStr += building.getColor();
+            textStr += "\n" + building.getColor();
             textStr += "\nClassroom Count: " + building.getClassroomCount();
             textStr += "\nLecture Hall Count: " + building.getLectureHallCount();
             textStr += "\nCurrent Rent: " + rent + "$";
