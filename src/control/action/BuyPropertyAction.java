@@ -31,8 +31,6 @@ public class BuyPropertyAction implements Action{
         if ( player.getBalance() >= property.getPrice() ) {
             property.setOwned(true);
             property.setOwnerId(player.getPlayerId());
-            System.out.println("[BuyPropertyAction] Player --> " + player);
-            System.out.println("[BuyPropertyAction] Property --> " + property);
 
             if (property instanceof Dorm) {
                 player.getProperties().get("DORM").add((Dorm) property);

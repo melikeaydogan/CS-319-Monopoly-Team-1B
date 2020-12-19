@@ -10,6 +10,8 @@ import control.action.Action;
 import control.action.PassAction;
 import entity.Player;
 import entity.dice.DiceResult;
+import entity.trade.OfferStatus;
+import entity.trade.TradeOffer;
 
 import java.io.IOException;
 import java.net.Inet4Address;
@@ -92,7 +94,6 @@ public class MonopolyServer {
                         if (/*connection.equals(activeConnection)*/ true) {
                             if (o instanceof Action) {
                                 System.out.println("[SERVER] got action");
-                                // server.sendToAllExceptTCP(activeConnection.getID(), o);
                                 server.sendToAllExceptTCP(connection.getID(), o);
                             }
                             else if (o instanceof String) {
@@ -129,6 +130,19 @@ public class MonopolyServer {
                                 chatLog.setMessage(chatLog.getMessage() + players.get(connection.getID() - 1).getName()
                                         + ": " +  chatMessage.getMessage() + "\n");
                                 server.sendToAllTCP(chatLog);
+                            }
+                            else if (o instanceof TradeOffer) {
+                                System.out.println("[SERVER] Got trade request");
+                                TradeOffer tradeOffer = (TradeOffer) o;
+                                if (tradeOffer.getStatus() == OfferStatus.AWAITING_RESPONSE ) {
+                                    server.sendToTCP(tradeOffer.getReceiverID() + 1, o); // connection ids start from 1
+                                }
+                                else if (tradeOffer.getStatus() == OfferStatus.DECLINED ) {
+                                    server.sendToTCP(tradeOffer.getSenderID() + 1, o);
+                                }
+                                else if (tradeOffer.getStatus() == OfferStatus.ACCEPTED ) {
+                                    server.sendToAllTCP(tradeOffer);
+                                }
                             }
                         }
                     }

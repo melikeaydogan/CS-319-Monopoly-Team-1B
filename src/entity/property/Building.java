@@ -73,7 +73,6 @@ public class Building extends Property{
 
     @Override
     public String toString() {
-        return "ID: " + id + " Name: " + name + " Price: " + price + " Color: " + color +
-                " Classroom price: " + classroomPrice + " Lecture Hall price: " + lectureHallPrice;
+        return color + " - " + name;
     }
 }

@@ -5,7 +5,6 @@ import entity.property.Property;
 import java.util.*;
 
 public class TradeOffer {
-    private int offerID;
     private int senderID;
     private int receiverID;
     private int feeOffered;
@@ -20,7 +19,7 @@ public class TradeOffer {
     private ArrayList<Integer> propertyRequested;
     private OfferStatus status;
 
-    public TradeOffer(int offerID,
+    public TradeOffer(
                       int senderID,
                       int receiverID,
                       int feeOffered,
@@ -28,7 +27,6 @@ public class TradeOffer {
                       ArrayList<Integer> propertyOffered,
                       ArrayList<Integer> propertyRequested,
                       OfferStatus status) {
-        this.offerID = offerID;
         this.senderID = senderID;
         this.receiverID = receiverID;
         this.feeOffered = feeOffered;
@@ -39,7 +37,7 @@ public class TradeOffer {
     }
 
     public TradeOffer(TradeOffer offer) {
-        this(offer.offerID,
+        this(
                 offer.senderID,
                 offer.receiverID,
                 offer.feeOffered,
@@ -50,7 +48,9 @@ public class TradeOffer {
     }
 
     public TradeOffer() {
-
+        propertyOffered = new ArrayList<>();
+        propertyRequested = new ArrayList<>();
+        status = OfferStatus.AWAITING_RESPONSE;
     }
 
     /**
@@ -68,7 +68,7 @@ public class TradeOffer {
                                      ArrayList<Integer> propertyRequested) {
         // Create the counter offer, receiver becomes the sender
         // also the newly created counter offer is awaiting response
-        TradeOffer counterOffer = new TradeOffer(offerID,
+        TradeOffer counterOffer = new TradeOffer(
                 receiverID, senderID,
                 feeOffered, feeRequested,
                 propertyOffered, propertyRequested,
@@ -77,32 +77,52 @@ public class TradeOffer {
         return counterOffer;
     }
 
-    public int getOfferID() {
-        return offerID;
-    }
-
     public int getSenderID() {
         return senderID;
+    }
+
+    public void setSenderID(int senderID) {
+        this.senderID = senderID;
     }
 
     public int getReceiverID() {
         return receiverID;
     }
 
+    public void setReceiverID(int receiverID) {
+        this.receiverID = receiverID;
+    }
+
     public int getFeeOffered() {
         return feeOffered;
+    }
+
+    public void setFeeOffered(int feeOffered) {
+        this.feeOffered = feeOffered;
     }
 
     public int getFeeRequested() {
         return feeRequested;
     }
 
+    public void setFeeRequested(int feeRequested) {
+        this.feeRequested = feeRequested;
+    }
+
     public ArrayList<Integer> getPropertyOffered() {
         return propertyOffered;
     }
 
+    public void setPropertyOffered(ArrayList<Integer> propertyOffered) {
+        this.propertyOffered = propertyOffered;
+    }
+
     public ArrayList<Integer> getPropertyRequested() {
         return propertyRequested;
+    }
+
+    public void setPropertyRequested(ArrayList<Integer> propertyRequested) {
+        this.propertyRequested = propertyRequested;
     }
 
     public OfferStatus getStatus() {

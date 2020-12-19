@@ -39,6 +39,9 @@ public class MonopolyNetwork {
         kyro.register(entity.tile.Tile.class);
         kyro.register(entity.tile.CardTile.CardType.class);
 
+        kyro.register(entity.trade.TradeOffer.class);
+        kyro.register(entity.trade.OfferStatus.class);
+
         kyro.register(entity.Board.class);
         kyro.register(entity.Player.class);
 

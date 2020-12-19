@@ -5,15 +5,18 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import control.ActionLog;
 import control.MonopolyGame;
-import control.action.Action;
+import control.action.*;
 import entity.Player;
 import entity.dice.DiceResult;
+import entity.trade.OfferStatus;
+import entity.trade.TradeOffer;
 import gui.GameScreenController;
 import gui.LobbyController;
 import javafx.application.Platform;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 // create this when player joins to the lobby
 
@@ -105,6 +108,49 @@ public class MonopolyClient {
                     else if (o instanceof DiceResult) {
                         DiceResult result = (DiceResult) o;
                         gameScreenController.setDiceLabel(result);
+                    }
+                    else if (o instanceof TradeOffer) {
+                        TradeOffer tradeOffer = (TradeOffer) o;
+                        if (tradeOffer.getStatus() == OfferStatus.AWAITING_RESPONSE ) {
+                            Platform.runLater(() -> gameScreenController.showTradeDialog(tradeOffer));
+                        }
+                        else if (tradeOffer.getStatus() == OfferStatus.DECLINED ) {
+                            // set status message to accepted if client is the request owner
+                            if (tradeOffer.getSenderID() == getId() ) {
+                                Platform.runLater(() -> {
+                                    gameScreenController.getTradeController().getStatusLabel().setText("Status: Declined");
+                                });
+
+                            }
+
+                        }
+                        else if (tradeOffer.getStatus() == OfferStatus.ACCEPTED ) {
+                            // set status message to accepted if client is the request owner
+                            if (tradeOffer.getSenderID() == getId() ) {
+                                Platform.runLater(() -> {
+                                    gameScreenController.getTradeController().getStatusLabel().setText("Status: Accepted");
+                                });
+                            }
+
+                            for (Integer i : tradeOffer.getPropertyOffered() ) {
+                                new RemovePropertyAction(tradeOffer.getSenderID(), i).act();
+                                new AddPropertyAction(tradeOffer.getReceiverID(), i).act();
+                            }
+
+                            for (Integer i : tradeOffer.getPropertyRequested() ) {
+                                new RemovePropertyAction(tradeOffer.getReceiverID(), i).act();
+                                new AddPropertyAction(tradeOffer.getSenderID(), i).act();
+                            }
+
+                            new RemoveMoneyAction(tradeOffer.getSenderID(), tradeOffer.getFeeOffered()).act();
+                            new AddMoneyAction(tradeOffer.getReceiverID(), tradeOffer.getFeeOffered()).act();
+
+                            new RemoveMoneyAction(tradeOffer.getReceiverID(), tradeOffer.getFeeRequested()).act();
+                            new AddMoneyAction(tradeOffer.getSenderID(), tradeOffer.getFeeRequested()).act();
+
+                            Platform.runLater(() -> gameScreenController.updateBoardState());
+                        }
+
                     }
                     else if (o instanceof String) {
                         String s = (String) o;
