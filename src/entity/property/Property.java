@@ -100,7 +100,7 @@ public abstract class Property {
     }
 
     public String toString() {
-        return "ID: " + id + ", Name: " + name + ", - Price: " + price + ", - Rents " + rents;
+        return name;
     }
 
     public static class CustomDeserializer implements JsonDeserializer<Property> {

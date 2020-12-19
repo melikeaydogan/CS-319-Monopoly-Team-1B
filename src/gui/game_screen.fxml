@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GameScreenController">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.GameScreenController">
    <children>
       <Button fx:id="diceButton" layoutX="1344.0" layoutY="889.0" mnemonicParsing="false" onAction="#handleDiceButton" prefHeight="48.0" prefWidth="126.0" text="Roll Dice" />
       <Label fx:id="die1" alignment="CENTER" layoutX="1352.0" layoutY="947.0" text="Dice1" textFill="#902f2f">
@@ -359,5 +353,6 @@
          </children>
       </GridPane>
       <Button layoutX="1767.0" layoutY="521.0" mnemonicParsing="false" onAction="#openChatPanel" prefHeight="48.0" prefWidth="126.0" text="Chat" />
+      <Button fx:id="tradeButton" layoutX="1767.0" layoutY="589.0" mnemonicParsing="false" onAction="#openTradePanel" prefHeight="48.0" prefWidth="126.0" text="Trade" />
    </children>
 </AnchorPane>

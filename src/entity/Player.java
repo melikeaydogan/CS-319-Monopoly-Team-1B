@@ -263,16 +263,18 @@ public class Player{
     }
 
     public String toString() {
-        return "Player --> ID: " + playerId + ", Name: " + name + ", Token: " + getTokenName();
+        return name;
     }
 
     @Override
     public boolean equals(Object o) {
-        Player p = (Player) o;
+        if (o instanceof Player) {
+            Player p = (Player) o;
 
-        return getPlayerId() == p.getPlayerId();
+            return getPlayerId() == p.getPlayerId();
+        }
+        return false;
     }
-
 }
 
 // Starting balance??

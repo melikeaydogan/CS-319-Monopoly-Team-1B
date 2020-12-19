@@ -2,7 +2,9 @@ package gui;
 
 import control.ActionLog;
 import control.MonopolyGame;
+import control.PlayerController;
 import control.action.Action;
+import entity.Board;
 import entity.Player;
 import entity.dice.DiceResult;
 import entity.property.Building;
@@ -11,6 +13,8 @@ import entity.property.Facility;
 import entity.property.Property;
 import entity.tile.*;
 
+import entity.trade.OfferStatus;
+import entity.trade.TradeOffer;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,7 +47,7 @@ public class GameScreenController {
 
     // Labels for die results
     @FXML Label die1, die2;
-    @FXML Button diceButton;
+    @FXML Button diceButton, tradeButton;
 
     // The squares on board
     @FXML StackPane square0, square1, square2, square3, square4, square5, square6, square7, square8, square9, square10,
@@ -69,6 +73,7 @@ public class GameScreenController {
     @FXML Text playerTurn;
 
     ChatController chatController;
+    TradeController tradeController;
 
     // Stop the game and go to main menu when quit button is pressed
     @FXML
@@ -111,6 +116,24 @@ public class GameScreenController {
             stage.setScene(new Scene(root1));
             stage.show();
         } catch(Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void openTradePanel(ActionEvent e) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("trade.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            tradeController = fxmlLoader.getController();
+            tradeController.setupTradeMenu(monopolyClient);
+
+            Stage stage = new Stage();
+            stage.setTitle("Trade");
+            stage.setScene(new Scene(root1));
+            stage.show();
+        }
+        catch(Exception exception) {
             exception.printStackTrace();
         }
     }
@@ -303,7 +326,7 @@ public class GameScreenController {
             }
             else {
                 properties.forEach(property -> {
-                    playerProperties.getChildren().add(new Text("\n " + key + " - " + property.getName()));
+                    playerProperties.getChildren().add(new Text(" " + key + " - " + property.getName()));
 
                     if (monopolyClient.getId() == player.getPlayerId()) {
                         Hyperlink actionsLink = new Hyperlink("Menu");
@@ -408,15 +431,68 @@ public class GameScreenController {
 
     public void activateButtons() {
         diceButton.setDisable(false);
+        tradeButton.setDisable(false);
         getGame().getPlayerController().setActivePlayerIndex(monopolyClient.getId());
         updateBoardState();
     }
 
     public void deactivateButtons() {
         diceButton.setDisable(true);
+        tradeButton.setDisable(true);
     }
 
     public void sendObject(Object o) {
         monopolyClient.sendObject(o);
+    }
+
+    public void showTradeDialog(TradeOffer tradeOffer) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+
+        String title = "Trade request from " + Objects.requireNonNull(PlayerController.getById(tradeOffer.getSenderID())).getName();
+        String content = "Properties requested: \n";
+
+        for (Integer i : tradeOffer.getPropertyRequested()) {
+            Property property = Board.getPropertyById(i);
+            content = content + property + "\n";
+        }
+
+        content = content + "\nFee requested: " + tradeOffer.getFeeRequested() + "\n";
+        content = content + "\nProperties offered: \n";
+
+        for (Integer i : tradeOffer.getPropertyOffered()) {
+            Property property = Board.getPropertyById(i);
+            content = content + property + "\n";
+        }
+
+
+        content = content + "\nFee offered: " + tradeOffer.getFeeOffered();
+
+        dialog.setTitle(title);
+        dialog.setContentText(content);
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        boolean answer =  result.isPresent() && (result.get().equals(ButtonType.YES));
+
+        if (answer) {
+            tradeOffer.setStatus(OfferStatus.ACCEPTED);
+            monopolyClient.sendObject(tradeOffer);
+        }
+        else {
+            tradeOffer.setStatus(OfferStatus.DECLINED);
+            // trade declined
+            // send request to the sender
+            monopolyClient.sendObject(tradeOffer);
+        }
+    }
+
+    public TradeController getTradeController() {
+        return tradeController;
+    }
+
+    public void setTradeController(TradeController tradeController) {
+        this.tradeController = tradeController;
     }
 }

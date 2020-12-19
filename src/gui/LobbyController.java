@@ -53,14 +53,14 @@ public class LobbyController {
         //              start the game.
         //        else
         //              show alert dialog.
-        /*
+
         if (monopolyClient.getPlayers().size() <= 1) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Cannot Start the Game");
             alert.setHeaderText("Please wait for more players");
             alert.showAndWait();
             return;
-        }*/
+        }
 
 
         boolean fullTokens = true;

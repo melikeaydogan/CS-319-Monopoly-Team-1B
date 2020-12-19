@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gui.TradeController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="491.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TradeController">
+   <children>
+      <ChoiceBox fx:id="propertyBox" layoutX="20.0" layoutY="59.0" prefWidth="150.0" />
+      <Button layoutX="188.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleAddButton" text="Add" />
+      <Label layoutX="30.0" layoutY="34.0" text="Select properties to offer" />
+      <TextField fx:id="feeTextField" layoutX="394.0" layoutY="58.0" prefHeight="26.0" prefWidth="118.0" />
+      <Label layoutX="408.0" layoutY="34.0" text="Enter fee to offer" />
+      <Label fx:id="propertyLabel" layoutX="35.0" layoutY="104.0" prefHeight="45.0" prefWidth="555.0" text="Properties that will be offered:" />
+      <Button layoutX="254.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleResetButton" text="Reset" />
+      <Button fx:id="setButton" layoutX="532.0" layoutY="58.0" mnemonicParsing="false" onAction="#handleSetButton" prefHeight="26.0" prefWidth="38.0" text="Set" />
+      <Label fx:id="feeLabel" layoutX="35.0" layoutY="150.0" prefHeight="26.0" prefWidth="555.0" text="Fee that will be offered:" />
+      <ChoiceBox fx:id="playerBox" layoutX="190.0" layoutY="206.0" prefWidth="150.0" />
+      <Label layoutX="240.0" layoutY="182.0" text="Choose player to offer" />
+      <Button fx:id="sendButton" layoutX="215.0" layoutY="450.0" mnemonicParsing="false" onAction="#handleSendButton" text="Send Trade Request" />
+      <Separator layoutY="174.0" prefHeight="4.0" prefWidth="603.0" />
+      <Button layoutX="367.0" layoutY="206.0" mnemonicParsing="false" onAction="#handleChooseButton" text="Choose" />
+      <Separator layoutY="247.0" prefHeight="4.0" prefWidth="603.0" />
+      <ChoiceBox fx:id="propertyBox1" layoutX="21.0" layoutY="307.0" prefWidth="150.0" />
+      <Button fx:id="addButton1" layoutX="188.0" layoutY="307.0" mnemonicParsing="false" onAction="#handleAddButton1" text="Add" />
+      <Button fx:id="resetButton1" layoutX="254.0" layoutY="307.0" mnemonicParsing="false" onAction="#handleResetButton1" text="Reset" />
+      <TextField fx:id="feeTextField1" layoutX="390.0" layoutY="306.0" prefHeight="26.0" prefWidth="118.0" />
+      <Button fx:id="setButton1" layoutX="529.0" layoutY="306.0" mnemonicParsing="false" onAction="#handleSetButton1" prefHeight="26.0" prefWidth="38.0" text="Set" />
+      <Label layoutX="30.0" layoutY="280.0" text="Choose properties to get" />
+      <Label layoutX="408.0" layoutY="280.0" text="Enter fee to get" />
+      <Label fx:id="propertyLabel1" layoutX="35.0" layoutY="378.0" prefHeight="18.0" prefWidth="555.0" text="Properties that will be gotten: " />
+      <Label fx:id="feeLabel1" layoutX="35.0" layoutY="413.0" text="Fee that will be gotten:" />
+      <Label fx:id="statusLabel" layoutX="367.0" layoutY="449.0" prefHeight="26.0" prefWidth="192.0" text="Status: Waiting for submission..." />
+   </children>
 </AnchorPane>
