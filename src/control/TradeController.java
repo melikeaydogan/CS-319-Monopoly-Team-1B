@@ -3,6 +3,7 @@ package control;
 import entity.trade.*;
 import java.util.*;
 
+@Deprecated
 public class TradeController {
     private ArrayList<TradeOffer> offers;
 
