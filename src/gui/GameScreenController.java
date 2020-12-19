@@ -26,6 +26,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
 import network.ChatMessage;
@@ -60,8 +62,8 @@ public class GameScreenController {
     @FXML Label player0Label, player1Label, player2Label, player3Label,player4Label, player5Label;
     Label[] playerLabels;
 
-    @FXML Text player0Properties, player1Properties, player2Properties, player3Properties, player4Properties, player5Properties;
-    Text[] playerProperties;
+    @FXML TextFlow player0Properties, player1Properties, player2Properties, player3Properties, player4Properties, player5Properties;
+    TextFlow[] playerProperties;
 
     // Text that shows whose turn is it
     @FXML Text playerTurn;
@@ -148,8 +150,11 @@ public class GameScreenController {
             this.playerLabels = new Label[]{player0Label, player1Label, player2Label, player3Label,
                     player4Label, player5Label};
 
-            this.playerProperties = new Text[]{player0Properties, player1Properties, player2Properties,
+            this.playerProperties = new TextFlow[]{player0Properties, player1Properties, player2Properties,
                     player3Properties, player4Properties, player5Properties};
+            for (TextFlow p : playerProperties) {
+                p.setTextAlignment(TextAlignment.JUSTIFY);
+            }
 
             // Set up Tiles
             ArrayList<Tile> tiles = getGame().getBoard().getTiles();
@@ -207,12 +212,11 @@ public class GameScreenController {
             for (i = 0; i < numberOfPlayers; i++) {
                 Player p = getGame().getPlayerController().getPlayers().get(i);
                 playerLabels[i].setText("  " + p.getName() + " - " + p.getTokenName() + " - " + decimalFormat.format(p.getBalance()) + "$");
-                playerProperties[i].setText("");
-                setPropertyTable(p, playerProperties[i]);
+                setPlayerProperties(p, playerProperties[i]);
             }
             for (; i < 6 ; i++) {
                 playerLabels[i].setText("");
-                playerProperties[i].setText("");
+                setPlayerProperties(null, playerProperties[i]);
             }
 
             // Update Game Log
@@ -267,8 +271,12 @@ public class GameScreenController {
         }
     }
 
-    private void setPropertyTable(Player p1, Text player1Properties) {
-        for (Map.Entry<String, ArrayList<Property>> entry : p1.getProperties().entrySet()) {
+    private void setPlayerProperties(Player player, TextFlow playerProperties) {
+        playerProperties.getChildren().clear();
+        if (player == null)
+            return;
+
+        for (Map.Entry<String, ArrayList<Property>> entry : player.getProperties().entrySet()) {
             String key = entry.getKey();
             ArrayList<Property> properties = entry.getValue();
             if ( key.equals("BUILDING")) {
@@ -279,13 +287,29 @@ public class GameScreenController {
                 });
                 properties.forEach(property -> {
                     Building building = (Building) property;
-                    player1Properties.setText(player1Properties.getText() + "\n " + building.getColor() + " - "
-                            + building.getName() + " - " + building.getClassroomCount() + ", " + building.getLectureHallCount());
+                    playerProperties.getChildren().add(new Text(building.getColor() + " - "
+                            + building.getName() + " - " + building.getClassroomCount() + ", " + building.getLectureHallCount() + "  "));
+
+                    Hyperlink actionsLink = new Hyperlink("Actions");
+                    actionsLink.setOnAction(e -> {
+                        showPropertyMenu(property);
+                    });
+
+                    playerProperties.getChildren().add(new Hyperlink("Actions"));
+                    playerProperties.getChildren().add(new Text("\n"));
                 });
             }
             else {
                 properties.forEach(property -> {
-                    player1Properties.setText(player1Properties.getText() + "\n " + key + " - " + property.getName());
+                    playerProperties.getChildren().add(new Text("\n " + key + " - " + property.getName()));
+
+                    Hyperlink actionsLink = new Hyperlink("Actions");
+                    actionsLink.setOnAction(e -> {
+                        showPropertyMenu(property);
+                    });
+
+                    playerProperties.getChildren().add(new Hyperlink("Actions"));
+                    playerProperties.getChildren().add(new Text("\n"));
                 });
             }
         }
@@ -350,6 +374,10 @@ public class GameScreenController {
         Optional<ButtonType> result = dialog.showAndWait();
 
         return result.isPresent() && (result.get().equals(ButtonType.YES));
+    }
+
+    public void showPropertyMenu(Property property) {
+        // TODO: Open new panel. Which shows actions available for the property.
     }
 
     public boolean showAddHouseDialog(Building building) {
