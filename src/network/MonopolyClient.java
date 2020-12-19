@@ -275,7 +275,7 @@ public class MonopolyClient {
     public void setupMonopolyGame(GameScreenController gsc) {
         try {
             this.gameScreenController = gsc;
-            this.monopolyGame = new MonopolyGame(players, gsc);
+            this.monopolyGame = new MonopolyGame(players, gsc, speedDie);
             this.seed = monopolyGame.getDice().getGameSeed();
             gsc.setMonopolyClient(this);
         } catch (Exception exception) {

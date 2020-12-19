@@ -4,6 +4,7 @@ import control.ActionLog;
 import entity.Player;
 import entity.dice.Dice;
 import entity.dice.DiceResult;
+import entity.dice.SpeedDieResult;
 import gui.GameScreenController;
 import network.MonopolyClient;
 
@@ -23,8 +24,15 @@ public class RollDiceAction implements Action{
 
     @Override
     public void act() {
-        ActionLog.getInstance().addMessage(player.getName() + " rolls dice and gets " + diceResult.getFirstDieResult()
-                + ", " + diceResult.getSecondDieResult() + "\n");
+        String msg = "";
+        if (diceResult.getSpeedDieResult() == SpeedDieResult.NONE)
+            msg = player.getName() + " rolls dice and gets " + diceResult.getFirstDieResult()
+                    + ", " + diceResult.getSecondDieResult() + "\n";
+        else
+            msg = player.getName() + " rolls dice and gets " + diceResult.getFirstDieResult()
+                    + ", " + diceResult.getSecondDieResult()
+                    + ", " + diceResult.getSpeedDieResult().toString() + "\n";
+        ActionLog.getInstance().addMessage(msg);
 
     }
 

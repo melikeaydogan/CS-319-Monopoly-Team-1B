@@ -123,6 +123,7 @@ public class GameScreenController {
     }
 
     public void setDiceLabel(DiceResult result) {
+        //ToDo add speed die label if the game mode is speed die
         Platform.runLater(() -> {
             die1.setText(Integer.toString(result.getFirstDieResult()));
             die2.setText(Integer.toString(result.getSecondDieResult()));

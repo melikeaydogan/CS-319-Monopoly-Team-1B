@@ -38,7 +38,22 @@ public class DiceResult {
         return speedDieResult;
     }
 
+    /**
+     * @return -1 if the speed die is a MrMonopoly, -2 if a Bus, else sum of all dice
+     */
+    public int getValue() {
+        if (speedDieResult.isMrMonopoly() )
+            return -1;
+        else if (speedDieResult.isBus() )
+            return -2;
+        else
+            return firstDieResult + secondDieResult + speedDieResult.getSpeedDieVal();
+    }
+
     public boolean isDouble() {
+        // Rolling a triple is excluded from rolling a double
+        if (isTriple())
+            return false;
         return firstDieResult == secondDieResult;
     }
 

@@ -122,6 +122,18 @@ public class Board {
         return properties;
     }
 
+    /**
+     * Checks if there is any property left in the bank
+     * @return true if all properties are owned by any player
+     */
+    public boolean isAllOwned() {
+        for (Property p : properties) {
+            if (!p.isOwned())
+                return false;
+        }
+        return true;
+    }
+
     public void setProperties(ArrayList<Property> properties) {
         this.properties = properties;
     }
