@@ -203,12 +203,27 @@ public class MonopolyGame {
     }
 
     public void nextTurn() {
-        if ( !diceResult.isDouble() || doubleCount == 3 || getActivePlayer().isBankrupt() ) {
-            playerController.switchToNextPlayer();
-            ui.sendObject("next player:" + playerController.getActivePlayerIndex());
-            doubleCount = 0;
+        if (!isGameOver()) {
+            if ( !diceResult.isDouble() || doubleCount == 3 || getActivePlayer().isBankrupt() ) {
+                playerController.switchToNextPlayer();
+                ui.sendObject("next player:" + playerController.getActivePlayerIndex());
+                doubleCount = 0;
+            }
+            turn++;
         }
-        turn++;
+        else {
+            // ToDo game is over
+            // determine the winner
+            Player p = null;
+            for (Player player : playerController.getPlayers() ) {
+                if (!player.isBankrupt()) {
+                    p = player;
+                    break;
+                }
+            }
+
+            ui.sendObject("winner:" + p.getPlayerId());
+        }
     }
 
     public void processPropertyTile(PropertyTile tile) {
@@ -454,7 +469,7 @@ public class MonopolyGame {
             }
         }
 
-        return bankruptPlayerCount == 3;
+        return bankruptPlayerCount == players.size() - 1;
     }
 
 

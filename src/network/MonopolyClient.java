@@ -6,6 +6,7 @@ import com.esotericsoftware.kryonet.Listener;
 import control.ActionLog;
 import control.GameMode;
 import control.MonopolyGame;
+import control.PlayerController;
 import control.action.*;
 import entity.Player;
 import entity.dice.DiceResult;
@@ -171,6 +172,10 @@ public class MonopolyClient {
                             gameScreenController.getGame().getPlayerController().setActivePlayerIndex(activePlayerIndex);
                             System.out.println("new active player: " + activePlayerIndex);
                             Platform.runLater(() -> gameScreenController.updateBoardState());
+                        }
+                        else if (s.contains("winner:")) {
+                            int playerId = Integer.parseInt(s.substring(s.indexOf(":") + 1));
+                            Platform.runLater(() -> gameScreenController.showWinnerDialog(PlayerController.getById(playerId)));
                         }
                         else {
                             System.out.println("[SERVER] " + s);

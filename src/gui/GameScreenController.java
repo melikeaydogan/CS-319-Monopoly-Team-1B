@@ -355,6 +355,19 @@ public class GameScreenController {
         }
     }
 
+    public void showWinnerDialog(Player player) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+
+        String title = "Game Over";
+        String content = "Game is over! Winner is " + player.getName() + ". Congratulations :)!";
+
+        dialog.setTitle(title);
+        dialog.setContentText(content);
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.showAndWait();
+    }
+
     public boolean showPropertyDialog(Property property) {
         Dialog<ButtonType> dialog = new Dialog<>();
 

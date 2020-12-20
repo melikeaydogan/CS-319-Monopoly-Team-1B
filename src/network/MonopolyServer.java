@@ -119,6 +119,10 @@ public class MonopolyServer {
                                 else if (s.equals("get chat")) {
                                     connection.sendTCP(chatLog);
                                 }
+                                else if (s.contains("winner:")) {
+                                    int playerId = Integer.parseInt(s.substring(s.indexOf(":") + 1));
+                                    server.sendToAllTCP(o);
+                                }
                                 System.out.println("[SERVER] Message from " + connection.getID() + " --> " + s);
                             }
                             else if (o instanceof DiceResult) {
