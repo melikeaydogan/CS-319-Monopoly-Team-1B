@@ -57,14 +57,15 @@ public class Board {
         builder.registerTypeAdapter(Tile.class, new Tile.CustomDeserializer());
         Gson customGson = builder.create();
 
-        // changed files to buffered reader since jar files don't have a filesystem
+        // create reader
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 ClassLoader.getSystemClassLoader()
                         .getResourceAsStream("entity/json/" + fileName)));
 
-        // convert JSON array to list of users
+        // convert JSON array to list of tiles
         tiles = customGson.fromJson(br, new TypeToken<List<Tile>>() {}.getType());
 
+        //close the reader
         br.close();
 
     }
@@ -74,26 +75,29 @@ public class Board {
         builder.registerTypeAdapter(Property.class, new Property.CustomDeserializer());
         Gson customGson = builder.create();
 
+        // create reader
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 ClassLoader.getSystemClassLoader()
                         .getResourceAsStream("entity/json/" + fileName)));
 
-        // convert JSON array to list of users
+        // convert JSON array to list of properties
         properties = customGson.fromJson(br, new TypeToken<List<Property>>() {}.getType());
 
+        // close the reader
         br.close();
 
     }
 
     public void initializeChanceCardDeck(String filename) {
         chanceDeck = new Deck(filename);
-
     }
 
     public static Property getPropertyById(int id) {
         for (Property p : properties)
             if (p.getId() == id)
                 return p;
+
+        // if there are no property with the given id return null
         return null;
     }
 

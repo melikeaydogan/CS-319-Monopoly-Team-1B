@@ -103,6 +103,8 @@ public abstract class Property {
         return name;
     }
 
+    // Deserializer class for classifying the property type
+    // in the process of reading properties from json file
     public static class CustomDeserializer implements JsonDeserializer<Property> {
 
         public Property deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
