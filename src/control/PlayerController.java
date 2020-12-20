@@ -43,7 +43,11 @@ public class PlayerController {
 
     public void setActivePlayer(Player activePlayer) {
         this.activePlayer = activePlayer;
-        activePlayerIndex = activePlayer.getPlayerId();
+        //activePlayerIndex = activePlayer.getPlayerId();
+        // BUGFIX :
+        // the code may crash when ID and index are different
+        // and it actually did
+        activePlayerIndex = players.indexOf(activePlayer);
     }
 
     public ArrayList<Player> getPlayers() {

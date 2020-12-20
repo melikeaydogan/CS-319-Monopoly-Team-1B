@@ -39,27 +39,22 @@ public class DiceResult {
     }
 
     /**
-     * @return -1 if the speed die is a MrMonopoly, -2 if a Bus, else sum of all dice
+     * @return sum of all dice
      */
     public int getValue() {
-        if (speedDieResult.isMrMonopoly() )
-            return -1;
-        else if (speedDieResult.isBus() )
-            return -2;
-        else
-            return firstDieResult + secondDieResult + speedDieResult.getSpeedDieVal();
+        return firstDieResult + secondDieResult + speedDieResult.getSpeedDieVal();
     }
 
     public boolean isDouble() {
-        // Rolling a triple is excluded from rolling a double
-        if (isTriple())
+        // Rolling a triple, mr monopoly is excluded from rolling a double
+        if (isTriple() || getSpeedDieResult().isMrMonopoly())
             return false;
         return firstDieResult == secondDieResult;
     }
 
     public boolean isTriple() {
         int speedDieVal = speedDieResult.getSpeedDieVal();
-        return isDouble() && (secondDieResult == speedDieVal);
+        return (firstDieResult == secondDieResult) && (secondDieResult == speedDieVal);
     }
 
     /*public static void main(String[] args) {

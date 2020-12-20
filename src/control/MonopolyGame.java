@@ -37,8 +37,13 @@ public class MonopolyGame {
     public static ActionLog actionLog;
     PlayerController playerController;
     GameMode mode;
-//    boolean speedDieMode;
-//    boolean alliance;
+    /**
+     * use int to represent the state of a mr monopoly usage
+     * 0 : dice result was not mr monopoly
+     * 1 : dice result is mr monopoly, playing current turn
+     * 2 : dice result was mr monopoly and playing mr monopoly turn
+     */
+    int mrMonopoly = 0;
     boolean gameStarted = false;
     boolean gamePaused = false;
     int doubleCount = 0;
@@ -68,7 +73,7 @@ public class MonopolyGame {
     }
 
 
-    public MonopolyGame(ArrayList<Player> players, long seed, boolean speedDieMode) throws IOException {
+    public MonopolyGame(ArrayList<Player> players, long seed, GameMode mode) throws IOException {
         board = new Board();
         turn = 0;
         actionLog = ActionLog.getInstance();
@@ -96,6 +101,8 @@ public class MonopolyGame {
 
     public void rollDice() {
         diceResult = dice.roll(mode.isSpeedDie());
+        if (diceResult.getSpeedDieResult().isMrMonopoly())
+            mrMonopoly = 1; // enter state 1
         //diceResult = dice.roll(false);
 
         if ( diceResult.isDouble() ) {
@@ -128,74 +135,72 @@ public class MonopolyGame {
             ui.sendAction(action);
             player.setJailTurnCount(0);
         }
-            if (!player.isInJail()) {
-                if (moveCount > 0) {
-                    // all normal cases for diceResult will result in with a normal move
-                    MoveAction action = new MoveAction(player.getPlayerId(), moveCount); // try catch? PlayerIsInJailException
-                    action.act();
-                    ui.sendAction(action);
-                }
-                else if (moveCount == 0) {
-                    //ToDo
-                    // implement the edge case in Mr Monopoly, where player couldn't move
-                    // as there were no tile to pay rent,
-                    // so don't process the tile they are currently landing again
-                    // etc. don't draw a card, pay tax etc.
-                    //ToDo
-                    // currently whoever rolled mr monopoly won't use the white dice
-                    // but whole MR. Monopoly concept involves resolving the tile
-                    // before ever using Mr. monopoly
-                    // etc. player can't use Mr. Monopoly if they are in jail
-                }
-                else if (moveCount == - 1) {
+        if (!player.isInJail()) {
+            if (moveCount == -2) {
+                //TODO
+                // ask user to select a tile from the board
+                // and get the position and resolve the tile
+                //FreeMoveAction action = new FreeMoveAction(player.getPlayerId(), position)....
+                // As this won't be implemented, just use the sum.
+                moveCount = diceResult.getValue();
+                MoveAction action = new MoveAction(player.getPlayerId(), moveCount); // try catch? PlayerIsInJailException
+                action.act();
+                ui.sendAction(action);
+                ui.updateBoardState();
+                Tile tile = board.getTiles().get(player.getPosition());
+                processTile(tile, player);
+            }
+            else {
+                if (moveCount == -1 ) {
                     //TODO
                     // implement the BUS behaviour
                     // where we will ask user to select one of the dices or both
+                    // close this block by finalizing what user chose in a panel and
+                    // but dont resolve the tile yet
+                    //moveCount = user chooses one of the dies or both
+                    // As this won't be implemented, just use the white dice
+                    moveCount = diceResult.getValue();
                 }
-                else if (moveCount == -2) {
-                    //TODO
-                    // ask user to select a tile from the board
-                    // and get the position
-                    //FreeMoveAction action = new FreeMoveAction(player.getPlayerId(), position)
-                    //action.act();
-                    //ui.sendAction(action);
+                // normal move of a player made here
+                // in order for mr monopoly and normal game mode to run at the same time
+                // it is just enough to use states for mr monopoly
+                // dont worry, it also works perfectly for 1,2,3
+                int whiteDice = diceResult.getValue();
+                if (mrMonopoly == 1) {
+                    // state 1 -
+                    // player resolves their white dice first
+                    // if they rolled a mr monopoly
+                    mrMonopoly = 2;
                 }
-
+                MoveAction action = new MoveAction(player.getPlayerId(), whiteDice); // try catch? PlayerIsInJailException
+                action.act();
+                ui.sendAction(action);
                 ui.updateBoardState();
-
                 Tile tile = board.getTiles().get(player.getPosition());
+                processTile(tile, player);
 
-                if (tile instanceof PropertyTile) {
-                    processPropertyTile((PropertyTile) board.getTiles().get(player.getPosition()));
-                }
-                else if (tile instanceof JailTile || tile instanceof FreeParkingTile) {
-                    // nothing, skip the turn
-                }
-                else if (tile instanceof StartTile) {
-                    // new PassAction(player).act();
-                }
-                else if (tile instanceof TaxTile) {
-                    TaxTile taxTile = (TaxTile) tile;
-                    RemoveMoneyAction action2 = new RemoveMoneyAction(player.getPlayerId(), taxTile.getAmount());
-                    action2.act();
-                    ui.sendAction(action2);
-                }
-                else if (tile instanceof GoToJailTile) {
-                    GoToJailAction action2 = new GoToJailAction(player.getPlayerId());
-                    action2.act();
-                    ui.sendAction(action2);
-                }
-                else if (tile instanceof CardTile) {
-                    CardTile cardTile = (CardTile) tile;
-                    if (cardTile.getCardType() == CardTile.CardType.CHANCE_CARD)
-                        processChanceCardTile();
-                    else
-                        processCommunityChestCardTile();
+                // it is also considered that player can't use mr. monopoly
+                // if they are inside the jail
+                if (!player.isInJail() && mrMonopoly == 2) {
+                    // if mr monopoly is not used, now it is time to use it
+                    MoveAction mrAction = new MoveAction(player.getPlayerId(), moveCount); // try catch? PlayerIsInJailException
+                    mrAction.act();
+                    ui.sendAction(mrAction);
+                    ui.updateBoardState();
+                    Tile mrTile = board.getTiles().get(player.getPosition());
+                    processTile(mrTile, player);
+                    mrMonopoly = 0;
                 }
             }
-            else {
-                player.setJailTurnCount(player.getJailTurnCount() + 1);
-            }
+//
+//            ui.updateBoardState();
+//
+//            Tile tile = board.getTiles().get(player.getPosition());
+//            processTile(tile, player); // duplicate code, so used a private helper function for it
+        }
+        else {
+            player.setJailTurnCount(player.getJailTurnCount() + 1);
+        }
         nextTurn();
         ui.updateBoardState();
 
@@ -222,7 +227,7 @@ public class MonopolyGame {
             if (playerBoughtProperty) {
                 BuyPropertyAction action = new BuyPropertyAction(property.getId(), getActivePlayer().getPlayerId());
                 action.act();
-                ui.sendAction(action);
+                //ui.sendAction(action);
             }
             else {
                 // auction --> iteration 2
@@ -355,7 +360,7 @@ public class MonopolyGame {
         DrawChanceCardAction action = new DrawChanceCardAction(getActivePlayer(), card);
         action.act();
         ui.sendAction(action);
-        //ui.showCard(card); this is business of control object
+        // ui.showCard(card); this is business of control object
         processCard(card);
 
         return card; // return to ui? Card card = monopolyGame.processChanceCardTile()
@@ -479,6 +484,44 @@ public class MonopolyGame {
         return bankruptPlayerCount == 3;
     }
 
+
+    /**
+     * private helper function to process a tile
+     * in simple manners, just like in the activity
+     * diagram Resolve tile
+     * @param tile
+     * @param player
+     */
+    private void processTile(Tile tile, Player player) {
+        if (tile instanceof PropertyTile) {
+            processPropertyTile((PropertyTile) board.getTiles().get(player.getPosition()));
+        }
+        else if (tile instanceof JailTile || tile instanceof FreeParkingTile) {
+            // nothing, skip the turn
+        }
+        else if (tile instanceof StartTile) {
+            // new PassAction(player).act();
+        }
+        else if (tile instanceof TaxTile) {
+            TaxTile taxTile = (TaxTile) tile;
+            RemoveMoneyAction action2 = new RemoveMoneyAction(player.getPlayerId(), taxTile.getAmount());
+            action2.act();
+            ui.sendAction(action2);
+        }
+        else if (tile instanceof GoToJailTile) {
+            GoToJailAction action2 = new GoToJailAction(player.getPlayerId());
+            action2.act();
+            ui.sendAction(action2);
+        }
+        else if (tile instanceof CardTile) {
+            CardTile cardTile = (CardTile) tile;
+            if (cardTile.getCardType() == CardTile.CardType.CHANCE_CARD)
+                processChanceCardTile();
+            else
+                processCommunityChestCardTile();
+        }
+    }
+
     /**
      * Private helper function that computes the moveCount for all cases, including speedDie
      * For bus and freeMove, the user needs to enter some input, so we use integers to
@@ -504,22 +547,19 @@ public class MonopolyGame {
     /**
      * The algorithm that computes the number of moves
      * the player needs to make to use MrMonopoly
-     * AFTER playing their dice
      * There is a slight chance that the player
      * has no chance to move on next property
      * so they stay where they are
      * @return number of moves, return 0 for the edge case
      */
     private int computeMrMonopoly() {
-        int activePID = playerController.getActivePlayerIndex();
+        int activePID = playerController.getActivePlayer().getPlayerId();
         int initActivePPos = PlayerController.getById(activePID).getPosition();
         int activePPos = initActivePPos + 1;
         // Iterate through the board, start at active players position,
-        // stop at one tile behind and take module of # of tiles so that tileID is always found
+        // stop when a lap is made and take module of # of tiles so that tileID is always found
         // even if player passes the start tile
-        // Detail1 : The player can't land the tile they are currently on if they rolled Mr. Monopoly
-        // , even if it satisfies the conditions of this algorithm
-        for (; activePPos != initActivePPos - 1; activePPos = (activePPos + 1) % board.getTiles().size() ) {
+        for (; activePPos != initActivePPos; activePPos = (activePPos + 1) % board.getTiles().size() ) {
             Property posProp = getPropertyByTileID(activePPos);
             // Skip tiles other than property tiles
             if (posProp == null)
@@ -534,20 +574,20 @@ public class MonopolyGame {
                 boolean diffTeams = getActivePlayer().getTeamNumber() != owner.getTeamNumber();
                 boolean mortgaged = posProp.isMortgaged();
                 if (diffPlayers && diffTeams && !mortgaged) {
-                    return activePPos - initActivePPos;
+                    return activePPos - initActivePPos + 1;
                 }
             }
             // Case 2 : There are unowned properties left in the bank
             // Player moves to the next unowned property
             else {
                 if (!posProp.isOwned()) {
-                    return activePPos - initActivePPos;
+                    return activePPos - initActivePPos + 1;
                 }
             }
             continue;
         }
-        // IF there is literally no property to pay rent in the game
-        // player doesn't move
+        // IF there is literally no property
+        // to pay rent in the game player doesn't move
         return 0;
     }
 
@@ -631,7 +671,7 @@ public class MonopolyGame {
         this.ui = ui;
     }
 
-    /*    public static void main(String[] args) throws IOException {
+    /*public static void main(String[] args) throws  IOException {
         Player player1 = new Player(1, "Mehmet" , Player.Token.BATTLESHIP, 1);
         Player player2 = new Player(2, "Ali" , Player.Token.BATTLESHIP, 1);
         Player player3 = new Player(3, "Veli" , Player.Token.BATTLESHIP, 1);
@@ -640,11 +680,11 @@ public class MonopolyGame {
         players.add(player1);
         players.add(player2);
         players.add(player3);
-
-        MonopolyGame monopolyGame = new MonopolyGame(players);
+        GameMode mode = new GameMode(false, true);
+        MonopolyGame monopolyGame = new MonopolyGame(players, null, mode);
         monopolyGame.startGame();
 
-        for ( int i = 0; i < 4; i++ ) {
+        for ( int i = 0; i < 40; i++ ) {
             System.out.println("Active player: " + monopolyGame.getActivePlayer().getName());
             monopolyGame.rollDice();
             monopolyGame.processTurn();
@@ -652,6 +692,5 @@ public class MonopolyGame {
             System.out.println(actionLog.toString());
             System.out.println("---------------------------");
         }
-
     }*/
 }

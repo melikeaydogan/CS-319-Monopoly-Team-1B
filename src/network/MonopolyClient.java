@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import control.ActionLog;
+import control.GameMode;
 import control.MonopolyGame;
 import control.action.*;
 import entity.Player;
@@ -321,7 +322,8 @@ public class MonopolyClient {
     public void setupMonopolyGame(GameScreenController gsc) {
         try {
             this.gameScreenController = gsc;
-            this.monopolyGame = new MonopolyGame(players, gsc, speedDie);
+            GameMode mode = new GameMode(alliance, speedDie);
+            this.monopolyGame = new MonopolyGame(players, gsc, mode);
             this.seed = monopolyGame.getDice().getGameSeed();
             gsc.setMonopolyClient(this);
         } catch (Exception exception) {
