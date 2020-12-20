@@ -32,7 +32,6 @@ public class MainMenuController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
                 Parent root = (Parent) loader.load();
 
-                //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
                 Scene scene = new Scene(root, 800, 600);
 
                 Stage stage = (Stage) imageView.getScene().getWindow();
@@ -45,7 +44,6 @@ public class MainMenuController {
                 MonopolyServer monopolyServer = MonopolyServer.getInstance();
                 if (monopolyServer.isServerClosed()) // restart the server if it is stopped
                     monopolyServer.initServer();
-                //System.out.println(monopolyServer.toString());
 
                 MonopolyClient monopolyClient = new MonopolyClient(lobbyController);
                 monopolyClient.connect(MonopolyNetwork.ipAddress, username);
@@ -77,8 +75,6 @@ public class MainMenuController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
                 Parent root = (Parent) loader.load();
-                //Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
-                //Scene scene = new Scene(root, 1920, 1080);
                 Scene scene = new Scene(root, 800, 600);
 
                 Stage stage = (Stage) imageView.getScene().getWindow();

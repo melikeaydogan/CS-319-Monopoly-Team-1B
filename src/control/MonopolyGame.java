@@ -6,20 +6,17 @@ import entity.Player;
 import entity.card.Card;
 import entity.dice.Dice;
 import entity.dice.DiceResult;
-import entity.dice.SpeedDieResult;
 import entity.property.Building;
 import entity.property.Dorm;
 import entity.property.Facility;
 import entity.property.Property;
 import entity.tile.*;
 import gui.GameScreenController;
-// import javafx.beans.property.Property;
 
 // how does ui and this communicate?
 // UI and UIController class
 // UIControl class will have both UI and MonopolyGame
 // It will call appropriate functions according to the user input
-// how do we bankrupt the player?
 
 // about multiplayer
 // return ArrayList<Action> to server
@@ -68,9 +65,7 @@ public class MonopolyGame {
         board = new Board();
         turn = 0;
         actionLog = ActionLog.getInstance();
-        //playerController = new PlayerController(players);
         dice = new Dice(System.currentTimeMillis());
-        //this.ui = ui;
     }
 
 
@@ -104,7 +99,6 @@ public class MonopolyGame {
         diceResult = dice.roll(mode.isSpeedDie());
         if (diceResult.getSpeedDieResult().isMrMonopoly())
             mrMonopoly = 1; // enter state 1
-        //diceResult = dice.roll(false);
 
         if ( diceResult.isDouble() ) {
             doubleCount++;
@@ -113,12 +107,10 @@ public class MonopolyGame {
         Player player = getActivePlayer();
         Action action = new RollDiceAction(player, diceResult);
         action.act();
-        ui.sendAction(action); // this line causes disconnection, why??
+        ui.sendAction(action);
         ui.sendObject(diceResult);
 
         moveCount = computeMoveCount();
-        //moveCount = diceResult.getFirstDieResult() + diceResult.getSecondDieResult();
-        //return diceResult; // return because ui will show this result
     }
 
     public void processTurn() {
@@ -239,7 +231,7 @@ public class MonopolyGame {
                 ui.sendAction(action);
             }
             else {
-                // auction --> iteration 2
+                // auction --> not implemented
             }
         }
         else if ( property.isOwned() && getActivePlayer().getPlayerId() != property.getOwnerId() ){
@@ -348,11 +340,9 @@ public class MonopolyGame {
         DrawChanceCardAction action = new DrawChanceCardAction(getActivePlayer(), card);
         action.act();
         ui.sendAction(action);
-        // ui.showCard(card); this is business of control object
         processCard(card);
 
-        return card; // return to ui? Card card = monopolyGame.processChanceCardTile()
-        //
+        return card;
     }
 
     public Card processCommunityChestCardTile() {
@@ -360,10 +350,9 @@ public class MonopolyGame {
         DrawCommunityChestCardAction action = new DrawCommunityChestCardAction(getActivePlayer(), card);
         action.act();
         ui.sendAction(action);
-        // ui.showCard(card); this is business of control object
         processCard(card);
 
-        return card; // return to ui?
+        return card;
     }
 
     public void processCard(Card card) {
@@ -663,26 +652,4 @@ public class MonopolyGame {
         return this.mode;
     }
 
-    /*public static void main(String[] args) throws  IOException {
-        Player player1 = new Player(1, "Mehmet" , Player.Token.BATTLESHIP, 1);
-        Player player2 = new Player(2, "Ali" , Player.Token.BATTLESHIP, 1);
-        Player player3 = new Player(3, "Veli" , Player.Token.BATTLESHIP, 1);
-
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
-        players.add(player3);
-        GameMode mode = new GameMode(false, true);
-        MonopolyGame monopolyGame = new MonopolyGame(players, null, mode);
-        monopolyGame.startGame();
-
-        for ( int i = 0; i < 40; i++ ) {
-            System.out.println("Active player: " + monopolyGame.getActivePlayer().getName());
-            monopolyGame.rollDice();
-            monopolyGame.processTurn();
-            monopolyGame.nextTurn();
-            System.out.println(actionLog.toString());
-            System.out.println("---------------------------");
-        }
-    }*/
 }

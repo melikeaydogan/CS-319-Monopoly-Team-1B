@@ -21,21 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    ArrayList<Tile> tiles; // convert to arraylist
-    static ArrayList<Property> properties; // convert to arraylist
-    //GameMode gameMode;
+    ArrayList<Tile> tiles;
+    static ArrayList<Property> properties;
     Deck chanceDeck;
     Deck communityChestDeck;
-    //Image boardImage;
-    //TradeManager tradeManager;
-
-    //public Board(GameMode gameMode){
-        //read tiles
-        //read properties
-        //this.gameMode = gameMode;
-        //create chanceDeck
-        //create communityChestDeck
-    //}
 
     public Board(ArrayList<Tile> tiles, ArrayList<Property> properties, Deck chanceDeck, Deck communityChestDeck) throws IOException {
         this.tiles = tiles;
@@ -58,8 +47,7 @@ public class Board {
 
     public Board(Board savedBoard){
         this.tiles = savedBoard.tiles;
-        this.properties = savedBoard.properties;
-        //this.gamemode = savedBoard.gamemode;
+        this.properties = savedBoard.getProperties();
         this.chanceDeck = savedBoard.chanceDeck;
         this.communityChestDeck = savedBoard.communityChestDeck;
     }
@@ -69,8 +57,7 @@ public class Board {
         builder.registerTypeAdapter(Tile.class, new Tile.CustomDeserializer());
         Gson customGson = builder.create();
 
-        //Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + fileName));
-        // changed to buffered reader since jar files don't have a filesystem
+        // changed files to buffered reader since jar files don't have a filesystem
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 ClassLoader.getSystemClassLoader()
                         .getResourceAsStream("entity/json/" + fileName)));
@@ -86,8 +73,6 @@ public class Board {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Property.class, new Property.CustomDeserializer());
         Gson customGson = builder.create();
-
-        //Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + fileName));
 
         BufferedReader br = new BufferedReader(new InputStreamReader(
                 ClassLoader.getSystemClassLoader()
@@ -168,28 +153,4 @@ public class Board {
         this.communityChestDeck = communityChestDeck;
     }
 
-    //public int payRent(int playerID, int propertyID){}
-    //public Image getTileImage( int tilePos ){}
-    //public Image getBoardImage(){}
-    //+rollDice(rollDice) : DiceResult
-    //+getPlayers() : Player []
-    //+getTradeManager() : TradeManager
-
-    public static void main(String[] args) throws IOException { // works!!!
-        Board board = new Board();
-
-        for (Property p : board.getProperties()) {
-            System.out.println("Property type: " + p.getClass().getSimpleName() + " / Details: " + p);
-        }
-
-        Player player = new Player(1, "Mehmet", Player.Token.BATTLESHIP, 1);
-
-        System.out.println("Balance: " + player.getBalance());
-        System.out.println(board.getProperties().get(7));
-
-        //new BuyPropertyAction(board.getProperties().get(7), player).act();
-
-        System.out.println("Balance: " + player.getBalance());
-        System.out.println("Properties: " + player.getProperties());
-    }
 }

@@ -1,9 +1,6 @@
 package control;
 
-import control.action.*;
 import entity.Player;
-import entity.property.Property;
-//import javafx.beans.property.Property;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,11 +51,6 @@ public class PlayerController {
     public void setActivePlayer(Player activePlayer) {
         this.activePlayer = activePlayer;
         activePlayerIndex = activePlayer.getPlayerId();
-        // BUGFIX :
-        // the code may crash when ID and index are different
-        // and it actually did
-        //activePlayerIndex = players.indexOf(activePlayer);
-        // it causes nullpointerexception???
     }
 
     public ArrayList<Player> getPlayers() {
@@ -101,25 +93,5 @@ public class PlayerController {
     public String toString() {
         return "Players in the controller: " + players;
     }
-
-
-    public static void main(String[] args) {
-        ArrayList<Player> players = new ArrayList<>(6);
-        Player player = new Player(0, "Mehmet", Player.Token.BATTLESHIP, 1);
-        Player player2 = new Player(1, "Ahmet", Player.Token.BATTLESHIP, 2);
-        Player player3 = new Player(2, "Veli", Player.Token.SCOTTISH_TERRIER, 2);
-        players.add(player);
-        players.add(player2);
-        players.add(player3);
-
-        PlayerController playerController = new PlayerController(players);
-        playerController.setActivePlayer(player3);
-
-        for ( int i = 0; i < 12; i++ ) {
-            System.out.println("Active player: " + playerController.getActivePlayer());
-            playerController.switchToNextPlayer();
-        }
-    }
-
 
 }

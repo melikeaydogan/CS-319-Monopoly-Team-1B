@@ -6,7 +6,8 @@ public class DiceResult {
     private final int secondDieResult;
     private final SpeedDieResult speedDieResult;
 
-    public DiceResult() { // without this, program disconnects!!!!
+    // empty constructor is required for KyroNet
+    public DiceResult() {
         firstDieResult = -1;
         secondDieResult = -1;
         speedDieResult = SpeedDieResult.NONE;

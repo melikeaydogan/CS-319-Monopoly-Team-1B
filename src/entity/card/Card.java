@@ -1,33 +1,22 @@
 package entity.card;
 
-import control.MonopolyGame;
-import control.action.*;
-import entity.Player;
-import entity.property.Building;
-import entity.property.Property;
 
-import java.util.ArrayList;
-
-public /*abstract*/ class Card {
+public class Card {
     int id;
     String instructions;
-    //CardType cardType;
 
 
     public Card(){
         id = -1;
         instructions = "";
-        //cardType = null;
     }
     public Card(Card c){
         this.id = c.id;
         this.instructions = c.instructions;
-        //cardType = c.cardType;
     }
-    public Card(int id, String instructions/*, CardType cardType*/){
+    public Card(int id, String instructions){
         this.id = id;
         this.instructions = instructions;
-        //this.cardType = cardType;
     }
 
     public String getInstructions(){
@@ -50,9 +39,4 @@ public /*abstract*/ class Card {
         return "ID: " + id + " - Instructions: " + instructions;
     }
 
-    // ChanceCard 0 --> You won $200 from lottery
-    // ChanceCard 1 --> You went to jail
-
-    // Community Chest 0 -->  go to beginning point
-    // Community Chest 1 -->  Go 3 tile backwards
 }

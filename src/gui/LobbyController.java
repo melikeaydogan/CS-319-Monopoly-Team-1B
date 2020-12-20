@@ -110,7 +110,6 @@ public class LobbyController {
     public void setUpLobby(MonopolyClient monopolyClient) {
         tokenNow = 0;
         teamNow = 0;
-        //updateLobbyState(monopolyClient);
     }
 
     public boolean isFull() {
@@ -122,7 +121,6 @@ public class LobbyController {
         if (monopolyClient.getId() == 0) {
             monopolyClient.sendEndLobby();
         } else {
-            // monopolyClient.sendLeftLobby(monopolyClient.getId());
             monopolyClient.disconnect();
             leaveLobby();
         }

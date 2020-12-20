@@ -55,9 +55,4 @@ public class ActionLog {
         return result.toString();
     }
 
-    public static void main(String[] args) {
-        ActionLog actionLog = new ActionLog();
-        actionLog.addMessage("Mehmet throws dice and gets 4,6");
-        System.out.println(actionLog);
-    }
 }

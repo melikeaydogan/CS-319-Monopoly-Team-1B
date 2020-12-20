@@ -23,5 +23,3 @@ public class DrawChanceCardAction implements Action{
         MonopolyGame.getActionLog().addMessage(player.getName() + " draws the chance card: " + card + "\n" );
     }
 }
-
-// is this action necessary??

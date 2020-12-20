@@ -92,14 +92,8 @@ public class GameScreenController {
     // Roll dice when dice button is pressed
     @FXML
     protected void handleDiceButton(ActionEvent e) {
-        // when multiplayer, make a new ActionEvent class for this and compare active player with the player clicked
         if (getGame() != null) {
-            //DiceResult result = getGame().rollDice();
             getGame().rollDice();
-            //die1.setText(Integer.toString(result.getFirstDieResult()));
-            //die2.setText(Integer.toString(result.getSecondDieResult()));
-
-            //getGame().processTurn();
         }
     }
 
@@ -265,10 +259,8 @@ public class GameScreenController {
                     BufferedInputStream br = new BufferedInputStream(
                             ClassLoader.getSystemClassLoader()
                                     .getResourceAsStream("gui/models/tokens/" + p.getTokenName() + ".png"));
-                    //File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");
 
                     Image image = new Image(br);
-                    //Buff
                     ImageView token = new ImageView(image);
                     token.setId("t" + i);
                     token.setFitHeight(50);
@@ -374,8 +366,6 @@ public class GameScreenController {
         String title = "";
         String content = "";
         DecimalFormat decimalFormat = new DecimalFormat();
-
-        String name = property.getName();
 
         if (property instanceof Building) {
             Building b = (Building) property;

@@ -15,7 +15,7 @@ public class MonopolyNetwork {
     public static void register (EndPoint endPoint) {
         Kryo kyro = endPoint.getKryo();
         // register all classes that will be serialized here
-        kyro.register(control.MonopolyGame.class); // not sure
+        kyro.register(control.MonopolyGame.class);
         kyro.register(control.ActionLog.class);
         kyro.register(control.PlayerController.class);
 

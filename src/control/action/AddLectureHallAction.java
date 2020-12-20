@@ -19,7 +19,7 @@ public class AddLectureHallAction implements Action{
     }
 
     @Override
-    public void act() { // color check?
+    public void act() {
         Player player = PlayerController.getById(playerId);
         Building building = (Building) Board.getPropertyById(buildingId);
         if ( player.getBalance() > building.getLectureHallPrice() ) {
@@ -29,8 +29,6 @@ public class AddLectureHallAction implements Action{
             MonopolyGame.getActionLog().addMessage(player.getName() + " adds a lecture hall to "
                     + building.getName() + "\n");
         }
-
-
 
     }
 

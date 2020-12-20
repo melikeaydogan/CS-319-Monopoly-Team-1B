@@ -25,7 +25,7 @@ public class BuyPropertyAction implements Action{
     }
 
     @Override
-    public void act() { // else throw exception
+    public void act() {
         Player player = PlayerController.getById(playerId);
         Property property = Board.getPropertyById(propertyId);
         if ( player.getBalance() >= property.getPrice() ) {

@@ -238,15 +238,10 @@ public class MonopolyServer {
         server.sendToAllTCP(seed);
         // bind the ui to the game
         // start the game and get the first player
-        //Player activePlayer = monopolyGame.startGame();
+
         // go to the game screen in clients
         server.sendToAllTCP("game started");
-        //server.sendToAllTCP("Game started with these players --> " + players);
-        //server.sendToAllTCP("Game started with this seed --> " + seed);
         gameStarted = true;
-
-        //System.out.println(new Gson().toJson(players));
-        //System.out.println(new Gson().toJson(monopolyGame.getBoard().getProperties()));
 
         int activePlayerIndex = new Random().nextInt(players.size());
 

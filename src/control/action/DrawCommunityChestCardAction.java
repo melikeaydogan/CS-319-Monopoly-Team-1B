@@ -20,13 +20,8 @@ public class DrawCommunityChestCardAction implements Action{
 
     @Override
     public void act() {
-        //Card communityChestCard = board.drawCommunityChestCard();
-        // ???
-        //communityChestCard.processCard();
-
         MonopolyGame.getActionLog().addMessage(player.getName() + " draws the community chance card: " + card + "\n");
 
     }
 }
 
-// is this action necessary??

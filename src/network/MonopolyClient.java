@@ -56,7 +56,7 @@ public class MonopolyClient {
         chatLog = new ChatMessage();
         name = "";
         client = new Client();
-        new Thread(client).start(); // it keeps the client alive
+        new Thread(client).start(); // the thread keeps the client alive
         this.lobbyController = lobbyController;
         this.gameScreenController = null;
 
@@ -91,7 +91,7 @@ public class MonopolyClient {
                             MonopolyGame.actionLog = ActionLog.getInstance();
                         }
                         System.out.println("[CLIENT] Got action");
-                        action.act(); // how is it connected to the MonopolyGame class?
+                        action.act();
                         Platform.runLater(() -> {
                             gameScreenController.updateBoardState();
                         });
@@ -262,7 +262,7 @@ public class MonopolyClient {
     }
 
     public void sendEndLobby() {
-        // lobbyController.leaveLobby() for all players
+        // triggers lobbyController.leaveLobby() for all players
         connection.sendTCP("server closed");
     }
 
@@ -313,8 +313,6 @@ public class MonopolyClient {
             }
         }
         return -1;
-        // causes problems when someone leaves
-        // return connection.getID() - 1;
     }
 
     public Player getById(int id) {

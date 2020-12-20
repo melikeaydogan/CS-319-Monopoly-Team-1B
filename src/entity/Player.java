@@ -30,29 +30,12 @@ public class Player{
     private int doubleCounter;
     private int jailTurnCount;
     private int teamNumber;
-    //private ArrayList<Property> properties;
+    // hashmap is a better data structure for this attribute
     private HashMap<String, ArrayList<Property>> properties;
     private boolean inJail;
 
     public Player(int playerId, String name, Token token, int teamNumber) {
         this.playerId = playerId;
-        this.name = name;
-        balance = 150_000;
-        this.token = token;
-        position = 0;
-        bankrupt = false;
-        doubleCounter = 0;
-        jailTurnCount = 0;
-        inJail = false;
-        this.teamNumber = teamNumber;
-        properties = new HashMap<>(3);
-        properties.put("DORM", new ArrayList<Property>(4));
-        properties.put("BUILDING", new ArrayList<Property>(22));
-        properties.put("FACILITY", new ArrayList<Property>(2));
-    }
-
-    public Player(String name, Token token, int teamNumber) {
-        // this.playerId = playerId; set id from server side
         this.name = name;
         balance = 150_000;
         this.token = token;
@@ -113,15 +96,6 @@ public class Player{
     public void freeMove(int tile) {
         position = tile;
     }
-
-    /*public boolean useJailFreeCard() { // includes the hasJailFreeCard() function in the diagram
-        if ( jailFreeCardAmount > 0 && inJail ) {
-            jailFreeCardAmount = jailFreeCardAmount - 1;
-            inJail = false;
-            return true;
-        }
-        return false;
-    }*/
 
     public boolean getOutFromJail(int fee) {
         if ( balance > fee && inJail ) {
@@ -263,7 +237,7 @@ public class Player{
     }
 
     public String toString() {
-        return playerId + " - " + name;
+        return name;
     }
 
     @Override
@@ -276,6 +250,3 @@ public class Player{
         return false;
     }
 }
-
-// Starting balance??
-// 4M is equal to 40000 in our game
