@@ -30,14 +30,16 @@ public class Player{
     private int doubleCounter;
     private int jailTurnCount;
     private int teamNumber;
-    // hashmap is a better data structure for this attribute
-    private HashMap<String, ArrayList<Property>> properties;
+    private HashMap<String, ArrayList<Property>> properties;    //hashing property types with lists of properties
     private boolean inJail;
+
+    private static final int NO_OF_SQUARES = 40;
+    private static final int INITIAL_BALANCE = 150_000;
 
     public Player(int playerId, String name, Token token, int teamNumber) {
         this.playerId = playerId;
         this.name = name;
-        balance = 150_000;
+        balance = INITIAL_BALANCE;
         this.token = token;
         position = 0;
         bankrupt = false;
@@ -83,12 +85,12 @@ public class Player{
 
     public boolean move(int tiles) {
         position = position + tiles;
-        if (position >= 40) {
-            position = position % 40; // there are 40 squares
+        if (position >= NO_OF_SQUARES) {
+            position = position % NO_OF_SQUARES;
             return true; // player passes the "go" tile
         }
         else if (position < 0) {
-            position = position + 40; // position is negative, player moved backwards
+            position = position + NO_OF_SQUARES; // position is negative, player moved backwards
         }
         return false;
     }
@@ -131,7 +133,7 @@ public class Player{
     }
 
     public void setProperties(HashMap<String, ArrayList<Property>> properties) {
-        this.properties = new HashMap<>(properties); // Full clone!
+        this.properties = new HashMap<>(properties); 
     }
 
     public String getTokenName() {
