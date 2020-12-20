@@ -1,5 +1,7 @@
 package entity.card;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.*;
 
 import java.io.Reader;
@@ -19,10 +21,14 @@ public class Deck {
             Gson gson = new Gson();
 
             // create a reader
-            Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + filename));
+            // Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + filename));
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    ClassLoader.getSystemClassLoader()
+                            .getResourceAsStream("entity/json/" + filename)));
 
             // convert JSON array to list of users
-            cardlist = new Gson().fromJson(reader, new TypeToken<List<Card>>() {}.getType());
+            cardlist = new Gson().fromJson(br, new TypeToken<List<Card>>() {}.getType());
 
             // print users
             //cardlist.forEach(System.out::println); this line prints object ids
@@ -31,7 +37,7 @@ public class Deck {
             //    System.out.println("Added a new card --> id: " + cardlist.get(i).id+" "+ " - instructions: " + cardlist.get(i).instructions);
             //}
             // close reader
-            reader.close();
+            br.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();

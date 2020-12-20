@@ -249,7 +249,7 @@ public class MonopolyClient {
     }
 
     public void sendLeftLobby(int playerId) {
-        connection.sendTCP("leave lobby: " + playerId);
+        connection.sendTCP("leave lobby:" + playerId);
     }
 
     public void sendEndLobby() {
@@ -258,7 +258,7 @@ public class MonopolyClient {
     }
 
     public void disconnect() {
-        // TODO: ends connection.
+        client.stop();
     }
 
     public void sendChatMessage(ChatMessage chatMessage) {
@@ -303,7 +303,7 @@ public class MonopolyClient {
         //        return i;
         //}
         //return -1;
-
+        // causes problems when someone leaves
         return connection.getID() - 1;
     }
 

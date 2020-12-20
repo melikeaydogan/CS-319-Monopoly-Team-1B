@@ -34,15 +34,12 @@ public class BuyPropertyAction implements Action{
 
             if (property instanceof Dorm) {
                 player.getProperties().get("DORM").add((Dorm) property);
-                System.out.println("[BuyPropertyAction] It is a Dorm");
             }
             else if (property instanceof Facility ) {
                 player.getProperties().get("FACILITY").add((Facility) property);
-                System.out.println("[BuyPropertyAction] It is a Facility");
             }
             else if (property instanceof Building ) {
                 player.getProperties().get("BUILDING").add((Building) property);
-                System.out.println("[BuyPropertyAction] It is a Building");
             }
 
             new RemoveMoneyAction(player.getPlayerId(), property.getPrice()).act();

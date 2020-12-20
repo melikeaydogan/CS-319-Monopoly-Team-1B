@@ -68,8 +68,10 @@ public class PlayerController {
     }
 
     public Player switchToNextPlayer() {
-        if (players.size() > 0) {
-            activePlayerIndex = (activePlayerIndex + 1) % players.size();
+        if (players.size() > 0) { // if player is bankrupt, skip him
+            do {
+                activePlayerIndex = (activePlayerIndex + 1) % players.size();
+            } while (players.get(activePlayerIndex).isBankrupt());
             return players.get(activePlayerIndex);
         }
         return null;

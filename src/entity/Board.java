@@ -11,7 +11,9 @@ import entity.tile.Tile;
 //import tile.Tile;
 //import card.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -67,10 +69,16 @@ public class Board {
         builder.registerTypeAdapter(Tile.class, new Tile.CustomDeserializer());
         Gson customGson = builder.create();
 
-        Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + fileName));
+        //Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + fileName));
+        // changed to buffered reader since jar files don't have a filesystem
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                ClassLoader.getSystemClassLoader()
+                        .getResourceAsStream("entity/json/" + fileName)));
 
         // convert JSON array to list of users
-        tiles = customGson.fromJson(reader, new TypeToken<List<Tile>>() {}.getType());
+        tiles = customGson.fromJson(br, new TypeToken<List<Tile>>() {}.getType());
+
+        br.close();
 
     }
 
@@ -79,10 +87,16 @@ public class Board {
         builder.registerTypeAdapter(Property.class, new Property.CustomDeserializer());
         Gson customGson = builder.create();
 
-        Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + fileName));
+        //Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + fileName));
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                ClassLoader.getSystemClassLoader()
+                        .getResourceAsStream("entity/json/" + fileName)));
 
         // convert JSON array to list of users
-        properties = customGson.fromJson(reader, new TypeToken<List<Property>>() {}.getType());
+        properties = customGson.fromJson(br, new TypeToken<List<Property>>() {}.getType());
+
+        br.close();
 
     }
 

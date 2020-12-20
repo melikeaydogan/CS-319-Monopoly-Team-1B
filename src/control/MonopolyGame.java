@@ -503,6 +503,7 @@ public class MonopolyGame {
         {
             moveAmount++;
             Property posProp = getPropertyByTileID(activePPos);
+            System.out.println("posProp --> " + posProp);
             // Skip tiles other than property tiles
             if (posProp != null) {
                 // Case 1: No property is left in the bank
@@ -515,7 +516,6 @@ public class MonopolyGame {
                     boolean diffTeams = getActivePlayer().getTeamNumber() != owner.getTeamNumber();
                     boolean mortgaged = posProp.isMortgaged();
                     if (diffPlayers && diffTeams && !mortgaged) {
-                        System.out.println("moveAmount : " + moveAmount);
                         return moveAmount;
                     }
                 }
@@ -523,7 +523,6 @@ public class MonopolyGame {
                 // Player moves to the next unowned property
                 else {
                     if (!posProp.isOwned()) {
-                        System.out.println("moveAmount : " + moveAmount);
                         return moveAmount;
                     }
                 }
@@ -544,8 +543,7 @@ public class MonopolyGame {
         Tile curTile = board.getTiles().get(tileID);
         System.out.println("tileID : " + tileID);
         if (curTile instanceof PropertyTile) {
-            System.out.println("property : " + board.getProperties().get( ( (PropertyTile) curTile).getPropertyId()).getName() );
-            return board.getProperties().get(((PropertyTile) curTile).getPropertyId());
+            return Board.getPropertyById(((PropertyTile) curTile).getPropertyId());
         }
         return null;
     }
@@ -620,7 +618,7 @@ public class MonopolyGame {
         return this.mode;
     }
 
-    public static void main(String[] args) throws  IOException {
+    /*public static void main(String[] args) throws  IOException {
         Player player1 = new Player(1, "Mehmet" , Player.Token.BATTLESHIP, 1);
         Player player2 = new Player(2, "Ali" , Player.Token.BATTLESHIP, 1);
         Player player3 = new Player(3, "Veli" , Player.Token.BATTLESHIP, 1);
@@ -641,5 +639,5 @@ public class MonopolyGame {
             System.out.println(actionLog.toString());
             System.out.println("---------------------------");
         }
-    }
+    }*/
 }

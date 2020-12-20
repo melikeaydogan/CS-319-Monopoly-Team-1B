@@ -135,9 +135,6 @@ public class LobbyController {
             Scene scene = new Scene(root, Main.WIDTH, Main.HEIGHT);
             Stage stage = (Stage) pinLabel.getScene().getWindow();
 
-            GameScreenController gameScreenController = loader.getController();
-            monopolyClient.setupMonopolyGame(gameScreenController);
-
             // Switch Scene
             stage.setScene(scene);
         } catch (Exception e) {

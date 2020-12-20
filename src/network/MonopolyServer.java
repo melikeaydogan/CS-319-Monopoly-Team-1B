@@ -56,19 +56,6 @@ public class MonopolyServer {
                     clients.add(connection);
                 }
                 System.out.println("[SERVER] New client connected --> " + connection.getID());
-
-                //server.sendToAllTCP("update lobby");
-
-                // lobbyController.update()
-                // activeConnection = connection;
-//
-//                if (clients.size() >= 2) {
-//                    try {
-//                        startGame(); // temporary
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
             }
 
             @Override
@@ -78,6 +65,7 @@ public class MonopolyServer {
                 }
                 System.out.println("[SERVER] Client disconnected --> " + connection.getID());
                 registeredPlayer.remove(connection); // not sure whether it works or not
+                clients.remove(connection);
             }
 
             @Override
@@ -168,15 +156,10 @@ public class MonopolyServer {
                             server.sendToAllTCP(checkboxes);
                             server.sendToAllTCP("update lobby");
                         } else if (s.contains("leave lobby")) {
-                            int id = Integer.getInteger(s.substring(s.indexOf(":") + 1));
+                            int id = Integer.parseInt(s.substring(s.indexOf(":") + 1));
                             System.out.println("player with id: " + id + " left the lobby");
-                            for (Map.Entry<Connection, Player> entry : registeredPlayer.entrySet()) {
-                                if (entry.getValue().getPlayerId() == id) {
-                                    registeredPlayer.remove(entry.getKey());
-                                    break;
-                                }
-                            }
-                            ArrayList<Player> player = new ArrayList<>(registeredPlayer.values());
+
+                            ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
                             server.sendToAllTCP(players);
                             server.sendToAllTCP(checkboxes);
                             server.sendToAllTCP("update lobby");

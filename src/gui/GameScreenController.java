@@ -37,7 +37,10 @@ import javafx.stage.Stage;
 import network.ChatMessage;
 import network.MonopolyClient;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -258,8 +261,13 @@ public class GameScreenController {
             for (i = 0; i < numberOfPlayers; i++) {
                 Player p = getGame().getPlayerController().getPlayers().get(i);
                 int pPos = p.getPosition();
-                File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");
-                Image image = new Image(file.toURI().toString());
+                BufferedInputStream br = new BufferedInputStream(
+                        ClassLoader.getSystemClassLoader()
+                                .getResourceAsStream("gui/models/tokens/" + p.getTokenName() + ".png"));
+                //File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");
+
+                Image image = new Image(br);
+                //Buff
                 ImageView token = new ImageView(image);
                 token.setId("t" + i);
                 token.setFitHeight(50);
@@ -273,8 +281,9 @@ public class GameScreenController {
         Platform.runLater(() -> {
             logTxt.setText("");
             // fix the ConcurrentModificationException
-            for (String s : MonopolyGame.getActionLog().getLog()) {
-                logTxt.setText(logTxt.getText() + "  " + s + "\n");
+            Iterator<String> strings = MonopolyGame.getActionLog().getLog().iterator();
+            while (strings.hasNext()) {
+                logTxt.setText(logTxt.getText() + "  " + strings.next() + "\n");
             }
             logScrollPane.setVvalue(1);
         });
