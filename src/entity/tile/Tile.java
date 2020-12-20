@@ -36,6 +36,8 @@ public class Tile {
         return tileId;
     }
 
+    // Deserializer class for classifying the tile type
+    // in the process of reading tiles from json file
     public static class CustomDeserializer implements JsonDeserializer<Tile> {
 
         public Tile deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
