@@ -19,12 +19,14 @@ public class MainMenuController {
     @FXML public ImageView imageView;
     @FXML public TextArea usernameField;
 
+    private final int NAME_MAX_CHARACTERS = 8;
+
 
     // Creates a new lobby as a host
     @FXML
     protected void createGame(ActionEvent event) {
         String username = usernameField.getText();
-        if (!username.isEmpty() && !username.contains("\n")) {
+        if (!username.isEmpty() && !username.contains("\n") && username.length() <= NAME_MAX_CHARACTERS) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
                 Parent root = (Parent) loader.load();
@@ -66,7 +68,8 @@ public class MainMenuController {
         dialog.setContentText("Please enter your pin:");
         Optional<String> ip = dialog.showAndWait();
 
-        if (ip.isPresent() && username != null && !username.isEmpty() && !username.contains("\n")) {
+        if (ip.isPresent() && username != null && !username.isEmpty() && !username.contains("\n") &&
+                username.length() <= NAME_MAX_CHARACTERS) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("lobby.fxml"));
                 Parent root = (Parent) loader.load();

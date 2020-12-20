@@ -46,7 +46,7 @@ public class GameScreenController {
     String chatLog;
 
     // Labels for die results
-    @FXML Label die1, die2;
+    @FXML Label die1, die2, speedDie;
     @FXML Button diceButton, tradeButton;
 
     // The squares on board
@@ -146,15 +146,18 @@ public class GameScreenController {
     }
 
     public void setDiceLabel(DiceResult result) {
-        //ToDo add speed die label if the game mode is speed die
         Platform.runLater(() -> {
             die1.setText(Integer.toString(result.getFirstDieResult()));
             die2.setText(Integer.toString(result.getSecondDieResult()));
 
+            if (getGame().getGameMode().isSpeedDie())
+                speedDie.setText(result.getSpeedDieResult().toString());
+            else
+                speedDie.setText("");
+
             if (!diceButton.isDisabled()) {
                 getGame().processTurn();
             }
-
         });
 
     }
@@ -189,6 +192,8 @@ public class GameScreenController {
                 // get the type of the tile and put labels
                 if (tile instanceof PropertyTile) {
                     Property property = getGame().getBoard().getPropertyById(((PropertyTile) tile).getPropertyId());
+                    assert property != null;
+
                     String name = property.getName();
                     int price = property.getPrice();
                     String type;
@@ -268,9 +273,8 @@ public class GameScreenController {
         Platform.runLater(() -> {
             logTxt.setText("");
             // fix the ConcurrentModificationException
-            Iterator<String> strings = MonopolyGame.getActionLog().getLog().iterator();
-            while (strings.hasNext()) {
-                logTxt.setText(logTxt.getText() + "  " + strings.next() + "\n");
+            for (String s : MonopolyGame.getActionLog().getLog()) {
+                logTxt.setText(logTxt.getText() + "  " + s + "\n");
             }
             logScrollPane.setVvalue(1);
         });
@@ -449,26 +453,26 @@ public class GameScreenController {
         Dialog<ButtonType> dialog = new Dialog<>();
 
         String title = "Trade request from " + Objects.requireNonNull(PlayerController.getById(tradeOffer.getSenderID())).getName();
-        String content = "Properties requested: \n";
+        StringBuilder content = new StringBuilder("Properties requested: \n");
 
         for (Integer i : tradeOffer.getPropertyRequested()) {
             Property property = Board.getPropertyById(i);
-            content = content + property + "\n";
+            content.append(property).append("\n");
         }
 
-        content = content + "\nFee requested: " + tradeOffer.getFeeRequested() + "\n";
-        content = content + "\nProperties offered: \n";
+        content.append("\nFee requested: ").append(tradeOffer.getFeeRequested()).append("\n");
+        content.append("\nProperties offered: \n");
 
         for (Integer i : tradeOffer.getPropertyOffered()) {
             Property property = Board.getPropertyById(i);
-            content = content + property + "\n";
+            content.append(property).append("\n");
         }
 
 
-        content = content + "\nFee offered: " + tradeOffer.getFeeOffered();
+        content.append("\nFee offered: ").append(tradeOffer.getFeeOffered());
 
         dialog.setTitle(title);
-        dialog.setContentText(content);
+        dialog.setContentText(content.toString());
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.YES);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.NO);

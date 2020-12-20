@@ -62,7 +62,6 @@ public class LobbyController {
             return;
         }
 
-
         boolean fullTokens = true;
         boolean fullTeams = true;
         for (Player p : monopolyClient.getPlayers()) {
@@ -82,9 +81,6 @@ public class LobbyController {
             alert.setHeaderText("One or more players have not selected their tokens or teams");
             alert.showAndWait();
         }
-
-
-
     }
 
     public void startGame() {
@@ -263,6 +259,3 @@ public class LobbyController {
         return teamNow;
     }
 }
-
-
-// TODO: replace house with classroom, hotel with lecture hall in the whole code

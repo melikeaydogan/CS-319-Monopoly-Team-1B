@@ -671,6 +671,10 @@ public class MonopolyGame {
         this.ui = ui;
     }
 
+    public GameMode getGameMode() {
+        return this.mode;
+    }
+
     /*public static void main(String[] args) throws  IOException {
         Player player1 = new Player(1, "Mehmet" , Player.Token.BATTLESHIP, 1);
         Player player2 = new Player(2, "Ali" , Player.Token.BATTLESHIP, 1);
