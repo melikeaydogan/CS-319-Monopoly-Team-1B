@@ -17,6 +17,8 @@ public class MortgagePropertyAction implements Action {
     }
 
     public MortgagePropertyAction() {
+        this.propertyId = -1;
+        this.playerId = -1;
     }
 
     @Override
@@ -31,12 +33,14 @@ public class MortgagePropertyAction implements Action {
             System.out.println("[MortgagePropertyAction] NULL property.");
             return;
         }
+
+        // check whether the given player is the owner of the given property
         if( playerId != property.getOwnerId()){
             System.out.println("[MortgagePropertyAction] This player is not the owner of this property.");
             return;
         }
 
-        //make property mortgaged
+        // if property is not mortgaged, make property mortgaged
         if (!property.isMortgaged()){
             property.setMortgaged(true);
             player.addMoney( property.getMortgagePrice() );
