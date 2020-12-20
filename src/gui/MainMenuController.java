@@ -110,19 +110,6 @@ public class MainMenuController {
         }
     }
 
-
-
-    @FXML
-    protected void optionsPressed(ActionEvent e) {
-        try {
-            Stage stage = (Stage) imageView.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("options.fxml"));
-            stage.setScene(new Scene(root, Main.WIDTH, Main.HEIGHT));
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
     @FXML
     protected void howToPlayPressed(ActionEvent event) {
         try {
