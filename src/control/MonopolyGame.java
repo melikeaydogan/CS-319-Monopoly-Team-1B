@@ -555,36 +555,39 @@ public class MonopolyGame {
     private int computeMrMonopoly() {
         int activePID = playerController.getActivePlayer().getPlayerId();
         int initActivePPos = PlayerController.getById(activePID).getPosition();
-        int activePPos = initActivePPos + 1;
+        int moveAmount = 1;
         // Iterate through the board, start at active players position,
         // stop when a lap is made and take module of # of tiles so that tileID is always found
         // even if player passes the start tile
-        for (; activePPos != initActivePPos; activePPos = (activePPos + 1) % board.getTiles().size() ) {
+        for (int activePPos = initActivePPos + 1;
+             activePPos != initActivePPos;
+             activePPos = (activePPos + 1) % board.getTiles().size() )
+        {
             Property posProp = getPropertyByTileID(activePPos);
             // Skip tiles other than property tiles
-            if (posProp == null)
-                continue;
-            // Case 1: No property is left in the bank
-            // Player moves to the next property where he/she will pay rent
-            if (board.isAllOwned()) {
-                // if the players are different AND diff. teams AND unmortgaged
-                int ownerID = posProp.getOwnerId();
-                Player owner = PlayerController.getById(ownerID);
-                boolean diffPlayers = ownerID != activePID;
-                boolean diffTeams = getActivePlayer().getTeamNumber() != owner.getTeamNumber();
-                boolean mortgaged = posProp.isMortgaged();
-                if (diffPlayers && diffTeams && !mortgaged) {
-                    return activePPos - initActivePPos + 1;
+            if (posProp != null) {
+                // Case 1: No property is left in the bank
+                // Player moves to the next property where he/she will pay rent
+                if (board.isAllOwned()) {
+                    // if the players are different AND diff. teams AND unmortgaged
+                    int ownerID = posProp.getOwnerId();
+                    Player owner = PlayerController.getById(ownerID);
+                    boolean diffPlayers = ownerID != activePID;
+                    boolean diffTeams = getActivePlayer().getTeamNumber() != owner.getTeamNumber();
+                    boolean mortgaged = posProp.isMortgaged();
+                    if (diffPlayers && diffTeams && !mortgaged) {
+                        return moveAmount;
+                    }
+                }
+                // Case 2 : There are unowned properties left in the bank
+                // Player moves to the next unowned property
+                else {
+                    if (!posProp.isOwned()) {
+                        return moveAmount;
+                    }
                 }
             }
-            // Case 2 : There are unowned properties left in the bank
-            // Player moves to the next unowned property
-            else {
-                if (!posProp.isOwned()) {
-                    return activePPos - initActivePPos + 1;
-                }
-            }
-            continue;
+            moveAmount++;
         }
         // IF there is literally no property
         // to pay rent in the game player doesn't move
