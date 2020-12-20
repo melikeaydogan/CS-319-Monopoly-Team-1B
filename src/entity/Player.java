@@ -263,7 +263,7 @@ public class Player{
     }
 
     public String toString() {
-        return name;
+        return playerId + " - " + name;
     }
 
     @Override

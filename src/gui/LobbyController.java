@@ -122,7 +122,7 @@ public class LobbyController {
         if (monopolyClient.getId() == 0) {
             monopolyClient.sendEndLobby();
         } else {
-            monopolyClient.sendLeftLobby(monopolyClient.getId());
+            // monopolyClient.sendLeftLobby(monopolyClient.getId());
             monopolyClient.disconnect();
             leaveLobby();
         }

@@ -6,16 +6,26 @@ import entity.property.Property;
 //import javafx.beans.property.Property;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 // First initialize players in the model, then pass the ArrayList to the controller
 public class PlayerController {
 
     private static ArrayList<Player> players; // Initial capacity of the ArrayList --> 6
+    private Iterator<Player> playerIterator;
     private Player activePlayer = null;
     private int activePlayerIndex = 0;
+    private int maxId;
 
     public PlayerController(ArrayList<Player> players) {
         this.players = new ArrayList<>(players);
+
+        maxId = -1;
+        for (Player p : players) {
+            if (p.getPlayerId() > maxId)
+                maxId = p.getPlayerId();
+        }
+        maxId++; // don't skip the player with the max id
     }
 
     public PlayerController(PlayerController playerController) {
@@ -30,7 +40,7 @@ public class PlayerController {
 
     public Player getActivePlayer() {
         if ( players.size() > 0)
-            return players.get(activePlayerIndex);
+            return getById(activePlayerIndex);
         return null;
     }
 
@@ -43,11 +53,12 @@ public class PlayerController {
 
     public void setActivePlayer(Player activePlayer) {
         this.activePlayer = activePlayer;
-        //activePlayerIndex = activePlayer.getPlayerId();
+        activePlayerIndex = activePlayer.getPlayerId();
         // BUGFIX :
         // the code may crash when ID and index are different
         // and it actually did
-        activePlayerIndex = players.indexOf(activePlayer);
+        //activePlayerIndex = players.indexOf(activePlayer);
+        // it causes nullpointerexception???
     }
 
     public ArrayList<Player> getPlayers() {
@@ -64,15 +75,15 @@ public class PlayerController {
 
     public void setActivePlayerIndex(int activePlayerIndex) {
         this.activePlayerIndex = activePlayerIndex;
-        activePlayer = players.get(activePlayerIndex);
+        activePlayer = getById(activePlayerIndex);
     }
 
     public Player switchToNextPlayer() {
         if (players.size() > 0) { // if player is bankrupt, skip him
             do {
-                activePlayerIndex = (activePlayerIndex + 1) % players.size();
-            } while (players.get(activePlayerIndex).isBankrupt());
-            return players.get(activePlayerIndex);
+                activePlayerIndex = (activePlayerIndex + 1) % maxId;
+            } while (getById(activePlayerIndex) == null || getById(activePlayerIndex).isBankrupt());
+            return getById(activePlayerIndex);
         }
         return null;
     }
@@ -86,41 +97,6 @@ public class PlayerController {
             return false;
     }
 
-    public void removePlayer(Player player) {
-        players.remove(player);
-    }
-
-    public void sendToJail(Player player) {
-        new GoToJailAction(player.getPlayerId()).act();
-    }
-
-    public void getOutFromJail(Player player) {
-        new GetOutOfJailAction(player.getPlayerId()).act();
-    }
-
-    public void freeMovePlayer(Player player, int position) {
-        new FreeMoveAction(player.getPlayerId(), position).act();
-    }
-
-    public void movePlayer(Player player, int moveAmount) {
-        new MoveAction(player.getPlayerId(), moveAmount).act();
-    }
-
-    public void buyProperty(Player player, Property property) {
-        new BuyPropertyAction(property.getId(), player.getPlayerId()).act();
-    }
-
-    public void sellProperty(Player player, Property property) {
-        new SellPropertyAction(player.getPlayerId(), property.getId()).act();
-    }
-
-    public void mortgageProperty(Player player, Property property) {
-        new MortgagePropertyAction(player.getPlayerId(), property.getId()).act();
-    }
-
-    public void unmortgageProperty(Player player, Property property) {
-        new UnmortgagePropertyAction(player.getPlayerId(), property.getId()).act();
-    }
     @Override
     public String toString() {
         return "Players in the controller: " + players;

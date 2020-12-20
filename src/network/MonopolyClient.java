@@ -67,7 +67,7 @@ public class MonopolyClient {
                 isConnected = true;
                 connection = c;
 
-                connection.sendTCP("player name: " + name);
+                connection.sendTCP("player name:" + name);
             }
 
             @Override
@@ -298,13 +298,22 @@ public class MonopolyClient {
     }
 
     public int getId() {
-        //for (int i = 0; i < players.size(); i++) {
-        //    if (players.get(i).getName().equals(name))
-        //        return i;
-        //}
-        //return -1;
+        for (Player player : players) {
+            if (player.getName().equals(name)) {
+                return player.getPlayerId();
+            }
+        }
+        return -1;
         // causes problems when someone leaves
-        return connection.getID() - 1;
+        // return connection.getID() - 1;
+    }
+
+    public Player getById(int id) {
+        for (Player player : players) {
+            if (player.getPlayerId() == id)
+                return player;
+        }
+        return null;
     }
 
     public ChatMessage getChatLog() {
@@ -333,7 +342,7 @@ public class MonopolyClient {
 
     public void updateLobbyControllers() {
         boolean[] checkboxes = new boolean[]{alliance, speedDie, privateLobby};
-        Player player = players.get(getId());
+        Player player = getById(getId());
         client.sendTCP(checkboxes);
         client.sendTCP(player);
     }

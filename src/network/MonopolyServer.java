@@ -36,6 +36,8 @@ public class MonopolyServer {
     boolean gameStarted = false;
     boolean[] checkboxes = new boolean[3];
     ChatMessage chatLog;
+    int playerCount;
+    int maxId;
 
     private MonopolyServer() throws IOException {
         chatLog = new ChatMessage();
@@ -43,6 +45,8 @@ public class MonopolyServer {
         server = new Server();
         server.start();
         server.bind(MonopolyNetwork.PORT);
+        playerCount = 0;
+        maxId = -1;
 
         MonopolyNetwork.register(server);
         System.out.println("IP Address: " + InetAddress.getLocalHost().getHostAddress());
@@ -56,6 +60,7 @@ public class MonopolyServer {
                     clients.add(connection);
                 }
                 System.out.println("[SERVER] New client connected --> " + connection.getID());
+                playerCount++;
             }
 
             @Override
@@ -63,9 +68,14 @@ public class MonopolyServer {
                 if (clients.contains(connection)) {
                     clients.remove(connection);
                 }
-                System.out.println("[SERVER] Client disconnected --> " + connection.getID());
-                registeredPlayer.remove(connection); // not sure whether it works or not
+                registeredPlayer.remove(connection);
                 clients.remove(connection);
+                playerCount--;
+
+                ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
+                server.sendToAllTCP(players);
+                server.sendToAllTCP(checkboxes);
+                server.sendToAllTCP("update lobby");
             }
 
             @Override
@@ -115,7 +125,8 @@ public class MonopolyServer {
                             else if (o instanceof ChatMessage) {
                                 ChatMessage chatMessage = (ChatMessage) o;
                                 ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
-                                chatLog.setMessage(chatLog.getMessage() + players.get(connection.getID() - 1).getName()
+                                Player player = registeredPlayer.get(connection);
+                                chatLog.setMessage(chatLog.getMessage() + player.getName()
                                         + ": " +  chatMessage.getMessage() + "\n");
                                 server.sendToAllTCP(chatLog);
                             }
@@ -148,7 +159,8 @@ public class MonopolyServer {
                         else if(s.contains("player name")) {
                             String name = s.substring((s.indexOf(":") + 1));
                             System.out.println("name:" + name);
-                            Player player = new Player(connection.getID() - 1, name, Player.Token.NONE, 0);
+                            Player player = new Player(playerCount - 1, name, Player.Token.NONE, 0);
+                            maxId = playerCount;
                             registeredPlayer.put(connection, player);
 
                             ArrayList<Player> players = new ArrayList<>(registeredPlayer.values());
@@ -219,8 +231,9 @@ public class MonopolyServer {
 
         int activePlayerIndex = new Random().nextInt(players.size());
 
+        Player activePlayer = players.get(activePlayerIndex);
         registeredPlayer.forEach( (connection,player) -> {
-            if (player.getPlayerId() == activePlayerIndex) {
+            if (player.equals(activePlayer)) {
                 activeConnection = connection;
             }
         });
@@ -229,7 +242,7 @@ public class MonopolyServer {
         for (Connection c : clients) {
             if (activeConnection != c) {
                 c.sendTCP("deactivate buttons");
-                c.sendTCP("active player:" + activePlayerIndex);
+                c.sendTCP("active player:" + activePlayer.getPlayerId());
             }
         }
 
