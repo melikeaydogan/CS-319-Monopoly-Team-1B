@@ -192,11 +192,6 @@ public class MonopolyGame {
                     mrMonopoly = 0;
                 }
             }
-//
-//            ui.updateBoardState();
-//
-//            Tile tile = board.getTiles().get(player.getPosition());
-//            processTile(tile, player); // duplicate code, so used a private helper function for it
         }
         else {
             player.setJailTurnCount(player.getJailTurnCount() + 1);
@@ -222,12 +217,12 @@ public class MonopolyGame {
 
         // actionLog.addMessage(getActivePlayer().getName() + " lands on " + property.getName() + "\n");
         if (!property.isOwned() && getActivePlayer().getBalance() >= property.getPrice()) {
-            boolean playerBoughtProperty = true;//ui.showPropertyDialog(property); // separate the house and hotel dialog
+            boolean playerBoughtProperty = ui.showPropertyDialog(property); // separate the house and hotel dialog
 
             if (playerBoughtProperty) {
                 BuyPropertyAction action = new BuyPropertyAction(property.getId(), getActivePlayer().getPlayerId());
                 action.act();
-                //ui.sendAction(action);
+                ui.sendAction(action);
             }
             else {
                 // auction --> iteration 2
@@ -296,62 +291,6 @@ public class MonopolyGame {
                 transferAction.act();
                 ui.sendAction(transferAction);
             }
-/*
-            if (property instanceof Dorm) {
-                System.out.println("Dorm count: " + propertyOwner.getProperties().get("DORM").size());
-                if ( propertyOwner.getProperties().get("DORM").size() == 1 ) {
-                    transferAmount = 2500;
-                }
-                else if (propertyOwner.getProperties().get("DORM").size() == 2 ){
-                    transferAmount = 5000;
-                }
-                else if ( propertyOwner.getProperties().get("DORM").size() == 3 ) {
-                    transferAmount = 10000;
-                }
-                else if ( propertyOwner.getProperties().get("DORM").size() == 4 ) {
-                    transferAmount = 20000;
-                }
-            }
-            else if (property instanceof Facility) {
-                int diceTotal = diceResult.getValue();
-                if ( propertyOwner.getProperties().get("FACILITY").size() == 1 ) {
-                    transferAmount = diceTotal * 400;
-                }
-                else if ( propertyOwner.getProperties().get("FACILITY").size() == 2 ) {
-                    transferAmount = diceTotal * 1000;
-                }
-            }
-            else if (property instanceof Building ) {
-                Building building = (Building) property;
-                boolean isComplete = propertyOwner.isComplete(building);
-
-                if ( building.getClassroomCount() == 0 && !isComplete ) {
-                    transferAmount = building.getRents().get(0);
-                }
-                else if ( building.getClassroomCount() == 0 && isComplete ) {
-                    transferAmount = building.getRents().get(0) * 2;
-                }
-                else if ( building.getLectureHallCount() == 1 ) {
-                    transferAmount = building.getRents().get(5);
-                }
-                else if ( building.getClassroomCount() == 1 ) {
-                    transferAmount = building.getRents().get(1);
-                }
-                else if ( building.getClassroomCount() == 2 ) {
-                    transferAmount = building.getRents().get(2);
-                }
-                else if ( building.getClassroomCount() == 3 ) {
-                    transferAmount = building.getRents().get(3);
-                }
-                else if ( building.getClassroomCount() == 4 ) {
-                    transferAmount = building.getRents().get(4);
-                }
-            }
-
-            TransferAction transferAction = new TransferAction(getActivePlayer().getPlayerId(), propertyOwner.getPlayerId(), transferAmount);
-            transferAction.act();
-            ui.sendAction(transferAction);
-*/
         }
     }
 
