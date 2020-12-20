@@ -21,30 +21,25 @@ public class Deck {
             Gson gson = new Gson();
 
             // create a reader
-            // Reader reader = Files.newBufferedReader(Paths.get("src/entity/json/" + filename));
-
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     ClassLoader.getSystemClassLoader()
                             .getResourceAsStream("entity/json/" + filename)));
 
-            // convert JSON array to list of users
+            // convert JSON array to list of cards
             cardlist = new Gson().fromJson(br, new TypeToken<List<Card>>() {}.getType());
 
-            // print users
-            //cardlist.forEach(System.out::println); this line prints object ids
-
-            //for(int i = 0; i<cardlist.size(); i++){
-            //    System.out.println("Added a new card --> id: " + cardlist.get(i).id+" "+ " - instructions: " + cardlist.get(i).instructions);
-            //}
             // close reader
             br.close();
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        Collections.shuffle(cardlist);//check whether it is null
 
-        // now, cards will be put into a Queue
+        // shuffle cards in the beginning
+        if ( cardlist != null )
+                Collections.shuffle(cardlist);
+
+        // cards will be put into a LinkedList
         this.cards = new LinkedList<Card>(cardlist);
     }
 
@@ -66,10 +61,11 @@ public class Deck {
         this.cards = cards;
     }
 
+    // test function
     public static void main(String[] args) {
         Deck chanceCardDeck = new Deck("chanceCard.json");
         Deck communityChestChardDeck = new Deck("communityChestCard.json");
 
-    }///test
+    }
 
 }
