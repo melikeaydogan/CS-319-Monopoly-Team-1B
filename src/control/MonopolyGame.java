@@ -136,7 +136,7 @@ public class MonopolyGame {
             player.setJailTurnCount(0);
         }
         if (!player.isInJail()) {
-            if (moveCount == -2) {
+            if (moveCount == -1) {
                 //TODO
                 // ask user to select a tile from the board
                 // and get the position and resolve the tile
@@ -151,7 +151,7 @@ public class MonopolyGame {
                 processTile(tile, player);
             }
             else {
-                if (moveCount == -1 ) {
+                if (moveCount == -3 ) {
                     //TODO
                     // implement the BUS behaviour
                     // where we will ask user to select one of the dices or both
@@ -163,8 +163,7 @@ public class MonopolyGame {
                 }
                 // normal move of a player made here
                 // in order for mr monopoly and normal game mode to run at the same time
-                // it is just enough to use states for mr monopoly
-                // dont worry, it also works perfectly for 1,2,3
+                // use states for mr monopoly
                 int whiteDice = diceResult.getValue();
                 if (mrMonopoly == 1) {
                     // state 1 -
@@ -183,6 +182,7 @@ public class MonopolyGame {
                 // if they are inside the jail
                 if (!player.isInJail() && mrMonopoly == 2) {
                     // if mr monopoly is not used, now it is time to use it
+                    moveCount = computeMrMonopoly();
                     MoveAction mrAction = new MoveAction(player.getPlayerId(), moveCount); // try catch? PlayerIsInJailException
                     mrAction.act();
                     ui.sendAction(mrAction);
@@ -222,7 +222,7 @@ public class MonopolyGame {
 
         // actionLog.addMessage(getActivePlayer().getName() + " lands on " + property.getName() + "\n");
         if (!property.isOwned() && getActivePlayer().getBalance() >= property.getPrice()) {
-            boolean playerBoughtProperty = ui.showPropertyDialog(property); // separate the house and hotel dialog
+            boolean playerBoughtProperty = true;//ui.showPropertyDialog(property); // separate the house and hotel dialog
 
             if (playerBoughtProperty) {
                 BuyPropertyAction action = new BuyPropertyAction(property.getId(), getActivePlayer().getPlayerId());
@@ -435,7 +435,7 @@ public class MonopolyGame {
                 FreeMoveAction freeMoveAction1 = new FreeMoveAction(activePlayer.getPlayerId(), 23); // Kirac is in 23th tile
                 freeMoveAction1.act();
                 ui.sendAction(freeMoveAction1);
-                //monopolyGame.processTurn(); // ToDo seperate processturn and processtile
+                //monopolyGame.processTurn();
                 break;
             case 12:
                 FreeMoveAction freeMoveAction3 = new FreeMoveAction(activePlayer.getPlayerId(),39); // Library is the last tile (39th)
@@ -523,21 +523,20 @@ public class MonopolyGame {
     }
 
     /**
-     * Private helper function that computes the moveCount for all cases, including speedDie
-     * For bus and freeMove, the user needs to enter some input, so we use integers to
-     * differentiate between BUS and freeMove. Will return 0 if and only if
-     * player rolled Mr. Monopoly and there were no property to land
-     * @return -1 for BUS, -2 for freeMove, computed move count for other cases
+     * Private helper function that enumerates special cases of speed die
+     * if there is no special speed die behaviour
+     * it returns the sum
+     * @return -1 for BUS, -2 for Mr. Monopoly, -3 for triple
      */
     private int computeMoveCount() {
         if (diceResult.getSpeedDieResult().isBus()) {
             return -1;
         }
-        else if (diceResult.getSpeedDieResult().isMrMonopoly()) {
-            return computeMrMonopoly();
+        else if (diceResult.getSpeedDieResult().isMrMonopoly() ) {
+            return -2;
         }
         else if (diceResult.isTriple()) {
-            return -2;
+            return -3;
         }
         else {
             return diceResult.getValue();
@@ -555,7 +554,7 @@ public class MonopolyGame {
     private int computeMrMonopoly() {
         int activePID = playerController.getActivePlayer().getPlayerId();
         int initActivePPos = PlayerController.getById(activePID).getPosition();
-        int moveAmount = 1;
+        int moveAmount = 0;
         // Iterate through the board, start at active players position,
         // stop when a lap is made and take module of # of tiles so that tileID is always found
         // even if player passes the start tile
@@ -563,6 +562,7 @@ public class MonopolyGame {
              activePPos != initActivePPos;
              activePPos = (activePPos + 1) % board.getTiles().size() )
         {
+            moveAmount++;
             Property posProp = getPropertyByTileID(activePPos);
             // Skip tiles other than property tiles
             if (posProp != null) {
@@ -576,6 +576,7 @@ public class MonopolyGame {
                     boolean diffTeams = getActivePlayer().getTeamNumber() != owner.getTeamNumber();
                     boolean mortgaged = posProp.isMortgaged();
                     if (diffPlayers && diffTeams && !mortgaged) {
+                        System.out.println("moveAmount : " + moveAmount);
                         return moveAmount;
                     }
                 }
@@ -583,11 +584,11 @@ public class MonopolyGame {
                 // Player moves to the next unowned property
                 else {
                     if (!posProp.isOwned()) {
+                        System.out.println("moveAmount : " + moveAmount);
                         return moveAmount;
                     }
                 }
             }
-            moveAmount++;
         }
         // IF there is literally no property
         // to pay rent in the game player doesn't move
@@ -602,7 +603,9 @@ public class MonopolyGame {
      */
     private Property getPropertyByTileID(int tileID) {
         Tile curTile = board.getTiles().get(tileID);
+        System.out.println("tileID : " + tileID);
         if (curTile instanceof PropertyTile) {
+            System.out.println("property : " + board.getProperties().get( ( (PropertyTile) curTile).getPropertyId()).getName() );
             return board.getProperties().get(((PropertyTile) curTile).getPropertyId());
         }
         return null;
@@ -678,7 +681,7 @@ public class MonopolyGame {
         return this.mode;
     }
 
-    /*public static void main(String[] args) throws  IOException {
+    public static void main(String[] args) throws  IOException {
         Player player1 = new Player(1, "Mehmet" , Player.Token.BATTLESHIP, 1);
         Player player2 = new Player(2, "Ali" , Player.Token.BATTLESHIP, 1);
         Player player3 = new Player(3, "Veli" , Player.Token.BATTLESHIP, 1);
@@ -699,5 +702,5 @@ public class MonopolyGame {
             System.out.println(actionLog.toString());
             System.out.println("---------------------------");
         }
-    }*/
+    }
 }
