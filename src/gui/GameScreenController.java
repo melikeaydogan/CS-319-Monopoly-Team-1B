@@ -260,20 +260,22 @@ public class GameScreenController {
             // Put Tokens
             for (i = 0; i < numberOfPlayers; i++) {
                 Player p = getGame().getPlayerController().getPlayers().get(i);
-                int pPos = p.getPosition();
-                BufferedInputStream br = new BufferedInputStream(
-                        ClassLoader.getSystemClassLoader()
-                                .getResourceAsStream("gui/models/tokens/" + p.getTokenName() + ".png"));
-                //File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");
+                if (!p.isBankrupt()) {
+                    int pPos = p.getPosition();
+                    BufferedInputStream br = new BufferedInputStream(
+                            ClassLoader.getSystemClassLoader()
+                                    .getResourceAsStream("gui/models/tokens/" + p.getTokenName() + ".png"));
+                    //File file = new File("src/gui/models/tokens/" + p.getTokenName() + ".png");
 
-                Image image = new Image(br);
-                //Buff
-                ImageView token = new ImageView(image);
-                token.setId("t" + i);
-                token.setFitHeight(50);
-                token.setFitWidth(50);
+                    Image image = new Image(br);
+                    //Buff
+                    ImageView token = new ImageView(image);
+                    token.setId("t" + i);
+                    token.setFitHeight(50);
+                    token.setFitWidth(50);
 
-                squares[pPos].getChildren().add(token);
+                    squares[pPos].getChildren().add(token);
+                }
             }
     }
 

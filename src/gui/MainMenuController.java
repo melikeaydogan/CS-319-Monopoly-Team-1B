@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,12 +36,15 @@ public class MainMenuController {
                 Scene scene = new Scene(root, 800, 600);
 
                 Stage stage = (Stage) imageView.getScene().getWindow();
+                stage.setOnCloseRequest(e -> Platform.exit());
 
                 // Initialize lobby
                 LobbyController lobbyController = loader.getController();
 
                 // Create a new server and client
                 MonopolyServer monopolyServer = MonopolyServer.getInstance();
+                if (monopolyServer.isServerClosed()) // restart the server if it is stopped
+                    monopolyServer.initServer();
                 //System.out.println(monopolyServer.toString());
 
                 MonopolyClient monopolyClient = new MonopolyClient(lobbyController);

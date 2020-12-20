@@ -34,6 +34,7 @@ public class MonopolyServer {
     private MonopolyGame monopolyGame;
     private Connection activeConnection = null;
     boolean gameStarted = false;
+    boolean serverClosed = false;
     boolean[] checkboxes = new boolean[3];
     ChatMessage chatLog;
     int playerCount;
@@ -43,7 +44,8 @@ public class MonopolyServer {
         chatLog = new ChatMessage();
 
         server = new Server();
-        server.start();
+        serverClosed = false;
+        initServer();
         server.bind(MonopolyNetwork.PORT);
         playerCount = 0;
         maxId = -1;
@@ -176,6 +178,13 @@ public class MonopolyServer {
                             server.sendToAllTCP(checkboxes);
                             server.sendToAllTCP("update lobby");
                         }
+                        else if (s.equals("server closed")) {
+                            server.sendToAllTCP("server closed");
+                            System.out.println("server closed");
+                            server.stop();
+                            gameStarted = false;
+                            serverClosed = true;
+                        }
                     }
                     else if (o instanceof boolean[]) {
                         boolean[] checkboxes = (boolean[]) o;
@@ -193,6 +202,12 @@ public class MonopolyServer {
 
             }
         });
+    }
+
+    public void initServer() throws IOException {
+        server.start();
+        server.bind(MonopolyNetwork.PORT);
+        serverClosed = false;
     }
 
     public static MonopolyServer getInstance()
@@ -256,4 +271,11 @@ public class MonopolyServer {
         MonopolyServer monopolyServer = new MonopolyServer();
     }
 
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public boolean isServerClosed() {
+        return serverClosed;
+    }
 }

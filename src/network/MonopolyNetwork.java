@@ -61,6 +61,7 @@ public class MonopolyNetwork {
         kyro.register(control.action.RollDiceAction.class);
         kyro.register(control.action.SellPropertyAction.class);
         kyro.register(control.action.TransferAction.class);
+        kyro.register(control.action.BankruptPlayerAction.class);
 
         kyro.register(network.ChatMessage.class);
 

@@ -204,6 +204,10 @@ public class MonopolyClient {
                             int id = Integer.parseInt(message.substring(message.indexOf(":") + 1));
                             gameScreenController.getGame().getPlayerController().setActivePlayerIndex(id);
                         }
+                        else if (message.equals("server closed")) {
+                            Platform.runLater(() -> lobbyController.leaveLobby());
+                            client.stop();
+                        }
                         else {
                             System.out.println("[SERVER] " + message);
                         }
@@ -255,6 +259,7 @@ public class MonopolyClient {
     public void sendEndLobby() {
         // TODO: ends the lobby for all and terminates the server
         // lobbyController.leaveLobby() for all players
+        connection.sendTCP("server closed");
     }
 
     public void disconnect() {

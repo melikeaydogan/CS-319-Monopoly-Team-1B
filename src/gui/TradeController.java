@@ -138,7 +138,7 @@ public class TradeController {
 
         ArrayList<Player> players = monopolyClient.getMonopolyGame().getPlayerController().getPlayers();
         for (Player p : players) {
-            if (!p.equals(activePlayer)) {
+            if (!p.equals(activePlayer) && !p.isBankrupt()) {
                 playerBox.getItems().add(p);
             }
         }

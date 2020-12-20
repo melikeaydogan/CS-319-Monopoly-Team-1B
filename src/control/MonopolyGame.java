@@ -28,6 +28,7 @@ import gui.GameScreenController;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
 
 public class MonopolyGame {
@@ -199,12 +200,10 @@ public class MonopolyGame {
         nextTurn();
         ui.updateBoardState();
 
-
-        // if user clicks at end turn --> nextTurn(); this is business of ui controller, not this class
     }
 
     public void nextTurn() {
-        if ( !diceResult.isDouble() || doubleCount == 3 ) {
+        if ( !diceResult.isDouble() || doubleCount == 3 || getActivePlayer().isBankrupt() ) {
             playerController.switchToNextPlayer();
             ui.sendObject("next player:" + playerController.getActivePlayerIndex());
             doubleCount = 0;
@@ -232,66 +231,101 @@ public class MonopolyGame {
             int transferAmount = 0;
             Player propertyOwner = playerController.getById(property.getOwnerId());
             System.out.println("Property owner: " + propertyOwner.getName());
-            int ownerTeamNo = propertyOwner.getTeamNumber();
-            int activeTeamNo = getActivePlayer().getTeamNumber();
-            boolean diffTeams = mode.isAlliance() && (ownerTeamNo != activeTeamNo);
-            if (diffTeams) {
-                if (property instanceof Dorm) {
-                    System.out.println("Dorm count: " + propertyOwner.getProperties().get("DORM").size());
-                    if ( propertyOwner.getProperties().get("DORM").size() == 1 ) {
-                        transferAmount = 2500;
-                    }
-                    else if (propertyOwner.getProperties().get("DORM").size() == 2 ){
-                        transferAmount = 5000;
-                    }
-                    else if ( propertyOwner.getProperties().get("DORM").size() == 3 ) {
-                        transferAmount = 10000;
-                    }
-                    else if ( propertyOwner.getProperties().get("DORM").size() == 4 ) {
-                        transferAmount = 20000;
-                    }
+            if (mode.isAlliance()) {
+                int ownerTeamNo = propertyOwner.getTeamNumber();
+                int activeTeamNo = getActivePlayer().getTeamNumber();
+                boolean diffTeams = mode.isAlliance() && (ownerTeamNo != activeTeamNo);
+                if (diffTeams) {
+                    payRent(property, transferAmount, propertyOwner);
                 }
-                else if (property instanceof Facility) {
-                    int diceTotal = diceResult.getValue();
-                    if ( propertyOwner.getProperties().get("FACILITY").size() == 1 ) {
-                        transferAmount = diceTotal * 400;
-                    }
-                    else if ( propertyOwner.getProperties().get("FACILITY").size() == 2 ) {
-                        transferAmount = diceTotal * 1000;
-                    }
-                }
-                else if (property instanceof Building ) {
-                    Building building = (Building) property;
-                    boolean isComplete = propertyOwner.isComplete(building);
+            }
+            else {
+                payRent(property, transferAmount, propertyOwner);
+            }
 
-                    if ( building.getClassroomCount() == 0 && !isComplete ) {
-                        transferAmount = building.getRents().get(0);
-                    }
-                    else if ( building.getClassroomCount() == 0 && isComplete ) {
-                        transferAmount = building.getRents().get(0) * 2;
-                    }
-                    else if ( building.getLectureHallCount() == 1 ) {
-                        transferAmount = building.getRents().get(5);
-                    }
-                    else if ( building.getClassroomCount() == 1 ) {
-                        transferAmount = building.getRents().get(1);
-                    }
-                    else if ( building.getClassroomCount() == 2 ) {
-                        transferAmount = building.getRents().get(2);
-                    }
-                    else if ( building.getClassroomCount() == 3 ) {
-                        transferAmount = building.getRents().get(3);
-                    }
-                    else if ( building.getClassroomCount() == 4 ) {
-                        transferAmount = building.getRents().get(4);
-                    }
-                }
+        }
+    }
 
-                TransferAction transferAction = new TransferAction(getActivePlayer().getPlayerId(), propertyOwner.getPlayerId(), transferAmount);
-                transferAction.act();
-                ui.sendAction(transferAction);
+    private void payRent(Property property, int transferAmount, Player propertyOwner) {
+        if (property instanceof Dorm) {
+            System.out.println("Dorm count: " + propertyOwner.getProperties().get("DORM").size());
+            if ( propertyOwner.getProperties().get("DORM").size() == 1 ) {
+                transferAmount = 2500;
+            }
+            else if (propertyOwner.getProperties().get("DORM").size() == 2 ){
+                transferAmount = 5000;
+            }
+            else if ( propertyOwner.getProperties().get("DORM").size() == 3 ) {
+                transferAmount = 10000;
+            }
+            else if ( propertyOwner.getProperties().get("DORM").size() == 4 ) {
+                transferAmount = 20000;
             }
         }
+        else if (property instanceof Facility) {
+            int diceTotal = diceResult.getValue();
+            if ( propertyOwner.getProperties().get("FACILITY").size() == 1 ) {
+                transferAmount = diceTotal * 400;
+            }
+            else if ( propertyOwner.getProperties().get("FACILITY").size() == 2 ) {
+                transferAmount = diceTotal * 1000;
+            }
+        }
+        else if (property instanceof Building) {
+            Building building = (Building) property;
+            boolean isComplete = propertyOwner.isComplete(building);
+
+            if ( building.getClassroomCount() == 0 && !isComplete ) {
+                transferAmount = building.getRents().get(0);
+            }
+            else if ( building.getClassroomCount() == 0 && isComplete ) {
+                transferAmount = building.getRents().get(0) * 2;
+            }
+            else if ( building.getLectureHallCount() == 1 ) {
+                transferAmount = building.getRents().get(5);
+            }
+            else if ( building.getClassroomCount() == 1 ) {
+                transferAmount = building.getRents().get(1);
+            }
+            else if ( building.getClassroomCount() == 2 ) {
+                transferAmount = building.getRents().get(2);
+            }
+            else if ( building.getClassroomCount() == 3 ) {
+                transferAmount = building.getRents().get(3);
+            }
+            else if ( building.getClassroomCount() == 4 ) {
+                transferAmount = building.getRents().get(4);
+            }
+        }
+
+        if (getActivePlayer().getBalance() < transferAmount) {
+            // start trade process or bankrupt the player, player can choose
+            bankruptPlayer(getActivePlayer());
+        }
+        else {
+            TransferAction transferAction = new TransferAction(getActivePlayer().getPlayerId(), propertyOwner.getPlayerId(), transferAmount);
+            transferAction.act();
+            ui.sendAction(transferAction);
+        }
+
+    }
+
+    public void bankruptPlayer(Player p) {
+        System.out.println("called bankrupt player");
+        BankruptPlayerAction bankruptPlayerAction = new BankruptPlayerAction(p.getPlayerId());
+        bankruptPlayerAction.act();
+        ui.sendAction(bankruptPlayerAction);
+        for (Map.Entry<String, ArrayList<Property>> entry : p.getProperties().entrySet()) {
+            ArrayList<Property> properties = entry.getValue();
+            for (Property property : properties) {
+                RemovePropertyAction action = new RemovePropertyAction(p.getPlayerId(), property.getId());
+                action.act();
+                ui.sendAction(action);
+            }
+        }
+        RemoveMoneyAction action = new RemoveMoneyAction(p.getPlayerId(), p.getBalance());
+        action.act();
+        ui.sendAction(action);
     }
 
     public Card processChanceCardTile() {
@@ -550,10 +584,6 @@ public class MonopolyGame {
 
     public void update() {
         ui.updateBoardState();
-    }
-
-    public void bankruptPlayer(Player player) {
-        player.setBankrupt(true);
     }
 
     public Player getActivePlayer() {return playerController.getActivePlayer();}
