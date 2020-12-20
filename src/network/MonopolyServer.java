@@ -122,6 +122,7 @@ public class MonopolyServer {
                                 else if (s.contains("winner:")) {
                                     int playerId = Integer.parseInt(s.substring(s.indexOf(":") + 1));
                                     server.sendToAllTCP(o);
+                                    server.sendToAllTCP("deactivate buttons");
                                 }
                                 System.out.println("[SERVER] Message from " + connection.getID() + " --> " + s);
                             }
