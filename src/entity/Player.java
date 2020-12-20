@@ -29,7 +29,7 @@ public class Player{
     private boolean bankrupt;
     private int doubleCounter;
     private int jailTurnCount;
-    private int teamNumber; // ToDo maybe add a separate Team class?
+    private int teamNumber;
     //private ArrayList<Property> properties;
     private HashMap<String, ArrayList<Property>> properties;
     private boolean inJail;
@@ -89,7 +89,7 @@ public class Player{
         balance = balance - amount;
     }
 
-    public void transferMoney(Player player, int amount) { // ToDo add this method to the diagram
+    public void transferMoney(Player player, int amount) {
         player.addMoney(amount);
         removeMoney(amount);
     }

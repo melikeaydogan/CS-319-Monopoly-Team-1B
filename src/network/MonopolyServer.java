@@ -224,7 +224,6 @@ public class MonopolyServer {
     }
 
     public void startGame() throws IOException {
-        // ToDo get players from clients
         long seed = System.currentTimeMillis();
         ArrayList<Player> players = new ArrayList<Player>(registeredPlayer.values());
         System.out.println("Game starts with players --> " + players);

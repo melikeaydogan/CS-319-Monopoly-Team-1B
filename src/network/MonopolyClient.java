@@ -257,7 +257,6 @@ public class MonopolyClient {
     }
 
     public void sendEndLobby() {
-        // TODO: ends the lobby for all and terminates the server
         // lobbyController.leaveLobby() for all players
         connection.sendTCP("server closed");
     }
@@ -350,11 +349,6 @@ public class MonopolyClient {
         Player player = getById(getId());
         client.sendTCP(checkboxes);
         client.sendTCP(player);
-    }
-
-    public void updateGameScreenControllers() {
-        // TODO: This sends a message to all to update their gameScreenController object
-        //  Do this using gameScreenController.updateBoardState() method
     }
 
     public boolean getSpeedDie() {

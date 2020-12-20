@@ -299,7 +299,7 @@ public class MonopolyGame {
         }
 
         if (getActivePlayer().getBalance() < transferAmount) {
-            // start trade process or bankrupt the player, player can choose
+            // ToDo: start trade process or bankrupt the player, player should choose
             bankruptPlayer(getActivePlayer());
         }
         else {
@@ -394,9 +394,9 @@ public class MonopolyGame {
                 ui.sendAction(goToJailAction);
                 break;
             case 7:
-                GetOutOfJailAction getOutOfJailAction = new GetOutOfJailAction(activePlayer.getPlayerId()); // ToDo store the card??
-                getOutOfJailAction.act();
-                ui.sendAction(getOutOfJailAction);
+                FreeMoveAction freeMoveAction3 = new FreeMoveAction(activePlayer.getPlayerId(), 34); // Starbucks is in 23th tile
+                freeMoveAction3.act();
+                ui.sendAction(freeMoveAction3);
                 break;
             case 9:
                 MoveAction moveAction = new MoveAction(activePlayer.getPlayerId(), -3);
@@ -405,15 +405,15 @@ public class MonopolyGame {
                 //monopolyGame.processTurn();
                 break;
             case 10:
-                FreeMoveAction freeMoveAction1 = new FreeMoveAction(activePlayer.getPlayerId(), 23); // Kirac is in 23th tile
+                FreeMoveAction freeMoveAction1 = new FreeMoveAction(activePlayer.getPlayerId(), 21); // Kirac is in 23th tile
                 freeMoveAction1.act();
                 ui.sendAction(freeMoveAction1);
                 //monopolyGame.processTurn();
                 break;
             case 12:
-                FreeMoveAction freeMoveAction3 = new FreeMoveAction(activePlayer.getPlayerId(),39); // Library is the last tile (39th)
-                freeMoveAction3.act();
-                ui.sendAction(freeMoveAction3);
+                FreeMoveAction freeMoveAction4 = new FreeMoveAction(activePlayer.getPlayerId(),39); // Library is the last tile (39th)
+                freeMoveAction4.act();
+                ui.sendAction(freeMoveAction4);
                 //monopolyGame.processTurn();
                 break;
             case 13:

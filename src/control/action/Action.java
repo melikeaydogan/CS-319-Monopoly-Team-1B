@@ -1,12 +1,11 @@
 package control.action;
 
+/*
+This class is an interface which gets implemented by
+specific action classes.
+ */
 public interface Action {
 
     void act();
 
 }
-
-// Calling actions
-// Create the action and call act() method
-// new GetOutOfJailAction(player2).act();
-// ToDo: convert all action parameters to id!
