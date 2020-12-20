@@ -10,7 +10,7 @@ public class UnmortgagePropertyAction implements Action {
 
     private int playerId;
     private int propertyId;
-    final private double interestRate = 0.1;
+    private final double INTEREST_RATE = 0.1;
 
     public UnmortgagePropertyAction(int propertyId, int playerId) {
         this.propertyId = propertyId;
@@ -18,6 +18,8 @@ public class UnmortgagePropertyAction implements Action {
     }
 
     public UnmortgagePropertyAction() {
+        this.propertyId = -1;
+        this.playerId = -1;
     }
 
     @Override
@@ -25,7 +27,6 @@ public class UnmortgagePropertyAction implements Action {
         Player player = PlayerController.getById(playerId);
         Property property = Board.getPropertyById(propertyId);
 
-        //make property mortgaged
         if(player == null){
             System.out.println("[UnmortgagePropertyAction] NULL player.");
             return;
@@ -34,13 +35,17 @@ public class UnmortgagePropertyAction implements Action {
             System.out.println("[UnmortgagePropertyAction] NULL property.");
             return;
         }
+
+        // check whether the given player is the owner of the given property
         if( playerId != property.getOwnerId()){
             System.out.println("[UnmortgagePropertyAction] This player is not the owner of this property.");
             return;
         }
 
+        // if property is mortgaged, make property unmortgaged
         if ( property.isMortgaged() ){
             int payment = calculateInterest(property.getMortgagePrice())+ property.getMortgagePrice();
+            //check do the player has enough money
             if ( player.getBalance() >= payment ){
                 property.setMortgaged(true);
                 System.out.println("[UnmortgagePropertyAction] Player --> " + player);
@@ -59,6 +64,6 @@ public class UnmortgagePropertyAction implements Action {
 
     }
     private int calculateInterest( int mortgagePrice ) {
-        return (int)(interestRate * mortgagePrice);
+        return (int)( INTEREST_RATE * mortgagePrice);
     }
 }
