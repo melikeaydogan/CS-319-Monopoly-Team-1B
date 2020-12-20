@@ -267,16 +267,8 @@ public class MonopolyServer {
 
     }
 
-    public void stopGame() {
-        server.stop(); // too harsh??
-    }
-
     public static void main(String[] args) throws IOException {
         MonopolyServer monopolyServer = new MonopolyServer();
-    }
-
-    public boolean isGameStarted() {
-        return gameStarted;
     }
 
     public boolean isServerClosed() {
