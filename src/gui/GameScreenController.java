@@ -1,6 +1,5 @@
 package gui;
 
-import control.ActionLog;
 import control.MonopolyGame;
 import control.PlayerController;
 import control.action.Action;
@@ -38,11 +37,9 @@ import network.ChatMessage;
 import network.MonopolyClient;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameScreenController {
     MonopolyClient monopolyClient;
@@ -512,5 +509,38 @@ public class GameScreenController {
 
     public void setTradeController(TradeController tradeController) {
         this.tradeController = tradeController;
+    }
+
+    public int showBusDialog(DiceResult diceResult) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+
+        String title = "Speed Die - Bus";
+        String content = "You got BUS on the speed die. You can choose which die to use or both of them.";
+
+        dialog.setTitle(title);
+        dialog.setContentText(content);
+
+        ButtonType firstDie = new ButtonType(String.valueOf(diceResult.getFirstDieResult()), ButtonBar.ButtonData.YES);
+        ButtonType secondDie = new ButtonType(String.valueOf(diceResult.getSecondDieResult()), ButtonBar.ButtonData.YES);
+        ButtonType both = new ButtonType(String.valueOf(diceResult.getFirstDieResult() + diceResult.getSecondDieResult())
+                , ButtonBar.ButtonData.YES);
+
+        dialog.getDialogPane().getButtonTypes().add(firstDie);
+        dialog.getDialogPane().getButtonTypes().add(secondDie);
+        dialog.getDialogPane().getButtonTypes().add(both);
+
+        AtomicInteger answer = new AtomicInteger();
+        dialog.showAndWait().ifPresent(response -> {
+            if (response == firstDie) {
+                answer.set(diceResult.getFirstDieResult());
+            }
+            else if (response == secondDie) {
+                answer.set(diceResult.getSecondDieResult());
+            }
+            else if (response == both) {
+                answer.set(diceResult.getFirstDieResult() + diceResult.getSecondDieResult());
+            }
+        });
+        return answer.get();
     }
 }

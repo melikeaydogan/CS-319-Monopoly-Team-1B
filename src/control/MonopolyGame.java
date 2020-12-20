@@ -130,12 +130,7 @@ public class MonopolyGame {
         }
         if (!player.isInJail()) {
             if (moveCount == -1) {
-                //TODO
-                // ask user to select a tile from the board
-                // and get the position and resolve the tile
-                //FreeMoveAction action = new FreeMoveAction(player.getPlayerId(), position)....
-                // As this won't be implemented, just use the sum.
-                moveCount = diceResult.getValue();
+                moveCount = ui.showBusDialog(diceResult);
                 MoveAction action = new MoveAction(player.getPlayerId(), moveCount); // try catch? PlayerIsInJailException
                 action.act();
                 ui.sendAction(action);
@@ -144,16 +139,6 @@ public class MonopolyGame {
                 processTile(tile, player);
             }
             else {
-                if (moveCount == -3 ) {
-                    //TODO
-                    // implement the BUS behaviour
-                    // where we will ask user to select one of the dices or both
-                    // close this block by finalizing what user chose in a panel and
-                    // but dont resolve the tile yet
-                    //moveCount = user chooses one of the dies or both
-                    // As this won't be implemented, just use the white dice
-                    moveCount = diceResult.getValue();
-                }
                 // normal move of a player made here
                 // in order for mr monopoly and normal game mode to run at the same time
                 // use states for mr monopoly
@@ -196,7 +181,7 @@ public class MonopolyGame {
 
     public void nextTurn() {
         if (!isGameOver()) {
-            if ( !diceResult.isDouble() || doubleCount == 3 || getActivePlayer().isBankrupt() ) {
+            if ( doubleCount == 3  ||  getActivePlayer().isBankrupt() || !diceResult.isDouble() ) {
                 playerController.switchToNextPlayer();
                 ui.sendObject("next player:" + playerController.getActivePlayerIndex());
                 doubleCount = 0;
@@ -365,12 +350,14 @@ public class MonopolyGame {
                 //monopolyGame.processTurn();
                 break;
             case 1:
-                AddMoneyAction addMoneyAction = new AddMoneyAction(activePlayer.getPlayerId(), 1_000);
+                AddMoneyAction addMoneyAction = new AddMoneyAction(activePlayer.getPlayerId(), 5_000);
                 addMoneyAction.act();
                 ui.sendAction(addMoneyAction);
                 break;
             case 2:
-                // requires ui confirmation
+                AddMoneyAction addMoneyAction2 = new AddMoneyAction(activePlayer.getPlayerId(), 1_000);
+                addMoneyAction2.act();
+                ui.sendAction(addMoneyAction2);
                 break;
             case 3:
                 RemoveMoneyAction removeMoneyAction = new RemoveMoneyAction(activePlayer.getPlayerId(), 10_000);
