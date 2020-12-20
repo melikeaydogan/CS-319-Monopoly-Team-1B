@@ -543,4 +543,36 @@ public class GameScreenController {
         });
         return answer.get();
     }
+
+    public boolean showBankruptDialog(Player activePlayer, int transferAmount) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+
+        String title = "Bankrupt or Trade";
+        String content = "You have balance less than the required payment. Before going bankrupt, you can try " +
+                "trading with other people by clicking 'Trade' button. If you don't want to trade, click at 'Bankrupt'" +
+                "button.";
+        content = content + "\n Your balance: " + activePlayer.getBalance();
+        content = content + "\n Required payment: " + transferAmount;
+
+        dialog.setTitle(title);
+        dialog.setContentText(content);
+
+        dialog.setOnCloseRequest(e ->{
+            if(false) {
+                e.consume();
+            }
+        });
+
+        ButtonType payTheRent = new ButtonType("Pay the rent", ButtonBar.ButtonData.YES);
+        ButtonType trade = new ButtonType("Trade", ButtonBar.ButtonData.YES);
+        ButtonType bankrupt = new ButtonType("Bankrupt", ButtonBar.ButtonData.YES);
+
+        dialog.getDialogPane().getButtonTypes().add(payTheRent);
+        dialog.getDialogPane().getButtonTypes().add(trade);
+        dialog.getDialogPane().getButtonTypes().add(bankrupt);
+
+        dialog.showAndWait();
+
+        return false;
+    }
 }

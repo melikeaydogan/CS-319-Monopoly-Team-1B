@@ -71,11 +71,14 @@ public class PlayerController {
     }
 
     public Player switchToNextPlayer() {
-        if (players.size() > 0) { // if player is bankrupt, skip him
-            do {
+        if (players.size() > 0) {
+            while (true) {
                 activePlayerIndex = (activePlayerIndex + 1) % maxId;
-            } while (getById(activePlayerIndex) == null || getById(activePlayerIndex).isBankrupt());
-            return getById(activePlayerIndex);
+                Player p = getById(activePlayerIndex);
+                if (p != null && !p.isBankrupt()) {
+                    return p;
+                }
+            }
         }
         return null;
     }

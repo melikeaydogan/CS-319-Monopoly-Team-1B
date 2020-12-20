@@ -39,7 +39,7 @@ public class TradeController {
         propertyBox.getItems().remove(propertyBox.getValue());
         tradeOffer.getPropertyOffered().add(property.getId());
 
-        propertyLabel.setText(propertyLabel.getText() + " - " + property);
+        propertyLabel.setText(propertyLabel.getText() + " / " + property);
     }
 
     @FXML
@@ -69,7 +69,7 @@ public class TradeController {
         propertyBox1.getItems().remove(propertyBox1.getValue());
         tradeOffer.getPropertyRequested().add(property.getId());
 
-        propertyLabel1.setText(propertyLabel1.getText() + " - " + property);
+        propertyLabel1.setText(propertyLabel1.getText() + " / " + property);
     }
 
     @FXML

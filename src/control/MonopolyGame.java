@@ -189,8 +189,7 @@ public class MonopolyGame {
             turn++;
         }
         else {
-            // ToDo game is over
-            // determine the winner
+            // determine the winner and announce
             Player p = null;
             for (Player player : playerController.getPlayers() ) {
                 if (!player.isBankrupt()) {
@@ -292,6 +291,7 @@ public class MonopolyGame {
 
         if (getActivePlayer().getBalance() < transferAmount) {
             // ToDo: start trade process or bankrupt the player, player should choose
+            // boolean bankruptAnswer = ui.showBankruptDialog(getActivePlayer(), transferAmount);
             bankruptPlayer(getActivePlayer());
         }
         else {
@@ -468,9 +468,14 @@ public class MonopolyGame {
         }
         else if (tile instanceof TaxTile) {
             TaxTile taxTile = (TaxTile) tile;
-            RemoveMoneyAction action2 = new RemoveMoneyAction(player.getPlayerId(), taxTile.getAmount());
-            action2.act();
-            ui.sendAction(action2);
+            if (getActivePlayer().getBalance() < taxTile.getAmount()) {
+                bankruptPlayer(getActivePlayer());
+            }
+            else {
+                RemoveMoneyAction action2 = new RemoveMoneyAction(player.getPlayerId(), taxTile.getAmount());
+                action2.act();
+                ui.sendAction(action2);
+            }
         }
         else if (tile instanceof GoToJailTile) {
             GoToJailAction action2 = new GoToJailAction(player.getPlayerId());
