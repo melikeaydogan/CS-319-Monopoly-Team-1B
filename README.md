@@ -23,6 +23,6 @@ Monopoly is a board game where 2-6 players try to be the wealthiest person in th
 
 - Mehmet Çalışkan - [alkanchosen](https://www.github.com/alkanchosen)
 - Melike Fatma Aydoğan - [melikeaydogan](https://www.github.com/melikeaydogan)
-- Zübeyir Bodur - [winryelric](https://www.github.com/winryelric)
+- Zübeyir Bodur - [zubeyir-bodur](https://www.github.com/zubeyir-bodur)
 - Ahmet Cemal Alıcıoğlu - [cemalahmet](https://www.github.com/cemalahmet)
 - Beril Canbulan  - [berilcnbln](https://www.github.com/berilcnbln)
